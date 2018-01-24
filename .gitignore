@@ -1,0 +1,8 @@
+#Puntos de guardado de emacs
+*~
+
+#Librerias linkadas
+*.o
+
+#Bin files
+*.exe *.out
