@@ -1,5 +1,3 @@
-//Funciones relacionadas con leer archivos de texto, o bien para escritura en archivos
-
 #ifndef textmisc_h
 #define textmisc_h
 
@@ -7,7 +5,12 @@
 using namespace std;
 
 //Add some basic functions
-string GetLeagueDat(string);
+string GetInjuryType();
+void AddSuspendTxt(string);
+void AddInjuryTxt(string);
+void AddSkillschTxt(string);
+int GetLeagueDat(string);
+string GetLeagueDatString(string);
 
 
 
