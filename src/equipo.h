@@ -9,25 +9,25 @@ using namespace std;
 //Clase equipo
 class equipo
 {
-	//Variables
-	public:
-	jugador jug[TAM];
-	int Njugadores;
-	string abreviatura;
-	string nombre;
-	//Funciones
-	equipo(string abrev);
-	void Load();
-	void Save();
-	void Clear();//Digamos que "vacia" el equipo para volver a ser usado
-	int Search(string nombre);
-	void ReduceSus();
-	void ReduceInj();
-	void AddTrd(int fitbonus);
-	void SetTrd();
-	void SetCond();
-	void ComputeFit();
-	string VetoedGK();
+  //Variables
+public:
+  jugador* jug; //Array de jugadores
+  int Njugadores; //Tamaño del array 
+  string abreviatura;
+  string nombre;
+  //Funciones
+  equipo(string abrev);
+  void Load();
+  void Save();
+  void Clear();//Digamos que "vacia" el equipo para volver a ser usado
+  int Search(string nombre);
+  void ReduceSus();
+  void ReduceInj();
+  void AddTrd(int fitbonus);
+  void SetTrd();
+  void SetCond();
+  void ComputeFit();
+  string VetoedGK();
 };
 
 #endif
