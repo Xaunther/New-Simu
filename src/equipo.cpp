@@ -1,5 +1,6 @@
 #include "equipo.h"
 #include "jugador.h"
+#include "Int_array.h"
 #include "textmisc.h"
 #include <string>
 #include <fstream>
@@ -10,14 +11,13 @@ using namespace std;
 
 //El inicializador requiere de un archivo asociado
 equipo::equipo(string abrev):
-  //Determinar N_lineas fichero primero
-  //Crear clase para manejar mejor las arrays?
+  Njugadores(abrev),
+  jug(new jugador[Njugadores.value])
 {
-  Njugadores = 0;
   abreviatura = abrev;
   nombre = GetLeagueDatString(abreviatura);
 }
-void equipo::Clear(){Njugadores = 0;}
+void equipo::Clear(){Njugadores.value = 0;}
 void equipo::Load()
 {
   string filename = abreviatura + ".txt";
@@ -32,45 +32,42 @@ void equipo::Load()
   //Bloque de cálculo (lectura de fichero)
   getline(fichero,basura);
   getline(fichero,basura); //Las dos primeras lineas son encabezados
-  do //Compruebo que aun no he llegado al final, y luego paso datos al vector
+  //Ya sabemos cuantos jugadores hay
+  for(int i=0;i<Njugadores.value;i++)
     {
-      basura = "";
-      fichero >> basura;
-      if (basura != "")
-        {
-	  jug[Njugadores].Name = basura;
-	  fichero >> jug[Njugadores].Age;
-	  fichero >> jug[Njugadores].Nat;
-	  fichero >> jug[Njugadores].St;
-	  fichero >> jug[Njugadores].Tk;
-	  fichero >> jug[Njugadores].Ps;
-	  fichero >> jug[Njugadores].Sh;
-	  fichero >> jug[Njugadores].Ag;
-	  fichero >> jug[Njugadores].KAb;
-	  fichero >> jug[Njugadores].TAb;
-	  fichero >> jug[Njugadores].PAb;
-	  fichero >> jug[Njugadores].SAb;
-	  fichero >> jug[Njugadores].Gam;
-	  fichero >> jug[Njugadores].Trd;
-	  fichero >> jug[Njugadores].Min;
-	  fichero >> jug[Njugadores].Mom;
-	  fichero >> jug[Njugadores].Sav;
-	  fichero >> jug[Njugadores].Con;
-	  fichero >> jug[Njugadores].Ktk;
-	  fichero >> jug[Njugadores].Kps;
-	  fichero >> jug[Njugadores].Sht;
-	  fichero >> jug[Njugadores].Gls;
-	  fichero >> jug[Njugadores].Ass;
-	  fichero >> jug[Njugadores].DP;
-	  fichero >> jug[Njugadores].Inj;
-	  fichero >> jug[Njugadores].Sus;
-	  fichero >> jug[Njugadores].Fit;
-	  jug[Njugadores].MinHoy = 0;
-	  jug[Njugadores].hasPain = false;
-	  jug[Njugadores].Cond = jug[Njugadores].Fit*100/max(1,jug[Njugadores].Trd);
-	  Njugadores++;
-        }
-    }while (basura != "");
+      //Bloque visible
+      fichero >> jug[i].Name;
+      fichero >> jug[i].Age;
+      fichero >> jug[i].Nat;
+      fichero >> jug[i].St;
+      fichero >> jug[i].Tk;
+      fichero >> jug[i].Ps;
+      fichero >> jug[i].Sh;
+      fichero >> jug[i].Ag;
+      fichero >> jug[i].KAb;
+      fichero >> jug[i].TAb;
+      fichero >> jug[i].PAb;
+      fichero >> jug[i].SAb;
+      fichero >> jug[i].Gam;
+      fichero >> jug[i].Trd;
+      fichero >> jug[i].Min;
+      fichero >> jug[i].Mom;
+      fichero >> jug[i].Sav;
+      fichero >> jug[i].Con;
+      fichero >> jug[i].Ktk;
+      fichero >> jug[i].Kps;
+      fichero >> jug[i].Sht;
+      fichero >> jug[i].Gls;
+      fichero >> jug[i].Ass;
+      fichero >> jug[i].DP;
+      fichero >> jug[i].Inj;
+      fichero >> jug[i].Sus;
+      fichero >> jug[i].Fit;
+      //Cosas extras que se anadieron a LMV
+      jug[i].MinHoy = 0;
+      jug[i].hasPain = false;
+      jug[i].Cond = jug[i].Fit*100/max(1,jug[i].Trd);
+    }
   fichero.close();
 }
 void equipo::Save()
@@ -86,7 +83,7 @@ void equipo::Save()
   fichero << "Name         Age Nat St Tk Ps Sh Ag KAb TAb PAb SAb Gam Fit  Min Mom Sav Con Ktk Kps Sht Gls Ass  DP Inj Sus Sta" << endl;
   fichero << "----------------------------------------------------------------------------------------------------------------" << endl;
   //Volcado de la información en el fichero
-  for (i=0;i<Njugadores;i++)
+  for (i=0;i<Njugadores.value;i++)
     {
       fichero << left << setfill(' ') << setw(13) << jug[i].Name;
       fichero << right << setfill(' ') << setw(3) << jug[i].Age;
@@ -123,7 +120,7 @@ void equipo::Save()
 
 int equipo::Search(string nombre)
 {
-  for(int i=0;i<Njugadores;i++)
+  for(int i=0;i<Njugadores.value;i++)
     {
       if(nombre == jug[i].Name)
 	{
@@ -134,42 +131,42 @@ int equipo::Search(string nombre)
 
 void equipo::ReduceInj()
 {
-  for(int i=0;i<Njugadores;i++)
+  for(int i=0;i<Njugadores.value;i++)
     {
       jug[i].ReduceInj(abreviatura);
     }
 }
 void equipo::ReduceSus()
 {
-  for(int i=0;i<Njugadores;i++)
+  for(int i=0;i<Njugadores.value;i++)
     {
       jug[i].ReduceSus(abreviatura);
     }
 }
 void equipo::AddTrd(int trdbonus)
 {
-  for(int i=0;i<Njugadores;i++)
+  for(int i=0;i<Njugadores.value;i++)
     {
       jug[i].AddTrd(trdbonus);
     }
 }
 void equipo::SetCond()
 {
-  for(int i=0;i<Njugadores;i++)
+  for(int i=0;i<Njugadores.value;i++)
     {
       jug[i].SetCond();
     }
 }
 void equipo::SetTrd()
 {
-  for(int i=0;i<Njugadores;i++)
+  for(int i=0;i<Njugadores.value;i++)
     {
       jug[i].SetTrd();
     }
 }
 void equipo::ComputeFit()
 {
-  for(int i=0;i<Njugadores;i++)
+  for(int i=0;i<Njugadores.value;i++)
     {
       jug[i].ComputeFit();
     }
@@ -178,7 +175,7 @@ string equipo::VetoedGK()
 {
   int posbest=0;
   int pos2best=1;
-  for(int i=0;i<Njugadores;i++)
+  for(int i=0;i<Njugadores.value;i++)
     {
       if(jug[i].isGK())
 	{
