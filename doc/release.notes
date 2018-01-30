@@ -1,6 +1,9 @@
-!========================= Ejemplo ========================
-! 2018-01-24 - Z. Zidane
-  - archivo1.editado : cambios (estamos bien saes)
-  - archivo2.editado : cambios2
-  - archivo3.editado : etc.
+!========================= New-simu  ========================
+! 2018-01-30 - Xaunder
+  - src/Int_array.h : Nueva clase para ser usada como tamaño de las arrays
+  - src/Int_array.cpp : Implementación de la misma
+  - src/equipo.h : Cambiado tipo de variable para Njugadores
+  - src/equipo.cpp : Implementado este cambio
+  - src/textmisc.h : Añadir función para conocer el nº de líneas usadas de un archivo
+  - src/textmisc.cpp: Implementación
 

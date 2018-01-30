@@ -12,8 +12,9 @@ using namespace std;
 //El inicializador requiere de un archivo asociado
 equipo::equipo(string abrev):
   Njugadores(abrev),
-  jug(new jugador[Njugadores.value])
+  jug(new jugador[Njugadores.value-2])
 {
+  Njugadores.value = Njugadores.value-2; //El número de jugadores es el numero de lineas menos 2
   abreviatura = abrev;
   nombre = GetLeagueDatString(abreviatura);
 }
