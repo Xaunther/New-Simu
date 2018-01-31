@@ -3,6 +3,7 @@
 #include "textmisc.h"
 #include <string>
 #include <fstream>
+#include <iostream>
 #include <stdlib.h>
 using namespace std;
 
@@ -163,6 +164,11 @@ int GetUsedLines(string filename)
   ifstream f;
   
   f.open(filename.c_str());
+  if(!f)
+    {
+      cout << "No se ha encontrado el archivo " << filename << endl;
+      return 0; 
+    }
   while(!f.eof())
     {
       getline(f, basura);

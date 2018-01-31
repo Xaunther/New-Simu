@@ -3,7 +3,6 @@
 
 #include "jugador.h"
 #include "constantes.h"
-#include "Int_array.h"
 #include <string>
 using namespace std;
 
@@ -13,7 +12,7 @@ class equipo
   //Variables
 public:
   jugador* jug; //Array de jugadores
-  Int_array Njugadores; //Tamaño del array 
+  int Njugadores; //Tamaño del array 
   string abreviatura;
   string nombre;
   //Funciones
