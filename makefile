@@ -21,7 +21,7 @@ $(Script): $(libs) $(main)
 	$(GCC) $(main) $(libs) -o $(Script)
 
 #Linkear equipo
-build/equipo.o: build/jugador.o build/textmisc.o src/equipo.cpp src/equipo.h src/constantes.h
+build/equipo.o: build/jugador.o build/textmisc.o src/equipo.cpp src/equipo.h
 	$(GCC) -c src/equipo.cpp -o build/equipo.o
 
 #Linkear jugador

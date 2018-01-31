@@ -2,7 +2,6 @@
 #define equipo_h
 
 #include "jugador.h"
-#include "constantes.h"
 #include <string>
 using namespace std;
 
