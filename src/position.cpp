@@ -2,14 +2,28 @@
 #include <string>
 #include "position.h"
 #include "ability.h"
+#include "tactic.h"
 using namespace std;
+
+//Inicializar constante
+const int position::NPositions = 6;
 
 position::position()
 {
-  //Inicializar el array de 2 dimensiones con las eficiencias por hab y tactica
-  ability_eff = new double*[ability_eff];
-  for(int i=0;i<ability::NAbilities;i++)
-    {
-      ability_eff[i] = new double[tactic::NTactics];
-    }
+  //Inicializar el array con las eficiencias por habilidad
+  ability_eff = new double[ability::NAbilities];
+  //Posicion sin determinar
+  pos = this->NPositions;
+}
+
+void position::SetEff(Lposition _pos, Ltactic _tac)
+{
+  this->pos = _pos; //Establecer posicion
+  this->SetEff(_tac); //Establecer eficiencias para dicha tactica
+}
+
+void position::SetEff(Ltactic _tac)
+{
+  tactic tac;
+  this->ability_eff = tac.GetEffs(_tac, this->pos);
 }
