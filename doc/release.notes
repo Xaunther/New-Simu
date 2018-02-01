@@ -7,3 +7,7 @@
   - src/textmisc.h : Añadir función para conocer el nº de líneas usadas de un archivo
   - src/textmisc.cpp: Implementación
 
+!========================= New-simu  ========================
+! 2018-02-01 - Xaunder
+  Añadidos archivos de 3 nuevas clases: tactic, position y ability
+
