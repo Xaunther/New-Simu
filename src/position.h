@@ -2,25 +2,21 @@
 #define position_h
 
 #include <string>
-#include "tactic.h"
+#include "Simu.h"
 using namespace std;
-
-enum Lposition{lGK, lDF, lDM, lMF, lAM, lFW};
 
 //Clase posición
 class position
 {
 public:
-  //Constantes
-  static const int NPositions;
   //Variables
   double* ability_eff;
-  Lposition pos;
+  Simu::Lposition pos;
   
   //Funciones
   position();
-  void SetEff(Lposition, Ltactic);
-  void SetEff(Ltactic);
+  void SetEff(Simu::Lposition, Simu::Ltactic);
+  void SetEff(Simu::Ltactic);
 };
 
 #endif

@@ -5,9 +5,6 @@
 
 using namespace std;
 
-//Enumeracion
-enum Lability{lSt, lTk, lPs, lSh};
-
 class ability
 {
 public:

@@ -11,3 +11,8 @@
 ! 2018-02-01 - Xaunder
   Añadidos archivos de 3 nuevas clases: tactic, position y ability
 
+!========================= New-simu  ========================
+! 2018-02-01 - Xaunder
+  Las enumeraciones y constantes están todas definidas en Simu.h, dentro de un namespace.
+  Así se evitan las referencias circulares que había antes
+

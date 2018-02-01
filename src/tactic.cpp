@@ -1,26 +1,24 @@
 //Implementacion de la clase de tacticas
 #include "tactic.h"
-#include "position.h"
-#include "ability.h"
+#include "Simu.h"
 #include <stdlib.h> //Para la funcion exit
+#include <iostream>
 
 using namespace std;
-
-//Numero de tacticas
-const int tactic::NTactics = 7;
+using namespace Simu; //Para no tener que escribir TODO EL PUTO RATO Simu::
 
 //Inicializador, para la matriz 3-d
 tactic::tactic()
 {
   isFilled = false;
   
-  effs = double**[this->NTactics];
-  for(int i=0;i<this->NTactics;i++)
+  effs = new double**[Simu::NTactics];
+  for(int i=0;i<Simu::NTactics;i++)
     {
-      effs[i] = double*[ability::NPositions];
-      for(int j=0;j<ability::NPositions;j++)
+      effs[i] = new double*[Simu::NPositions];
+      for(int j=0;j<Simu::NPositions;j++)
 	{
-	  effs[i][j] = double[position::NAbilities];
+	  effs[i][j] = new double[Simu::NAbilities];
 	}
     }
 }
@@ -85,7 +83,7 @@ void tactic::Fill()
 
 double* tactic::GetEffs(Ltactic _tac, Lposition _pos)
 {
-  if(_tac < 0 || _tac > this->NTactics || _pos < 0 || _pos > position::NPositions)
+  if(_tac < 0 || _tac > Simu::NTactics || _pos < 0 || _pos > Simu::NPositions)
     {
       cout << "Posicion o tactica invalidas" << endl;
       exit(1);

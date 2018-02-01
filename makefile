@@ -3,7 +3,7 @@
 #Variables
 GCC = g++ #Compilador
 Script = bin/Simulador.out #Simulador compilado
-libs = build/equipo.o build/jugador.o build/textmisc.o
+libs = build/equipo.o build/jugador.o build/textmisc.o build/position.o build/tactic.o
 main = src/Simulador.cpp
 
 #Opciones custom de make
@@ -31,3 +31,11 @@ build/jugador.o: build/textmisc.o src/jugador.cpp src/jugador.h
 #Linkear textmisc
 build/textmisc.o: src/textmisc.cpp src/textmisc.h
 	$(GCC) -c src/textmisc.cpp -o build/textmisc.o
+
+#Linkear position
+build/position.o: src/tactic.o src/Simu.h src/position.cpp src/position.h
+	$(GCC) -c src/position.cpp -o build/position.o
+
+#Linkear tactic
+build/tactic.o: src/Simu.h src/ability.o src/tactic.cpp src/tactic.h
+	$(GCC) -c src/tactic.cpp -o build/tactic.o
