@@ -15,6 +15,7 @@ public:
   
   //Funciones
   position();
+  position(Simu::Lposition);
   void SetEff(Simu::Lposition, Simu::Ltactic);
   void SetEff(Simu::Ltactic);
 };

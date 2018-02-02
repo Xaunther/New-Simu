@@ -5,12 +5,22 @@
 #include "Simu.h"
 using namespace std;
 
+//Inicializar sin posicion (posicion invalida)
 position::position()
 {
   //Inicializar el array con las eficiencias por habilidad
   ability_eff = new double[Simu::NAbilities];
   //Posicion sin determinar
   pos = (Simu::Lposition)Simu::NPositions;
+}
+
+//Inicializar a una posicion
+position::position(Simu::Lposition _pos)
+{
+  //Inicializar el array con las eficiencias por habilidad
+  ability_eff = new double[Simu::NAbilities];
+  //Posicion sin determinar
+  pos = _pos;
 }
 
 void position::SetEff(Simu::Lposition _pos, Simu::Ltactic _tac)

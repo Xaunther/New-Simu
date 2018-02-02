@@ -16,3 +16,7 @@
   Las enumeraciones y constantes están todas definidas en Simu.h, dentro de un namespace.
   Así se evitan las referencias circulares que había antes
 
+!========================= New-simu  ========================
+! 2018-02-02 - Xaunder
+  - src/position.cpp/.h : Inicializador alternativo dando como parametro la posicion deseada
+
