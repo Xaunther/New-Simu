@@ -1,12 +1,14 @@
 ## Estructura de las carpetas:
 
-**bin**: Contiene archivos binarios (.exe por ejemplo), resultado de compilar un programa. (No deberían añadirse a git).
-
-**build**: Contiene librerías linkadas (.o generalmente). Para cada archivo .cpp es necesario hacer una (salvo el main).
+**build**: Contiene librerías linkadas (.o generalmente), y todo lo que se produzca de la compilación. No debe subirse al repositorio ya que son archivos generados automáticamente
 
 **doc**: Log de cambios y posibles cosas que queramos explicar.
 
-**src**: Codigo.
+**src**: Codigo fuente de implementación. (.cpp)
+
+**include**: Header files. (.h)
+
+**config**: Archivos que configuren el comportamiento del programa, y sean tuneables.
 
 **test**: Carpeta para testear.
 
@@ -15,7 +17,7 @@
 
 **.gitignore**: Qué no debe incluirse en git (cosas que se generen automáticamente sobre todo).
 
-**makefile**: Instrucciones para compilar en Linux. Dev-c++ lo genera automáticamente a la hora de compilar, pero lo llama distinto.
+**CMakeLists.txt**: Instrucciones para que cmake (Linux) genere el makefile para compilar, luego sólo es necesario hacer "make" :)
 
 **release.notes**: Notas con cambios importantes que vayamos haciendo y tal.
 
