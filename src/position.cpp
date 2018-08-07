@@ -23,6 +23,40 @@ position::position(Simu::Lposition _pos)
   pos = _pos;
 }
 
+//Traducir string a posicion
+void position::SetPos(string posname)
+{
+  if(posname=="GK")
+    {
+       this->pos = Simu::lGK;
+    }
+  else if(posname=="DF")
+    {
+       this->pos = Simu::lDF;      
+    }
+  else if(posname=="DM")
+    {
+       this->pos = Simu::lDM;
+    }
+  else if(posname=="MF")
+    {
+       this->pos = Simu::lMF;
+    }
+  else if(posname=="AM")
+    {
+       this->pos = Simu::lAM;
+    }
+  else if(posname=="FW")
+    {
+       this->pos = Simu::lFW;
+    }
+  else
+    {
+      cout << "Posicion invalida en alineacion" << endl;
+      exit(1);
+    }
+}
+
 void position::SetEff(Simu::Lposition _pos, Simu::Ltactic _tac)
 {
   this->pos = _pos; //Establecer posicion

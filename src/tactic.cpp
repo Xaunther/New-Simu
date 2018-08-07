@@ -22,6 +22,11 @@ tactic::tactic()
 	}
     }
 }
+tactic::tactic(Ltactic)
+{
+  this->tactic();
+  this->tac = Ltactic;
+}
 //Rellenar con los numeritos!
 void tactic::Fill()
 {
@@ -94,4 +99,47 @@ double* tactic::GetEffs(Ltactic _tac, Lposition _pos)
       this->Fill();
     }
   return effs[_tac][_pos];
+}
+
+double* tactic::GetEffs(Lposition _pos)
+{
+  return GetEffs(this->tac, _pos);
+}
+
+void tactic::SetTactic(string tacname)
+{
+  if(tacname=="A")
+    {
+      this->tac = lA;
+    }
+  else if(tacname=="D")
+    {
+      this->tac = lD;
+    }
+  else if(tacname=="N")
+    {
+      this->tac = lN;
+    }
+  else if(tacname=="L")
+    {
+      this->tac = lL;
+    }
+  else if(tacname=="C")
+    {
+      this->tac = lC;
+    }
+  else if(tacname=="P")
+    {
+      this->tac = lP;
+    }
+  else if(tacname=="E")
+    {
+      this->tac = lE;
+    }
+  else
+    {
+      cout << "Tactica no valida en alineacion" << endl;
+      exit(1);
+    }
+
 }

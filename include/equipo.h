@@ -15,14 +15,14 @@ public:
   string abreviatura;
   string nombre;
   //Funciones
-  equipo(string abrev);
+  equipo(string);
   void Load();
   void Save();
   void Clear();//Digamos que "vacia" el equipo para volver a ser usado
-  int Search(string nombre);
+  int Search(string);
   void ReduceSus();
   void ReduceInj();
-  void AddTrd(int fitbonus);
+  void AddTrd(int);
   void SetTrd();
   void SetCond();
   void ComputeFit();

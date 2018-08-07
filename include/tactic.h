@@ -11,10 +11,14 @@ public:
   //Variables
   double*** effs; //Matriz 3-d con todas eficiencias
   bool isFilled;
+  Simu::Ltactic tac;
   //Funciones
   tactic();
+  tactic(Simu::Ltactic)
   void Fill();
   double* GetEffs(Simu::Ltactic, Simu::Lposition);
+  double* GetEffs(Simu::Lposition);
+  void SetTactic(string);
 };
 
 #endif
