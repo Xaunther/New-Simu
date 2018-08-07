@@ -22,10 +22,10 @@ tactic::tactic()
 	}
     }
 }
-tactic::tactic(Ltactic)
+tactic::tactic(Ltactic _tac)
 {
-  this->tactic();
-  this->tac = Ltactic;
+  tactic();
+  this->tac = _tac;
 }
 //Rellenar con los numeritos!
 void tactic::Fill()

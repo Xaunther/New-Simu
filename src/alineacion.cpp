@@ -11,19 +11,19 @@ alineacion::alineacion()
 {
   //Cuantos suplentes hacen falta
   N_suplentes = GetLeagueDat("Suplentes");
-  **this->suplentes = new jugador*[N_suplentes];
-  *this->pos_suplentes = new position[N_suplentes];
+  this->suplentes = new jugador*[N_suplentes];
+  this->pos_suplentes = new position[N_suplentes];
   //Defino array de titulares
-  **this->titulares = new jugador*[N_titulares];
-  *this->pos_titulares = new position[N_titulares];
+  this->titulares = new jugador*[N_titulares];
+  this->pos_titulares = new position[N_titulares];
 }
 
 //Constructor para leer la alineacion directamente
 alineacion::alineacion(string filename)
 {
   //Inicializo arrays
-  alineacion::alineacion();
-  alineacion::Leer(filename);
+  alineacion();
+  this->Leer(filename);
 }
 
 //Funcion para leer la alineacion

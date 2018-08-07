@@ -1,5 +1,7 @@
 //Funciones de la clase jugador
 #include <string>
+#include <iostream>
+#include <stdlib.h> //Para la funcion exit
 #include "position.h"
 #include "tactic.h"
 #include "Simu.h"

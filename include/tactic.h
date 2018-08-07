@@ -3,6 +3,7 @@
 #define tactic_h
 
 #include "Simu.h"
+#include <string>
 using namespace std;
 
 class tactic
@@ -14,7 +15,7 @@ public:
   Simu::Ltactic tac;
   //Funciones
   tactic();
-  tactic(Simu::Ltactic)
+  tactic(Simu::Ltactic);
   void Fill();
   double* GetEffs(Simu::Ltactic, Simu::Lposition);
   double* GetEffs(Simu::Lposition);

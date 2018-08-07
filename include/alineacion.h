@@ -14,6 +14,7 @@ Contiene Estrategia del equipo
 #include "jugador.h"
 #include "Simu.h"
 #include "tactic.h"
+#include "position.h"
 using namespace std;
 
 //Constantes
