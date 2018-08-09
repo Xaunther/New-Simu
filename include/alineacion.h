@@ -27,6 +27,7 @@ class alineacion
 public:
   string abrev;
   int N_suplentes;
+  int N_usedcond;
   tactic tactica;
   jugador** titulares;
   position* pos_titulares; //Array de punteros a los 11 titulares
