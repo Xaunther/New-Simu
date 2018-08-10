@@ -19,7 +19,7 @@ using namespace std;
 
 //Constantes
 #define N_titulares 11
-#define N_cond 64
+#define N_inst 64
 
 class alineacion
 {
@@ -27,7 +27,7 @@ class alineacion
 public:
   string abrev;
   int N_suplentes;
-  int N_usedcond;
+  int N_usedinst;
   tactic tactica;
   jugador** titulares;
   position* pos_titulares; //Array de punteros a los 11 titulares
@@ -35,7 +35,7 @@ public:
   position* pos_suplentes; //Array de punteros a los x suplentes (Customizable)
   jugador* lanza_pen;
   jugador* capitan;
-  string condiciones[N_cond];
+  string condiciones[N_inst];
   //Funciones
   alineacion(); //Constructor por defecto
   alineacion(string); //Constructor para inicializar leyendo un archivo

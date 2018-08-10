@@ -58,7 +58,7 @@ void alineacion::Leer(string filename)
   getline(fAli, basura);
   //Y ahora se lee hasta llegar al final o quedarnos sin hueco
   int i = 0;
-  while(!fAli.eof() && i < N_cond)
+  while(!fAli.eof() && i < N_inst)
     {
       basura = "";;
       getline(fAli, basura);
@@ -68,6 +68,6 @@ void alineacion::Leer(string filename)
 	  i++;
 	}
     }
-  this->N_usedcond = i;
+  this->N_usedinst = i;
   fAli.close();
 }
