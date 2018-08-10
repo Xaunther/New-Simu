@@ -37,6 +37,7 @@ class instruccion
   void SetCondition(int, string);
   void SetSymbol(int, string);
   void Check();
+  void dump();
 };
 
 #endif

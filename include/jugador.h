@@ -64,6 +64,7 @@ class jugador
   void ComputeFit();
   void DetSus(int DPtoday, string abrev);
   bool isGK();
+  void dump();
 };
 
 #endif

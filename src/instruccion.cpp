@@ -299,3 +299,8 @@ void instruccion::Check()
 	}
     }
 }
+
+void instruccion::dump()
+{
+  
+}

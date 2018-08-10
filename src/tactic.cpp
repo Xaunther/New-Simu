@@ -143,3 +143,11 @@ void tactic::SetTactic(string tacname)
     }
 
 }
+
+void tactic::dump()
+{
+  cout << "-------------------------------------" << endl;
+  cout << "bool isFilled " << isFilled << endl;
+  cout << "Simu::Ltactic tac " << tac << endl;
+  cout << "-------------------------------------" << endl;  
+}

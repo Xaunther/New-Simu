@@ -70,3 +70,11 @@ void position::SetEff(Simu::Ltactic _tac)
   tactic tac;
   this->ability_eff = tac.GetEffs(_tac, this->pos);
 }
+
+void position::dump()
+{
+  cout << "-------------------------------------" << endl;
+  cout << "double* ability_eff " << ability_eff << endl;
+  cout << "Simu::Lposition pos " << pos << endl;;
+  cout << "-------------------------------------" << endl;
+}

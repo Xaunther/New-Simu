@@ -19,6 +19,7 @@ public:
   void SetPos(string);
   void SetEff(Simu::Lposition, Simu::Ltactic);
   void SetEff(Simu::Ltactic);
+  void dump();
 };
 
 #endif

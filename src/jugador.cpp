@@ -301,3 +301,39 @@ bool jugador::isGK()
 	}
 }
 
+void jugador::dump()
+{
+  cout << "-------------------------------------" << endl;
+  cout << "string Name " << Name << endl;
+  cout << "int Age " << Age << endl;
+  cout << "string Nat " << Nat << endl;
+  cout << "int St " << St << endl;
+  cout << "int Tk " << Tk << endl;
+  cout << "int Ps " << Ps << endl;
+  cout << "int Sh " << Sh << endl;
+  cout << "int Ag " << Ag << endl;
+  cout << "int KAb " << KAb << endl;
+  cout << "int TAb " << TAb << endl;
+  cout << "int PAb " << PAb << endl;
+  cout << "int SAb " << SAb << endl;
+  cout << "int Gam " << Gam << endl;
+  cout << "int Trd " << Trd << endl;
+  cout << "int Min " << Min << endl;
+  cout << "int Mom " << Mom << endl;
+  cout << "int Sav " << Sav << endl;
+  cout << "int Con " << Con << endl;
+  cout << "int Ktk " << Ktk << endl;
+  cout << "int Kps " << Kps << endl;
+  cout << "int Sht " << Sht << endl;
+  cout << "int Gls " << Gls << endl;
+  cout << "int Ass " << Ass << endl;
+  cout << "int DP " << DP << endl;
+  cout << "int Inj " << Inj << endl;
+  cout << "int Sus " << Sus << endl;
+  cout << "int Fit " << Fit << endl;
+  cout << "int MinHoy " << MinHoy << endl;
+  cout << "bool hasPain " << hasPain << endl;
+  cout << "int Cond " << Cond << endl;
+  cout << "-------------------------------------" << endl;
+  
+}

@@ -15,6 +15,7 @@ Contiene Estrategia del equipo
 #include "Simu.h"
 #include "tactic.h"
 #include "position.h"
+#include "instruccion.h"
 using namespace std;
 
 //Constantes
@@ -35,11 +36,12 @@ public:
   position* pos_suplentes; //Array de punteros a los x suplentes (Customizable)
   jugador* lanza_pen;
   jugador* capitan;
-  string condiciones[N_inst];
+  instruccion condicion[N_inst];
   //Funciones
   alineacion(); //Constructor por defecto
   alineacion(string); //Constructor para inicializar leyendo un archivo
   void Leer(string); //Leer archivo de alineacion
+  void dump(); //Para vomitar todas las variables
 };
 
 
