@@ -2,7 +2,6 @@
 #ifndef instruccion_h
 #define instruccion_h
 
-#include "alineacion.h"
 #include "Simu.h"
 #include <string>
 using namespace std;

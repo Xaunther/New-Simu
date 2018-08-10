@@ -4,6 +4,8 @@
 #include <string>
 #include <sstream>
 #include <stdlib.h>
+#include <iostream>
+using namespace std;
 
 void jugador::AddGam(int v){Gam+=v;}
 void jugador::AddCond(int v){Cond+=v;}

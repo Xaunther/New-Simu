@@ -2,8 +2,10 @@
 #include <string>
 #include <fstream>
 #include "alineacion.h"
+#include "instruccion.h"
 #include "textmisc.h"
 #include "tactic.h"
+#include <iostream>
 using namespace std;
 
 //Constructor por defecto, solo define las arrays
@@ -79,7 +81,7 @@ void alineacion::dump()
   cout << "string abrev: " << abrev << endl;
   cout << "int N_suplentes: " << N_suplentes << endl;
   cout << "int N_usedinst: " << N_usedinst << endl;
-  cout << "tactic tactica: " << N_tactica << endl;
+  cout << "tactic tactica: " << endl;
   tactica.dump();
   cout << "jugador** titulares: " << titulares << endl;
   for(int i=0;i<N_titulares;i++)
