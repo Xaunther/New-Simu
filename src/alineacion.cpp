@@ -55,13 +55,13 @@ void alineacion::Leer(string filename)
     }
   //Toca leer las lineas
   //Primero se limpia la ultima linea leida
-  getline(f, basura);
+  getline(fAli, basura);
   //Y ahora se lee hasta llegar al final o quedarnos sin hueco
   int i = 0;
   while(!fAli.eof() && i < N_cond)
     {
       basura = "";;
-      getline(f, basura);
+      getline(fAli, basura);
       if(basura != "")
 	{
 	  this->condiciones[i] = basura;
