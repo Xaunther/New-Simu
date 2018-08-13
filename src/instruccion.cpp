@@ -302,5 +302,27 @@ void instruccion::Check()
 
 void instruccion::dump()
 {
+  cout << "Simu::Linstruct type " << type << endl;
+  cout << "int arg1 " << arg1 << endl;
+  cout << "int arg2 " << arg2 << endl;
+  cout << "Simu::Ltactic tactic " << tactic << endl;
+  cout << "Simu::Lposition pos " << pos << endl;
+  cout << "int N_usedcond " << N_usedcond << endl; 
+  cout << "Simu::Lcondition cond[N_cond] " << cond << endl; 
+  for(int i=0;i<N_usedcond;i++)
+    {
+      cout << cond[i] << endl;
+    }
+  cout << "Simu::Lsymbol symbol[N_cond] " << symbol << endl; 
+  for(int i=0;i<N_usedcond;i++)
+    {
+      cout << symbol[i] << endl;
+    }
+  cout << "int cond_value[N_cond] " << cond_value << endl; 
+  for(int i=0;i<N_usedcond;i++)
+    {
+      cout << cond_value[i] << endl;
+    }
+
   
 }
