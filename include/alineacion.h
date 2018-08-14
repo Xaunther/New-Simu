@@ -16,6 +16,7 @@ Contiene Estrategia del equipo
 #include "tactic.h"
 #include "position.h"
 #include "instruccion.h"
+#include "equipo.h"
 using namespace std;
 
 //Constantes
@@ -43,6 +44,7 @@ public:
   alineacion(); //Constructor por defecto
   alineacion(string); //Constructor para inicializar leyendo un archivo
   void Leer(string); //Leer archivo de alineacion
+  void Link (equipo*); //Para linkear los nombres a jugadores de verdah
   void dump(); //Para vomitar todas las variables
 };
 
