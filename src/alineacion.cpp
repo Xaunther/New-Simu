@@ -9,22 +9,27 @@
 using namespace std;
 
 //Constructor por defecto, solo define las arrays
-alineacion::alineacion()
+alineacion::alineacion():
+  pos_titulares(new position[N_titulares]),
+  names_titulares(new string[N_titulares]),
+  titulares(new jugador*[N_titulares]),
+  N_suplentes(GetLeagueDat("Suplentes")),
+  pos_suplentes(new position[N_suplentes]),
+  names_suplentes(new string[N_suplentes]),
+  suplentes(new jugador*[N_suplentes])
 {
-  //Cuantos suplentes hacen falta
-  N_suplentes = GetLeagueDat("Suplentes");
-  this->suplentes = new jugador*[N_suplentes];
-  this->pos_suplentes = new position[N_suplentes];
-  //Defino array de titulares
-  this->titulares = new jugador*[N_titulares];
-  this->pos_titulares = new position[N_titulares];
 }
 
 //Constructor para leer la alineacion directamente
-alineacion::alineacion(string filename)
+alineacion::alineacion(string filename):
+  pos_titulares(new position[N_titulares]),
+  names_titulares(new string[N_titulares]),
+  titulares(new jugador*[N_titulares]),
+  N_suplentes(GetLeagueDat("Suplentes")),
+  pos_suplentes(new position[N_suplentes]),
+  names_suplentes(new string[N_suplentes]),
+  suplentes(new jugador*[N_suplentes])
 {
-  //Inicializo arrays
-  alineacion();
   this->Leer(filename);
 }
 
@@ -45,7 +50,7 @@ void alineacion::Leer(string filename)
       fAli >> basura;
       pos_titulares[i].SetPos(basura);
       fAli >> basura;
-      titulares[i]->Name = basura;
+      names_titulares[i] = basura;
     }
   //X suplentes
   for(int i=0;i<N_suplentes;i++)
@@ -53,7 +58,7 @@ void alineacion::Leer(string filename)
       fAli >> basura;
       pos_suplentes[i].SetPos(basura);
       fAli >> basura;
-      suplentes[i]->Name = basura;      
+      names_suplentes[i] = basura;      
     }
   //Toca leer las lineas
   //Primero se limpia la ultima linea leida
@@ -84,9 +89,10 @@ void alineacion::dump()
   cout << "tactic tactica: " << endl;
   tactica.dump();
   cout << "jugador** titulares: " << titulares << endl;
+  cout << "string* names_titulares: " << names_titulares << endl;
   for(int i=0;i<N_titulares;i++)
     {
-      titulares[i]->dump();
+      cout << names_titulares[i] << endl;
     }
   cout << "position* pos_titulares: " << pos_titulares << endl;
   for(int i=0;i<N_titulares;i++)
@@ -94,9 +100,10 @@ void alineacion::dump()
       pos_titulares[i].dump();
     }
   cout << "jugador** suplentes: " << suplentes << endl;
+  cout << "string* names_suplentes: " << names_suplentes << endl;
   for(int i=0;i<N_suplentes;i++)
     {
-      suplentes[i]->dump();
+      cout << names_suplentes[i] << endl;
     }
   cout << "position* pos_suplentes: " << pos_suplentes << endl;
   for(int i=0;i<N_suplentes;i++)

@@ -31,8 +31,10 @@ public:
   int N_usedinst;
   tactic tactica;
   jugador** titulares;
+  string* names_titulares;
   position* pos_titulares; //Array de punteros a los 11 titulares
   jugador** suplentes;
+  string* names_suplentes;
   position* pos_suplentes; //Array de punteros a los x suplentes (Customizable)
   jugador* lanza_pen;
   jugador* capitan;
