@@ -48,7 +48,12 @@ void instruccion::Fill(string condline)
       ss >> basura;
       this->SetPos(basura);
     }
+  else
+    {
+      ss >> this->arg1;
+    }
   //Empezar con las condiciones, si hay
+  basura = "";
   ss >> basura;
   if(basura=="IF")
     {
@@ -73,6 +78,7 @@ void instruccion::Fill(string condline)
 	  this->cond_value[i] += valor_init;
 	  //SIGUIENTE
 	  i++;
+	  ss >> basura;
 	}
       this->N_usedcond = i;
     }
