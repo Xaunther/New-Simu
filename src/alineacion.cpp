@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include "alineacion.h"
+#include "equipo.h"
 #include "instruccion.h"
 #include "textmisc.h"
 #include "tactic.h"
@@ -80,6 +81,21 @@ void alineacion::Leer(string filename)
   fAli.close();
 }
 
+//Funcion para linkear los punteros de los jugadores a jugadores de un equipo
+void alineacion::Link(equipo* eq)
+{
+  //Titulares
+  for(int i=0;i<N_titulares;i++)
+    {
+      titulares[i] = &(eq->jug[eq->Search(names_titulares[i])]);
+    }
+  //Suplentes
+  for(int i=0;i<N_suplentes;i++)
+    {
+      suplentes[i] = &(eq->jug[eq->Search(names_suplentes[i])]);
+    }
+}
+
 void alineacion::dump()
 {
   cout << "-------------------------------------" << endl;
@@ -111,9 +127,7 @@ void alineacion::dump()
       pos_suplentes[i].dump();
     }
   cout << "jugador* lanza_pen: " << lanza_pen << endl;
-  lanza_pen->dump();
   cout << "jugador* capitan: " << capitan << endl;
-  capitan->dump();
   cout << "instruccion condicion[N_inst]: " << condicion << endl;
   for(int i=0;i<N_usedinst;i++)
     {
