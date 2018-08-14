@@ -10,8 +10,8 @@ class equipo
 {
   //Variables
 public:
+  int Njugadores; //Tamaño del array
   jugador* jug; //Array de jugadores
-  int Njugadores; //Tamaño del array 
   string abreviatura;
   string nombre;
   //Funciones
@@ -27,6 +27,7 @@ public:
   void SetCond();
   void ComputeFit();
   string VetoedGK();
+  void dump();
 };
 
 #endif
