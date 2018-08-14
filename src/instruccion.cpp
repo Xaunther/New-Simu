@@ -308,6 +308,7 @@ void instruccion::Check()
 
 void instruccion::dump()
 {
+  cout << "-------------------------------------" << endl;
   cout << "Simu::Linstruct type " << type << endl;
   cout << "int arg1 " << arg1 << endl;
   cout << "int arg2 " << arg2 << endl;
@@ -329,6 +330,5 @@ void instruccion::dump()
     {
       cout << cond_value[i] << endl;
     }
-
-  
+  cout << "-------------------------------------" << endl;
 }
