@@ -4,13 +4,14 @@
 #include <string>
 #include <fstream>
 #include <iomanip>
+#include <iostream>
 using namespace std;
 
 //Funciones de la clase equipo
 
 //El inicializador requiere de un archivo asociado
 equipo::equipo(string abrev):
-  Njugadores(GetUsedLines(abrev)), //El número de jugadores es el numero de lineas menos 2
+  Njugadores(GetUsedLines(abrev+".txt")-2), //El número de jugadores es el numero de lineas menos 2
   jug(new jugador[Njugadores])
 {
   abreviatura = abrev;
@@ -198,4 +199,18 @@ string equipo::VetoedGK()
     {
       return jug[posbest].Name;
     }
+}
+
+void equipo::dump()
+{
+  cout << "-------------------------------------" << endl;
+  cout << "string abreviatura: " << abreviatura << endl;
+  cout << "string nombre: " << nombre << endl;
+  cout << "jugador* jug: " << jug << endl;
+  for(int i=0;i<Njugadores;i++)
+    {
+      jug[i].dump();
+    }
+  cout << "int Njugadores: " << Njugadores << endl;
+  cout << "-------------------------------------" << endl;  
 }
