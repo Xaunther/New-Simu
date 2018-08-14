@@ -4,4 +4,4 @@ rvm:
 - 2.2
 - jruby
 
-script: cd build && cmake .. && make
+script: cd build && cmake .. && make && cd ../test && ../build/New-simu
