@@ -45,6 +45,7 @@ public:
   alineacion(string); //Constructor para inicializar leyendo un archivo
   void Leer(string); //Leer archivo de alineacion
   void Link (equipo*); //Para linkear los nombres a jugadores de verdah
+  void Check(); //Para comprobar que no haya repes ni lesionados, sancionados
   void dump(); //Para vomitar todas las variables
 };
 

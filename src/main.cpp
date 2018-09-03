@@ -24,6 +24,9 @@ int main(void)
   eq2.Load();
   ali.Link(&eq);
   ali2.Link(&eq2);
+  ali.Check();
+  ali2.Check();
+  cout << ali.titulares[0]->Nat << endl;
   cout << "Test correcto" << endl;
   return 0;
 }
