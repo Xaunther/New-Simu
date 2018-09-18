@@ -1,9 +1,11 @@
 //Implementacion de la clase alineacion
 #include <string>
 #include <fstream>
+#include <stdlib.h>
 #include "alineacion.h"
 #include "equipo.h"
 #include "instruccion.h"
+#include "arraytools.h"
 #include "textmisc.h"
 #include "tactic.h"
 #include <iostream>
@@ -93,6 +95,38 @@ void alineacion::Link(equipo* eq)
   for(int i=0;i<N_suplentes;i++)
     {
       suplentes[i] = &(eq->jug[eq->Search(names_suplentes[i])]);
+    }
+}
+
+//Funcion para comprobar: Duplicados, lesionados, sancionados
+void alineacion::Check()
+{
+  //Chequeo duplicados
+  string* namesAll = new string[N_titulares+this->N_suplentes];
+  copy(this->names_titulares, this->names_titulares+N_titulares, namesAll);
+  copy(this->names_suplentes, this->names_suplentes+N_suplentes, namesAll+N_titulares);
+  if(TieneRepetidos(namesAll, N_titulares+this->N_suplentes))
+    {
+      cout << "Hay jugadores repetidos en la alineacion" << endl;
+      exit(1);
+    }
+  //Chequeo lesionados/sancionados
+  for(int i=0;i<N_titulares;i++)
+    {
+      //cout << this->titulares[i]->Nat << endl;
+      if(this->titulares[i]->Sus > 0 || this->titulares[i]->Inj > 0)
+	{
+	  cout << "Hay jugadores sancionados/lesionados en la alineacion" << endl;
+	  exit(1);
+	}
+    }
+  for(int i=0;i<this->N_suplentes;i++)
+    {
+      if(this->suplentes[i]->Sus > 0 || this->suplentes[i]->Inj > 0)
+	{
+	  cout << "Hay jugadores sancionados/lesionados en la alineacion" << endl;
+	  exit(1);
+	}
     }
 }
 
