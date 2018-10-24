@@ -6,3 +6,6 @@
 
 #Bin files
 *.exe *.out
+
+#Netbeans project
+nbproject/*
