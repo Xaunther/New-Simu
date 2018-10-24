@@ -13,16 +13,16 @@ string GetInjuryType()
   int index = (rand() % 10);
   string types[10] = 
     {
-      "diarrea extrema :truño:",
+      "diarrea extrema :truno:",
       "bolas azules",
       "una pierna amputada",
       "un flechazo en la rodilla",
-      "un codo rasguñado",
+      "un codo rasgunado",
       "una fumada del 15 :weed:",
-      "cáncer testicular",
-      "cirugía plástica",
+      "cancer testicular",
+      "cirugia plastica",
       "un leve resfriado",
-      "un tentáculo roto"
+      "un tentaculo roto"
     };
   return types[index];
 }
