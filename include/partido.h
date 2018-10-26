@@ -21,6 +21,8 @@ class partido
   //Arbitro?! arbitro arb;
   
   //Estadisticas del partido globales
+  int minuto;
+  bool posesion; //false=local, true=visit
   int posesion_local; int posesion_visitante;
   int goles_local; int goles_visitante;
   int chuts_local; int chuts_visitante;
@@ -50,6 +52,9 @@ class partido
   void Update_pts();
   void SetLocalBoost();
   void Init_stats();
+  void Simulate(int);
+  //Funciones de escritura
+  void Write_Init();
 };
 
 

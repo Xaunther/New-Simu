@@ -15,6 +15,7 @@ partido::partido(alineacion* _local, alineacion* _visitante):
   med_local(0), med_visitante(0),
   atk_local(0), atk_visitante(0),
   //Stats globales
+  minuto(0),
   posesion_local(0), posesion_visitante(0),
   goles_local(0), goles_visitante(0),
   chuts_local(0), chuts_visitante(0),
@@ -43,7 +44,7 @@ partido::partido(alineacion* _local, alineacion* _visitante):
   //Funciones de inicializacion
   SetLocalBoost();
   Update_pts();
-  Init_stats();	
+  Init_stats();
 }
 
 //Funcion para obtener los puntos de rendimiento de cada equipo en cada posicion
@@ -92,5 +93,18 @@ void partido::Init_stats()
     amarillas_jug_local[i] = 0; amarillas_jug_visitante = 0;
     minutos_jug_local[i] = 0; minutos_jug_visitante = 0;
     faltas_jug_local[i] = 0; faltas_jug_visitante = 0;
+  }
+}
+
+//Funcion para simular el partido. El tiempo sera siermpre dividido en primera y segunda parte. Y detectara si es tiempo reglamentario (=90) o prorroga (=30)
+void partido::Simulate(int tiempo)
+{
+  //Escribir previo del partido (alis tactica etc)
+  if(minuto==0){Write_Init();}
+  int minuto_init = this->minuto;
+  //Sorteo de quien inicia la posesion
+  //Loop. Cada minuto una accion
+  for(minuto=minuto;minuto<minuto_init+tiempo;minuto++)
+  {
   }
 }
