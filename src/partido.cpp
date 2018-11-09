@@ -1,6 +1,8 @@
 #include "partido.h"
 #include "alineacion.h"
 #include "textmisc.h"
+#include <string>
+#include <fstream>
 using namespace std;
 
 //Funciones de la clase partido
@@ -45,6 +47,9 @@ partido::partido(alineacion* _local, alineacion* _visitante):
   SetLocalBoost();
   Update_pts();
   Init_stats();
+  //Inicializar archivo nuevo
+  outf.open((ali_local->abrev+"_"+ali_visitante->abrev+".txt").c_str());
+  outf.close();
 }
 
 //Funcion para obtener los puntos de rendimiento de cada equipo en cada posicion
@@ -99,6 +104,8 @@ void partido::Init_stats()
 //Funcion para simular el partido. El tiempo sera siermpre dividido en primera y segunda parte. Y detectara si es tiempo reglamentario (=90) o prorroga (=30)
 void partido::Simulate(int tiempo)
 {
+  //Abramos el archivo para escribir
+  outf.open((ali_local->abrev+"_"+ali_visitante->abrev+".txt").c_str(), std::ios_base::app);
   //Escribir previo del partido (alis tactica etc)
   if(minuto==0){Write_Init();}
   int minuto_init = this->minuto;
@@ -107,4 +114,12 @@ void partido::Simulate(int tiempo)
   for(minuto=minuto;minuto<minuto_init+tiempo;minuto++)
   {
   }
+}
+
+void partido::Write_init()
+{
+  //Encabezado: Nombre de la competicion y equipos enfrentados
+  outf << GetLeagueDatString(Games) << ", " << GetLeagueDatString(ali_local->abrev) << " vs. " << GetLeagueDatString(ali_visitante->abrev);
+  //Fecha de simulacion
+  outf << "(" << GetTime() << ")" << endl;
 }

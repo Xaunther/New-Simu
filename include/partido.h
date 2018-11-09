@@ -2,6 +2,7 @@
 #define partido_h
 
 #include "alineacion.h"
+#include <fstream>
 using namespace std;
 
 //Clase partido
@@ -17,6 +18,7 @@ class partido
   double atk_local; double atk_visitante;
   int local_boost;
   int N_suplentes;
+  ofstream outf;
   //Estadios?! estadio est; int attendance;
   //Arbitro?! arbitro arb;
   

@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <stdlib.h>
+#include <ctime>
 using namespace std;
 
 string GetInjuryType()
@@ -179,4 +180,14 @@ int GetUsedLines(string filename)
     }
   f.close();
   return Nlines;
+}
+
+char* GetTime();
+{
+  time_t rawtime;
+  struct tm * timeinfo;
+
+  time ( &rawtime );
+  timeinfo = localtime ( &rawtime );
+  return asctime (timeinfo);
 }
