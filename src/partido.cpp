@@ -33,6 +33,7 @@ partido::partido(alineacion* _local, alineacion* _visitante):
   amarillas_local(0), amarillas_visitante(0),
   cambios_local(0), cambios_visitante(0),
   faltas_local(0), faltas_visitante(0),
+  agg_local(50), agg_visitante(50),
   //Otros
   N_suplentes(GetLeagueDat("Suplentes")),
   //Stats por jugador
@@ -121,8 +122,21 @@ void partido::Simulate(int tiempo)
   {
     outf.open((ali_local->abrev+"_"+ali_visitante->abrev+".txt").c_str(), std::ios_base::app);
   }
-  int minuto_init = this->minuto;
   //Sorteo de quien inicia la posesion
+  //Ajustes de minuto 0
+  //Local
+  for(int i=0;i<ali_local->N_usedinst;i++)
+  {
+    this->Do_Inst(false, i);
+  }
+  //Visitante
+  for(int i=0;i<ali_visitante->N_usedinst;i++)
+  {
+    this->Do_Inst(true, i);
+  }
+  //Pasado el previo, llegamos al minuto 1 (o 91)
+  minuto++;
+  int minuto_init = this->minuto;
   //Loop. Cada minuto una accion
   for(minuto=minuto;minuto<minuto_init+tiempo;minuto++)
   {
@@ -134,8 +148,20 @@ void partido::Simulate(int tiempo)
       outf << "Resultado al descanso: " << loc_name << " " << goles_local << "-" << goles_visitante << " " << visit_name << endl;
       outf << endl;
     }
-    outf << "Min. " << minuto+1 << setw(3-int(log10(minuto+1))) << ":" << endl;
+    //Chequear las instrucciones
+    //Local
+    for(int i=0;i<ali_local->N_usedinst;i++)
+    {
+      this->Do_Inst(false, i);
+    }
+    //Visitante
+    for(int i=0;i<ali_visitante->N_usedinst;i++)
+    {
+      this->Do_Inst(true, i);
+    }
+    //outf << "Min. " << minuto << setw(3-int(log10(minuto))) << ":" << endl;
   }
+  
 }
 
 void partido::Write_Init()
@@ -168,4 +194,112 @@ void partido::Write_Init()
   }
   outf << endl << endl << endl << endl << endl;
   return;
+}
+
+//Ejecuta, si cumple los criterios, la condición k del local (false) o visitante (true)
+void partido::Do_Inst(bool side, int k)
+{
+  bool cumple = true;
+  alineacion* ali;
+  if(side)
+  {
+    ali = ali_local;
+  }
+  else
+  {
+    ali = ali_visitante;
+  }
+  for(int i=0;i<ali->condicion[k].N_usedcond;i++)
+  {
+    cumple *= Is_Doable(side, k, i);
+  }
+  //Si no cumple, nada
+  if(!cumple){return;}
+  //Chequear que el archivo este abierto
+  if(!outf.is_open()){outf.open((ali_local->abrev+"_"+ali_visitante->abrev+".txt").c_str(), std::ios_base::app);}
+  switch(ali->condicion[k].type)
+  {
+    case Simu::lPK: //No tiene output
+      ali->lanza_pen = ali->titulares[ali->condicion[k].arg1-1];
+      return;
+    case Simu::lCPN: //No tiene output
+      ali->capitan = ali->titulares[ali->condicion[k].arg1-1];
+      return;
+    case Simu::lAGG: //No tiene output
+      agg_local = ali->condicion[k].arg1;
+      return;
+    case Simu::lTACTIC:
+      if(ali->tactica.tac != ali->condicion[k].tactic)
+      {
+        outf << "Min. " << minuto << setw(3-int(log10(minuto))) << ":(" << ali->abrev << ") ";
+        outf << "tactic: " << ali->condicion[k].tactic << endl;
+      }
+      ali->tactica.tac = ali->condicion[k].tactic;
+      return;
+    case Simu::lSUB: //Not implemented
+      return;
+    case Simu::lCHANGEPOS:
+      if(ali->condicion[k].arg1-1 < N_titulares)
+      {
+        if(ali->pos_titulares[ali->condicion[k].arg1-1].pos != ali->condicion[k].pos)
+        {
+          outf << "Min. " << minuto << setw(3-int(log10(minuto))) << ":(" << ali->abrev << ") ";
+          outf << "changepos: " << ali->condicion[k].tactic << endl;
+        }
+      }
+      else if(ali->pos_suplentes[ali->condicion[k].arg1-1].pos != ali->condicion[k].pos)
+      {
+        outf << "Min. " << minuto << setw(3-int(log10(minuto))) << ":(" << ali->abrev << ") ";
+        outf << "changepos: " << ali->condicion[k].tactic << endl;
+      }
+      if(ali->condicion[k].arg1-1 < N_titulares)
+      {
+        ali->pos_titulares[ali->condicion[k].arg1-1].pos = ali->condicion[k].pos;
+      }
+      else
+      {
+        ali->pos_suplentes[ali->condicion[k].arg1-1].pos = ali->condicion[k].pos;
+      }
+      return;
+  }
+}
+
+//Dice si la condicion  j de la instruccion k del equipo local (false) o visitante (true) se cumple o no
+bool partido::Is_Doable(bool side, int k, int j)
+{
+  //Valor de la variable ira almacenada aqui
+  int varvalue;
+  //Puntero a la ali que se esta mirando
+  alineacion* ali;
+  if(side){ali = ali_local;}else{ali = ali_visitante;}
+  //Que tipo de instruccion es?
+  switch(ali->condicion[k].cond[j])
+  {
+    case Simu::lMIN:
+      varvalue = minuto;
+      break;
+    case Simu::lSCORE:
+      varvalue = (goles_visitante - goles_local)*(2*side-1);
+      break;
+    case Simu::lSHOTS:
+      varvalue = (chuts_visitante - chuts_local)*(2*side-1);
+      break;
+      //Sin implementar hasta que se hagan las estadisticas live (devuelven false)
+    case Simu::lYELLOW: return false;
+      break;
+    case Simu::lRED: return false;
+      break;
+    case Simu::lINJ: return false;
+      break;
+  }
+  //Ques es? >=, = o <=?
+  switch(ali->condicion[k].symbol[j])
+  {
+    case Simu::lLT:
+      return(varvalue <= ali->condicion[k].cond_value[j]);
+    case Simu::lEQ:
+      return(varvalue == ali->condicion[k].cond_value[j]);
+    case Simu::lGT:
+      return(varvalue >= ali->condicion[k].cond_value[j]);
+  }
 }

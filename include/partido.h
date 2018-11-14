@@ -36,6 +36,7 @@ class partido
   int amarillas_local; int amarillas_visitante;
   int cambios_local; int cambios_visitante;
   int faltas_local; int faltas_visitante;
+  int agg_local; int agg_visitante;
     //Estadisticas del partido por jugador
   int* goles_jug_local; int* goles_jug_visitante;
   int* asistencias_jug_local; int* asistencias_jug_visitante;
@@ -55,6 +56,8 @@ class partido
   void SetLocalBoost();
   void Init_stats();
   void Simulate(int);
+  void Do_Inst(bool, int);
+  bool Is_Doable(bool, int, int);
   //Funciones de escritura
   void Write_Init();
 };
