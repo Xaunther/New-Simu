@@ -1,9 +1,11 @@
 //Implementacion de la clase alineacion
 #include <string>
 #include <fstream>
+#include <sstream>
 #include <stdlib.h>
 #include "alineacion.h"
 #include "equipo.h"
+#include "Simu.h"
 #include "instruccion.h"
 #include "arraytools.h"
 #include "textmisc.h"
@@ -128,6 +130,35 @@ void alineacion::Check()
 	  exit(1);
 	}
     }
+}
+
+//Funcion que devuelve la formacion usada (4-4-2 P por ejemplo)
+string alineacion::Formation()
+{
+  stringstream formation;
+  bool usado = false;
+  int N[Simu::NPositions] = {0};
+  for(int i=0;i<N_titulares;i++)
+  {
+    N[(int)pos_titulares[i].pos]++;
+  }
+  for(int i=1;i<Simu::NPositions;i++)
+  {
+    if(N[i]>0)
+    {
+      if(!usado)
+      {
+        formation << N[i];
+        usado = true;
+      }
+      else
+      {
+        formation << "-" << N[i]; 
+      }
+    }
+  }
+  formation << " " << this->tactica.symbol();
+  return formation.str();
 }
 
 void alineacion::dump()

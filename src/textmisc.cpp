@@ -147,8 +147,8 @@ string GetLeagueDatString(string variable)
       if(basura==variable)
 	{
 	  f >> basura; //Me como el igual
-	  f.ignore(1, ' ');
-	  getline(f,value);
+	  f >> value;
+       value = Substitute(value, "_", " ");
 	  return value;
 	}
       basura = "";
@@ -182,12 +182,32 @@ int GetUsedLines(string filename)
   return Nlines;
 }
 
-char* GetTime();
+char* GetTime()
 {
+  char* result;
   time_t rawtime;
   struct tm * timeinfo;
 
   time ( &rawtime );
   timeinfo = localtime ( &rawtime );
-  return asctime (timeinfo);
+  result = asctime (timeinfo);
+  result[24]='\0';
+  return result;
+}
+
+string Substitute(string &s, string s_search, string s_sub)
+{
+  size_t pos = 0;
+  do
+  {
+    pos = s.find(s_search);
+    s.replace(pos, s_search.length(), s_sub);
+    if(pos != string::npos)
+    {
+      pos += s_sub.length();
+    }
+  }while(s.find(s_search) != string::npos);
+
+  return s;
+
 }

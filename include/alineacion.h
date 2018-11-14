@@ -46,6 +46,7 @@ public:
   void Leer(string); //Leer archivo de alineacion
   void Link (equipo*); //Para linkear los nombres a jugadores de verdah
   void Check(); //Para comprobar que no haya repes ni lesionados, sancionados
+  string Formation(); //Devuelve la formación elegida (4-4-2 P por ejemplo)
   void dump(); //Para vomitar todas las variables
 };
 

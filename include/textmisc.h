@@ -13,5 +13,6 @@ int GetLeagueDat(string);
 string GetLeagueDatString(string);
 int GetUsedLines(string);
 char* GetTime();
+string Substitute(string&, string, string);
 
 #endif

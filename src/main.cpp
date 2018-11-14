@@ -4,6 +4,7 @@
 #include "alineacion.h"
 #include "equipo.h"
 #include "position.h"
+#include "partido.h"
 #include "Simu.h"
 using namespace std;
 
@@ -26,7 +27,9 @@ int main(void)
   ali2.Link(&eq2);
   ali.Check();
   ali2.Check();
-  cout << ali.titulares[0]->Nat << endl;
+  //Partido
+  partido match(&ali, &ali2);
+  match.Simulate(90);
   cout << "Test correcto" << endl;
   return 0;
 }

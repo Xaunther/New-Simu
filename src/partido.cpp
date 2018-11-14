@@ -3,7 +3,11 @@
 #include "textmisc.h"
 #include <string>
 #include <fstream>
+#include <iomanip>
+#include <cmath>
 using namespace std;
+
+#define col_w 40
 
 //Funciones de la clase partido
 
@@ -56,7 +60,7 @@ partido::partido(alineacion* _local, alineacion* _visitante):
 void partido::Update_pts()
 {
 	//Loop sobre los titulares, y voy sumando...
-	for(int i=0;i<N_titulares+N_suplentes;i++)
+	for(int i=0;i<N_titulares;i++)
 	{ 
 		//Equipo local
 		ali_local->pos_titulares[i].SetEff(ali_local->tactica.tac);
@@ -104,22 +108,64 @@ void partido::Init_stats()
 //Funcion para simular el partido. El tiempo sera siermpre dividido en primera y segunda parte. Y detectara si es tiempo reglamentario (=90) o prorroga (=30)
 void partido::Simulate(int tiempo)
 {
-  //Abramos el archivo para escribir
-  outf.open((ali_local->abrev+"_"+ali_visitante->abrev+".txt").c_str(), std::ios_base::app);
+  string loc_name = GetLeagueDatString(ali_local->abrev);
+  string visit_name = GetLeagueDatString(ali_visitante->abrev);
   //Escribir previo del partido (alis tactica etc)
-  if(minuto==0){Write_Init();}
+  if(minuto==0)
+  {
+    //Abramos el archivo para escribir
+    outf.open((ali_local->abrev+"_"+ali_visitante->abrev+".txt").c_str());
+    Write_Init();
+  }
+  else
+  {
+    outf.open((ali_local->abrev+"_"+ali_visitante->abrev+".txt").c_str(), std::ios_base::app);
+  }
   int minuto_init = this->minuto;
   //Sorteo de quien inicia la posesion
   //Loop. Cada minuto una accion
   for(minuto=minuto;minuto<minuto_init+tiempo;minuto++)
   {
+    //Descanso
+    if(minuto-minuto_init == tiempo/2)
+    {
+      outf << endl;
+      outf << "*************  :primeraparte:  ****************" << endl;
+      outf << "Resultado al descanso: " << loc_name << " " << goles_local << "-" << goles_visitante << " " << visit_name << endl;
+      outf << endl;
+    }
+    outf << "Min. " << minuto+1 << setw(3-int(log10(minuto+1))) << ":" << endl;
   }
 }
 
-void partido::Write_init()
+void partido::Write_Init()
 {
+  string loc_name = GetLeagueDatString(ali_local->abrev);
+  string visit_name = GetLeagueDatString(ali_visitante->abrev);
   //Encabezado: Nombre de la competicion y equipos enfrentados
-  outf << GetLeagueDatString(Games) << ", " << GetLeagueDatString(ali_local->abrev) << " vs. " << GetLeagueDatString(ali_visitante->abrev);
+  outf << GetLeagueDatString("Games") << ", " << loc_name << " vs. " << visit_name;
   //Fecha de simulacion
-  outf << "(" << GetTime() << ")" << endl;
+  outf << " (" << GetTime() << ")" << endl;
+  outf << endl << endl;
+  //Empezamos con 11s iniciales:
+  //Equipos
+  outf << setw(col_w) <<  loc_name << "  |  " << visit_name << endl;
+  //Formatciones
+  outf << setw(col_w) << ali_local->Formation() << "  |  " << ali_visitante->Formation() << endl;
+  //Entrenadores (busca abrev_DM)
+  outf << setw(col_w) << GetLeagueDatString(ali_local->abrev+"_DM") << "  |  " << GetLeagueDatString(ali_visitante->abrev+"_DM") << endl;
+  outf << setw(col_w) << " " << "  |  " << endl;
+  //Titulares
+  for(int i=0;i<N_titulares;i++)
+  {
+    outf << setw(col_w-3) << ali_local->names_titulares[i] << " " << ali_local->pos_titulares[i].symbol() << "  |  " << ali_visitante->pos_titulares[i].symbol() << " " << ali_visitante->names_titulares[i] << endl;
+  }
+  outf << setw(col_w) << " " << "  |  " << endl;
+  //Suplentes
+  for(int i=0;i<ali_local->N_suplentes;i++)
+  {
+    outf << setw(col_w-3) << ali_local->names_suplentes[i] << " SUB | SUB " << ali_visitante->names_suplentes[i] << endl;
+  }
+  outf << endl << endl << endl << endl << endl;
+  return;
 }

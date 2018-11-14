@@ -5,7 +5,7 @@
 #include "Simu.h"
 using namespace std;
 
-//Clase posición
+//Clase posiciï¿½n
 class position
 {
 public:
@@ -19,6 +19,7 @@ public:
   void SetPos(string);
   void SetEff(Simu::Lposition, Simu::Ltactic);
   void SetEff(Simu::Ltactic);
+  string symbol();
   void dump();
 };
 
