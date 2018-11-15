@@ -2,6 +2,7 @@
 #define partido_h
 
 #include "alineacion.h"
+#include "jug_stats.h"
 #include <fstream>
 using namespace std;
 
@@ -38,28 +39,23 @@ class partido
   int faltas_local; int faltas_visitante;
   int agg_local; int agg_visitante;
     //Estadisticas del partido por jugador
-  int* goles_jug_local; int* goles_jug_visitante;
-  int* asistencias_jug_local; int* asistencias_jug_visitante;
-  int* chuts_jug_local; int* chuts_jug_visitante;
-  int* pases_jug_local; int* pases_jug_visitante;
-  int* tackles_jug_local; int* tackles_jug_visitante;
-  int* paradas_jug_local; int* paradas_jug_visitante;
-  bool* rojas_jug_local; bool* rojas_jug_visitante;
-  bool* amarillas_jug_local; bool* amarillas_jug_visitante;
-  int* minutos_jug_local; int* minutos_jug_visitante;
-  int* faltas_jug_local; int* faltas_jug_visitante;
+  jug_stats* stats_local; jug_stats* stats_visitante;
   
   
   //Funciones
   partido(alineacion*, alineacion*);
   void Update_pts();
+  void Stats_Init();
   void SetLocalBoost();
-  void Init_stats();
   void Simulate(int);
+  void Do_Inst(bool);
   void Do_Inst(bool, int);
   bool Is_Doable(bool, int, int);
   //Funciones de escritura
   void Write_Init();
+  void Write_Event(alineacion*, string);
+  void Write_HT();
+  void Write_FT();
 };
 
 

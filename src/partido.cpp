@@ -1,6 +1,7 @@
 #include "partido.h"
 #include "alineacion.h"
 #include "textmisc.h"
+#include "jug_stats.h"
 #include <string>
 #include <fstream>
 #include <iomanip>
@@ -37,21 +38,12 @@ partido::partido(alineacion* _local, alineacion* _visitante):
   //Otros
   N_suplentes(GetLeagueDat("Suplentes")),
   //Stats por jugador
-  goles_jug_local(new int[N_titulares+N_suplentes]), goles_jug_visitante(new int[N_titulares+N_suplentes]),
-  asistencias_jug_local(new int[N_titulares+N_suplentes]), asistencias_jug_visitante(new int[N_titulares+N_suplentes]),
-  chuts_jug_local(new int[N_titulares+N_suplentes]), chuts_jug_visitante(new int[N_titulares+N_suplentes]),
-  pases_jug_local(new int[N_titulares+N_suplentes]), pases_jug_visitante(new int[N_titulares+N_suplentes]),
-  tackles_jug_local(new int[N_titulares+N_suplentes]), tackles_jug_visitante(new int[N_titulares+N_suplentes]),
-  paradas_jug_local(new int[N_titulares+N_suplentes]), paradas_jug_visitante(new int[N_titulares+N_suplentes]),
-  rojas_jug_local(new bool[N_titulares+N_suplentes]), rojas_jug_visitante(new bool[N_titulares+N_suplentes]),
-  amarillas_jug_local(new bool[N_titulares+N_suplentes]), amarillas_jug_visitante(new bool[N_titulares+N_suplentes]),
-  minutos_jug_local(new int[N_titulares+N_suplentes]), minutos_jug_visitante(new int[N_titulares+N_suplentes]),
-  faltas_jug_local(new int[N_titulares+N_suplentes]), faltas_jug_visitante(new int[N_titulares+N_suplentes])
+  stats_local(new jug_stats[N_titulares+N_suplentes]), stats_visitante(new jug_stats[N_titulares+N_suplentes])
 {
   //Funciones de inicializacion
   SetLocalBoost();
   Update_pts();
-  Init_stats();
+  Stats_Init();
   //Inicializar archivo nuevo
   outf.open((ali_local->abrev+"_"+ali_visitante->abrev+".txt").c_str());
   outf.close();
@@ -81,36 +73,25 @@ void partido::Update_pts()
 	}
 }
 
+//Inicializar stats a alguna cosa no por defecto (por ejemplo los titulares han jugado)
+void partido::Stats_Init()
+{
+  for(int i=0;i<N_titulares;i++)
+  {
+    this->stats_local[i].hajugado = true;
+    this->stats_visitante[i].hajugado = true;
+  }
+}
+
 //Funcion para obtener el boost local a partir del archivo de parametros
 void partido::SetLocalBoost()
 {
   local_boost = GetLeagueDat("Home_Bonus");
 }
 
-//Funcion para inicializar a cero las estadisticas de los jugadores
-void partido::Init_stats()
-{
-  //Loop sobre todo
-  for(int i=0;i<N_titulares+N_suplentes;i++)
-  {
-    goles_jug_local[i] = 0; goles_jug_visitante = 0;
-    asistencias_jug_local[i] = 0; asistencias_jug_visitante = 0;
-    chuts_jug_local[i] = 0; chuts_jug_visitante = 0;
-    pases_jug_local[i] = 0; pases_jug_visitante = 0;
-    tackles_jug_local[i] = 0; tackles_jug_visitante = 0;
-    paradas_jug_local[i] = 0; paradas_jug_visitante = 0;
-    rojas_jug_local[i] = 0; rojas_jug_visitante = 0;
-    amarillas_jug_local[i] = 0; amarillas_jug_visitante = 0;
-    minutos_jug_local[i] = 0; minutos_jug_visitante = 0;
-    faltas_jug_local[i] = 0; faltas_jug_visitante = 0;
-  }
-}
-
 //Funcion para simular el partido. El tiempo sera siermpre dividido en primera y segunda parte. Y detectara si es tiempo reglamentario (=90) o prorroga (=30)
 void partido::Simulate(int tiempo)
 {
-  string loc_name = GetLeagueDatString(ali_local->abrev);
-  string visit_name = GetLeagueDatString(ali_visitante->abrev);
   //Escribir previo del partido (alis tactica etc)
   if(minuto==0)
   {
@@ -125,15 +106,9 @@ void partido::Simulate(int tiempo)
   //Sorteo de quien inicia la posesion
   //Ajustes de minuto 0
   //Local
-  for(int i=0;i<ali_local->N_usedinst;i++)
-  {
-    this->Do_Inst(false, i);
-  }
+  this->Do_Inst(false);
   //Visitante
-  for(int i=0;i<ali_visitante->N_usedinst;i++)
-  {
-    this->Do_Inst(true, i);
-  }
+  this->Do_Inst(true);
   //Pasado el previo, llegamos al minuto 1 (o 91)
   minuto++;
   int minuto_init = this->minuto;
@@ -141,27 +116,16 @@ void partido::Simulate(int tiempo)
   for(minuto=minuto;minuto<minuto_init+tiempo;minuto++)
   {
     //Descanso
-    if(minuto-minuto_init == tiempo/2)
-    {
-      outf << endl;
-      outf << "*************  :primeraparte:  ****************" << endl;
-      outf << "Resultado al descanso: " << loc_name << " " << goles_local << "-" << goles_visitante << " " << visit_name << endl;
-      outf << endl;
-    }
+    if(minuto-minuto_init == tiempo/2){this->Write_HT();}
     //Chequear las instrucciones
     //Local
-    for(int i=0;i<ali_local->N_usedinst;i++)
-    {
-      this->Do_Inst(false, i);
-    }
+    this->Do_Inst(false);
     //Visitante
-    for(int i=0;i<ali_visitante->N_usedinst;i++)
-    {
-      this->Do_Inst(true, i);
-    }
+    this->Do_Inst(true);
     //outf << "Min. " << minuto << setw(3-int(log10(minuto))) << ":" << endl;
   }
-  
+  //Final
+  this->Write_FT();
 }
 
 void partido::Write_Init()
@@ -197,11 +161,19 @@ void partido::Write_Init()
 }
 
 //Ejecuta, si cumple los criterios, la condición k del local (false) o visitante (true)
+void partido::Do_Inst(bool side)
+{
+  for(int i=0;i<ali_visitante->N_usedinst;i++)
+  {
+    this->Do_Inst(side, i);
+  }
+}
 void partido::Do_Inst(bool side, int k)
 {
+  stringstream ss;
   bool cumple = true;
   alineacion* ali;
-  if(side)
+  if(!side)
   {
     ali = ali_local;
   }
@@ -231,35 +203,64 @@ void partido::Do_Inst(bool side, int k)
     case Simu::lTACTIC:
       if(ali->tactica.tac != ali->condicion[k].tactic)
       {
-        outf << "Min. " << minuto << setw(3-int(log10(minuto))) << ":(" << ali->abrev << ") ";
-        outf << "tactic: " << ali->condicion[k].tactic << endl;
+        ss << "tactic: " << ali->condicion[k].tactic;
+        this->Write_Event(ali, ss.str());
       }
       ali->tactica.tac = ali->condicion[k].tactic;
       return;
-    case Simu::lSUB: //Not implemented
-      return;
-    case Simu::lCHANGEPOS:
-      if(ali->condicion[k].arg1-1 < N_titulares)
+    case Simu::lSUB:
+      if(!side)
       {
-        if(ali->pos_titulares[ali->condicion[k].arg1-1].pos != ali->condicion[k].pos)
+        if(this->cambios_local < GetLeagueDat("Cambios") && !this->stats_local[ali->condicion[k].arg2-1].hajugado)
         {
-          outf << "Min. " << minuto << setw(3-int(log10(minuto))) << ":(" << ali->abrev << ") ";
-          outf << "changepos: " << ali->condicion[k].tactic << endl;
+          ss << "cambio: " << ali->condicion[k].arg1 << ", " << ali->condicion[k].arg2;
+          this->Write_Event(ali, ss.str());
+          //Intercambio jugadores
+          jugador* temp;
+          temp = ali->titulares[ali->condicion[k].arg1-1];
+          ali->titulares[ali->condicion[k].arg1-1] = ali->suplentes[ali->condicion[k].arg2-N_titulares-1];
+          ali->suplentes[ali->condicion[k].arg2-N_titulares-1] = temp;
+          //Intercambio stats
+          jug_stats temp2;
+          temp2 = this->stats_local[ali->condicion[k].arg1-1];
+          this->stats_local[ali->condicion[k].arg1-1] = this->stats_local[ali->condicion[k].arg2-1];
+          this->stats_local[ali->condicion[k].arg2-1] = temp2;
+          //+1 cambio hecho
+          this->cambios_local++;
+          //jugador que entra ha jugado :)
+          this->stats_local[ali->condicion[k].arg1-1].hajugado = true;
         }
-      }
-      else if(ali->pos_suplentes[ali->condicion[k].arg1-1].pos != ali->condicion[k].pos)
-      {
-        outf << "Min. " << minuto << setw(3-int(log10(minuto))) << ":(" << ali->abrev << ") ";
-        outf << "changepos: " << ali->condicion[k].tactic << endl;
-      }
-      if(ali->condicion[k].arg1-1 < N_titulares)
-      {
-        ali->pos_titulares[ali->condicion[k].arg1-1].pos = ali->condicion[k].pos;
       }
       else
       {
-        ali->pos_suplentes[ali->condicion[k].arg1-1].pos = ali->condicion[k].pos;
+        if(this->cambios_visitante < GetLeagueDat("Cambios") && !this->stats_visitante[ali->condicion[k].arg2-1].hajugado)
+        {
+          ss << "cambio: " << ali->condicion[k].arg1 << ", " << ali->condicion[k].arg2;
+          this->Write_Event(ali, ss.str());
+          //Intercambio jugadores
+          jugador* temp;
+          temp = ali->titulares[ali->condicion[k].arg1-1];
+          ali->titulares[ali->condicion[k].arg1-1] = ali->suplentes[ali->condicion[k].arg2-N_titulares-1];
+          ali->suplentes[ali->condicion[k].arg2-N_titulares-1] = temp;
+          //Intercambio stats
+          jug_stats temp2;
+          temp2 = this->stats_visitante[ali->condicion[k].arg1-1];
+          this->stats_visitante[ali->condicion[k].arg1-1] = this->stats_visitante[ali->condicion[k].arg2-1];
+          this->stats_visitante[ali->condicion[k].arg2-1] = temp2;
+          //+1 cambio hecho
+          this->cambios_visitante++;
+          //jugador que entra ha jugado :)
+          this->stats_visitante[ali->condicion[k].arg1-1].hajugado = true;
+        }
       }
+      return;
+    case Simu::lCHANGEPOS:
+      if(ali->pos_titulares[ali->condicion[k].arg1-1].pos != ali->condicion[k].pos)
+      {
+        ss << "changepos: " << ali->condicion[k].tactic;
+        this->Write_Event(ali, ss.str());
+      }
+      ali->pos_titulares[ali->condicion[k].arg1-1].pos = ali->condicion[k].pos;
       return;
   }
 }
@@ -271,7 +272,7 @@ bool partido::Is_Doable(bool side, int k, int j)
   int varvalue;
   //Puntero a la ali que se esta mirando
   alineacion* ali;
-  if(side){ali = ali_local;}else{ali = ali_visitante;}
+  if(!side){ali = ali_local;}else{ali = ali_visitante;}
   //Que tipo de instruccion es?
   switch(ali->condicion[k].cond[j])
   {
@@ -302,4 +303,31 @@ bool partido::Is_Doable(bool side, int k, int j)
     case Simu::lGT:
       return(varvalue >= ali->condicion[k].cond_value[j]);
   }
+}
+
+//Escribir un evento en cierto minuto
+void partido::Write_Event(alineacion* ali, string cosa)
+{
+  //Minuto
+  outf << "Min. " << minuto << setw(3-int(log10(minuto))) << ":(" << ali->abrev << ") ";
+  //Cosa
+  outf << cosa << endl;
+}
+
+//Escribir descanso
+void partido::Write_HT()
+{
+  outf << endl;
+  outf << "*************  :primeraparte:  ****************" << endl;
+  outf << "Resultado al descanso: " << GetLeagueDatString(ali_local->abrev) << " " << goles_local << "-" << goles_visitante << " " << GetLeagueDatString(ali_visitante->abrev) << endl;
+  outf << endl;
+}
+
+//Escribir segunda parte
+void partido::Write_FT()
+{
+  outf << endl;
+  outf << "*************  :segundaparte:  ****************" << endl;
+  outf << "Resultado al descanso: " << GetLeagueDatString(ali_local->abrev) << " " << goles_local << "-" << goles_visitante << " " << GetLeagueDatString(ali_visitante->abrev) << endl;
+  outf << endl;
 }
