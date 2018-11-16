@@ -20,6 +20,7 @@ public:
     int minutos;
     int faltas;
     bool hajugado;
+    bool lesionado;
     //Funciones
     jug_stats();
 };

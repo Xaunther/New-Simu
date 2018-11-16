@@ -51,6 +51,8 @@ class partido
   void Do_Inst(bool);
   void Do_Inst(bool, int);
   bool Is_Doable(bool, int, int);
+  void AddMin();
+  void ReduceFit();
   //Funciones de escritura
   void Write_Init();
   void Write_Event(alineacion*, string);

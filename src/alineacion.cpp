@@ -50,13 +50,28 @@ void alineacion::Leer(string filename)
   fAli >> basura;
   this->tactica.SetTactic(basura);
   //11 titulares
+  bool hay_GK = false;
   for(int i=0;i<N_titulares;i++)
     {
       fAli >> basura;
       pos_titulares[i].SetPos(basura);
+      if(pos_titulares[i].pos == Simu::lGK)
+      {
+        if(hay_GK)
+        {
+          cout << "No puede haber mas de 1 portero!" << endl;
+          exit(1);
+        }
+        hay_GK = true;
+      }
       fAli >> basura;
       names_titulares[i] = basura;
     }
+  if(!hay_GK)
+  {
+    cout << "Debe haber 1 portero asignado" << endl;
+    exit(1);
+  }
   //X suplentes
   for(int i=0;i<N_suplentes;i++)
     {

@@ -13,6 +13,7 @@ jug_stats::jug_stats():
   amarillas(false),
   minutos(0),
   faltas(0),
-  hajugado(false)
+  hajugado(false),
+  lesionado(false)
 {
 }

@@ -42,8 +42,8 @@ partido::partido(alineacion* _local, alineacion* _visitante):
 {
   //Funciones de inicializacion
   SetLocalBoost();
-  Update_pts();
   Stats_Init();
+  Update_pts();
   //Inicializar archivo nuevo
   outf.open((ali_local->abrev+"_"+ali_visitante->abrev+".txt").c_str());
   outf.close();
@@ -52,24 +52,32 @@ partido::partido(alineacion* _local, alineacion* _visitante):
 //Funcion para obtener los puntos de rendimiento de cada equipo en cada posicion
 void partido::Update_pts()
 {
+  gk_local = 0;
+  def_local = 0;
+  med_local = 0;
+  atk_local = 0;
+  gk_visitante = 0;
+  def_visitante = 0;
+  med_visitante = 0;
+  atk_visitante = 0;
 	//Loop sobre los titulares, y voy sumando...
 	for(int i=0;i<N_titulares;i++)
 	{ 
 		//Equipo local
 		ali_local->pos_titulares[i].SetEff(ali_local->tactica.tac);
 		double* eff = ali_local->pos_titulares[i].ability_eff;
-		gk_local+=eff[0]*ali_local->titulares[i]->St;
-		def_local+=eff[1]*ali_local->titulares[i]->Tk;
-		med_local+=eff[2]*ali_local->titulares[i]->Ps;
-		atk_local+=eff[3]*ali_local->titulares[i]->Sh;
+		gk_local+=eff[0]*ali_local->titulares[i]->St*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado);
+		def_local+=eff[1]*ali_local->titulares[i]->Tk*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado);
+		med_local+=eff[2]*ali_local->titulares[i]->Ps*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado);
+		atk_local+=eff[3]*ali_local->titulares[i]->Sh*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado);
 
 		//Equipo visitante
 		ali_visitante->pos_titulares[i].SetEff(ali_visitante->tactica.tac);
 		eff = ali_visitante->pos_titulares[i].ability_eff;
-		gk_visitante+=eff[0]*ali_visitante->titulares[i]->St;
-		def_visitante+=eff[1]*ali_visitante->titulares[i]->Tk;
-		med_visitante+=eff[2]*ali_visitante->titulares[i]->Ps;
-		atk_visitante+=eff[3]*ali_visitante->titulares[i]->Sh;
+		gk_visitante+=eff[0]*ali_visitante->titulares[i]->St*(!this->stats_visitante[i].rojas)*(!this->stats_visitante[i].lesionado);
+		def_visitante+=eff[1]*ali_visitante->titulares[i]->Tk*(!this->stats_visitante[i].rojas)*(!this->stats_visitante[i].lesionado);
+		med_visitante+=eff[2]*ali_visitante->titulares[i]->Ps*(!this->stats_visitante[i].rojas)*(!this->stats_visitante[i].lesionado);
+		atk_visitante+=eff[3]*ali_visitante->titulares[i]->Sh*(!this->stats_visitante[i].rojas)*(!this->stats_visitante[i].lesionado);
 	}
 }
 
@@ -122,12 +130,21 @@ void partido::Simulate(int tiempo)
     this->Do_Inst(false);
     //Visitante
     this->Do_Inst(true);
+    //Añade un minuto de juego a todos los que hay en el campo
+    this->AddMin();
+    //Reduce el fit a los que estan jugando, si toca...
+    this->ReduceFit();
+    //Actualizar stats
+    this->Update_pts();
+    //Eventos (Sin implementar)
+    
     //outf << "Min. " << minuto << setw(3-int(log10(minuto))) << ":" << endl;
   }
   //Final
   this->Write_FT();
 }
 
+//Escribe el previo
 void partido::Write_Init()
 {
   string loc_name = GetLeagueDatString(ali_local->abrev);
@@ -140,7 +157,7 @@ void partido::Write_Init()
   //Empezamos con 11s iniciales:
   //Equipos
   outf << setw(col_w) <<  loc_name << "  |  " << visit_name << endl;
-  //Formatciones
+  //Formaciones
   outf << setw(col_w) << ali_local->Formation() << "  |  " << ali_visitante->Formation() << endl;
   //Entrenadores (busca abrev_DM)
   outf << setw(col_w) << GetLeagueDatString(ali_local->abrev+"_DM") << "  |  " << GetLeagueDatString(ali_visitante->abrev+"_DM") << endl;
@@ -148,13 +165,13 @@ void partido::Write_Init()
   //Titulares
   for(int i=0;i<N_titulares;i++)
   {
-    outf << setw(col_w-3) << ali_local->names_titulares[i] << " " << ali_local->pos_titulares[i].symbol() << "  |  " << ali_visitante->pos_titulares[i].symbol() << " " << ali_visitante->names_titulares[i] << endl;
+    outf << setw(col_w-3) << ali_local->titulares[i]->Name << " " << ali_local->pos_titulares[i].symbol() << "  |  " << ali_visitante->pos_titulares[i].symbol() << " " << ali_visitante->titulares[i]->Name << endl;
   }
   outf << setw(col_w) << " " << "  |  " << endl;
   //Suplentes
   for(int i=0;i<ali_local->N_suplentes;i++)
   {
-    outf << setw(col_w-3) << ali_local->names_suplentes[i] << " SUB | SUB " << ali_visitante->names_suplentes[i] << endl;
+    outf << setw(col_w-3) << ali_local->suplentes[i]->Name << " SUB | SUB " << ali_visitante->suplentes[i]->Name << endl;
   }
   outf << endl << endl << endl << endl << endl;
   return;
@@ -211,7 +228,7 @@ void partido::Do_Inst(bool side, int k)
     case Simu::lSUB:
       if(!side)
       {
-        if(this->cambios_local < GetLeagueDat("Cambios") && !this->stats_local[ali->condicion[k].arg2-1].hajugado)
+        if(this->cambios_local < GetLeagueDat("Cambios") && !this->stats_local[ali->condicion[k].arg2-1].hajugado && !this->stats_local[ali->condicion[k].arg1-1].rojas)
         {
           ss << "cambio: " << ali->condicion[k].arg1 << ", " << ali->condicion[k].arg2;
           this->Write_Event(ali, ss.str());
@@ -233,7 +250,7 @@ void partido::Do_Inst(bool side, int k)
       }
       else
       {
-        if(this->cambios_visitante < GetLeagueDat("Cambios") && !this->stats_visitante[ali->condicion[k].arg2-1].hajugado)
+        if(this->cambios_visitante < GetLeagueDat("Cambios") && !this->stats_visitante[ali->condicion[k].arg2-1].hajugado && !this->stats_local[ali->condicion[k].arg1-1].rojas)
         {
           ss << "cambio: " << ali->condicion[k].arg1 << ", " << ali->condicion[k].arg2;
           this->Write_Event(ali, ss.str());
@@ -253,8 +270,17 @@ void partido::Do_Inst(bool side, int k)
           this->stats_visitante[ali->condicion[k].arg1-1].hajugado = true;
         }
       }
+      //Posicion del jugador que entra
+      if(ali->pos_titulares[ali->condicion[k].arg1-1].pos != Simu::lGK)
+      {
+        ali->pos_titulares[ali->condicion[k].arg1-1].pos =ali->condicion[k].pos;
+      }
       return;
     case Simu::lCHANGEPOS:
+      if(ali->pos_titulares[ali->condicion[k].arg1-1].pos == Simu::lGK || ali->condicion[k].pos == Simu::lGK)
+      {
+        return; //El portero no se puede tocar!
+      }
       if(ali->pos_titulares[ali->condicion[k].arg1-1].pos != ali->condicion[k].pos)
       {
         ss << "changepos: " << ali->condicion[k].tactic;
@@ -285,12 +311,14 @@ bool partido::Is_Doable(bool side, int k, int j)
     case Simu::lSHOTS:
       varvalue = (chuts_visitante - chuts_local)*(2*side-1);
       break;
-      //Sin implementar hasta que se hagan las estadisticas live (devuelven false)
-    case Simu::lYELLOW: return false;
+    case Simu::lYELLOW:
+      varvalue = this->stats_local[ali->condicion[k].cond_value[j]-1].amarillas*ali->condicion[k].cond_value[j];
       break;
-    case Simu::lRED: return false;
+    case Simu::lRED:
+      varvalue = this->stats_local[ali->condicion[k].cond_value[j]-1].rojas*ali->condicion[k].cond_value[j];
       break;
-    case Simu::lINJ: return false;
+    case Simu::lINJ:
+      varvalue = this->stats_local[ali->condicion[k].cond_value[j]-1].lesionado*ali->condicion[k].cond_value[j];
       break;
   }
   //Ques es? >=, = o <=?
@@ -328,6 +356,37 @@ void partido::Write_FT()
 {
   outf << endl;
   outf << "*************  :segundaparte:  ****************" << endl;
-  outf << "Resultado al descanso: " << GetLeagueDatString(ali_local->abrev) << " " << goles_local << "-" << goles_visitante << " " << GetLeagueDatString(ali_visitante->abrev) << endl;
+  outf << "Resultado final: " << GetLeagueDatString(ali_local->abrev) << " " << goles_local << "-" << goles_visitante << " " << GetLeagueDatString(ali_visitante->abrev) << endl;
   outf << endl;
+}
+
+//Añadir minuto a los jugadores que estan sobre el campo
+void partido::AddMin()
+{
+  for(int i=0;i<N_titulares;i++)
+  {
+    if(!this->stats_local[i].lesionado && !this->stats_local[i].rojas)
+    {
+      stats_local[i].minutos++;
+    }
+    if(!this->stats_visitante[i].lesionado && !this->stats_visitante[i].rojas)
+    {
+      stats_visitante[i].minutos++;
+    }
+  }
+}
+
+void partido::ReduceFit()
+{
+  for(int i=0;i<N_titulares;i++)
+  {
+    if(!this->stats_local[i].lesionado && !this->stats_local[i].rojas && this->stats_local[i].minutos % GetLeagueDat("Fit_perdido") == 0)
+    {
+      this->ali_local->titulares[i]->Fit--;
+    }
+    if(!this->stats_visitante[i].lesionado && !this->stats_visitante[i].rojas && this->stats_visitante[i].minutos % GetLeagueDat("Fit_perdido") == 0)
+    {
+      this->ali_visitante->titulares[i]->Fit--;
+    }
+  }
 }
