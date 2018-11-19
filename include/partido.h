@@ -3,6 +3,7 @@
 
 #include "alineacion.h"
 #include "jug_stats.h"
+#include "Simu.h"
 #include <fstream>
 using namespace std;
 
@@ -55,6 +56,7 @@ class partido
   void ReduceFit();
   //Funciones de escritura
   void Write_Init();
+  void Write_Sub(alineacion*, string, string, Simu::Lposition);
   void Write_Event(alineacion*, string);
   void Write_HT();
   void Write_FT();

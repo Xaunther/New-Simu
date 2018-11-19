@@ -275,6 +275,8 @@ void partido::Do_Inst(bool side, int k)
       {
         ali->pos_titulares[ali->condicion[k].arg1-1].pos =ali->condicion[k].pos;
       }
+      //Escribe evento
+      this->Write_Sub(ali, ali->titulares[ali->condicion[k].arg1-1]->Name, ali->suplentes[ali->condicion[k].arg2-N_titulares-1]->Name, ali->pos_titulares[ali->condicion[k].arg1-1].pos);
       return;
     case Simu::lCHANGEPOS:
       if(ali->pos_titulares[ali->condicion[k].arg1-1].pos == Simu::lGK || ali->condicion[k].pos == Simu::lGK)
@@ -333,6 +335,12 @@ bool partido::Is_Doable(bool side, int k, int j)
   }
 }
 
+//Escribir un cambio //SIN IMPLEMENTAR
+void partido::Write_Sub(alineacion* ali, string entra, string sale, Simu::Lposition pos)
+{
+  return;
+}
+
 //Escribir un evento en cierto minuto
 void partido::Write_Event(alineacion* ali, string cosa)
 {
@@ -376,9 +384,10 @@ void partido::AddMin()
   }
 }
 
+//Quitar fit, el portero no pierde y de momento no depende de la edad
 void partido::ReduceFit()
 {
-  for(int i=0;i<N_titulares;i++)
+  for(int i=1;i<N_titulares;i++)
   {
     if(!this->stats_local[i].lesionado && !this->stats_local[i].rojas && this->stats_local[i].minutos % GetLeagueDat("Fit_perdido") == 0)
     {
