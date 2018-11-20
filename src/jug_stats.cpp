@@ -29,27 +29,27 @@ jug_stats::jug_stats():
 void jug_stats::Update()
 {
   //Habilidad de portero
-  this->St+=GetVarFrom(Simu::Hab_bonus, "AB_Sav")*this->paradas;
-  this->St+=GetVarFrom(Simu::Hab_bonus, "AB_OG")*this->goles_propia;
-  this->St+=GetVarFrom(Simu::Hab_bonus, "AB_Concede")*this->encajados;
-  this->St+=GetVarFrom(Simu::Hab_bonus, "AB_Yellow")*this->encajados;
-  this->St+=GetVarFrom(Simu::Hab_bonus, "AB_Red")*this->encajados;
+  this->St+=GetVarFrom("AB_Sav", Simu::Hab_bonus)*this->paradas;
+  this->St+=GetVarFrom("AB_OG", Simu::Hab_bonus)*this->goles_propia;
+  this->St+=GetVarFrom("AB_Concede", Simu::Hab_bonus)*this->encajados;
+  this->St+=GetVarFrom("AB_Yellow", Simu::Hab_bonus)*this->encajados;
+  this->St+=GetVarFrom("AB_Red", Simu::Hab_bonus)*this->encajados;
   //Habilidad de defensa
-  this->Tk+=GetVarFrom(Simu::Hab_bonus, "AB_Ktk")*this->tackles;
-  this->Tk+=GetVarFrom(Simu::Hab_bonus, "AB_OG")*this->goles_propia;
-  this->Tk+=GetVarFrom(Simu::Hab_bonus, "AB_Yellow")*this->encajados;
-  this->Tk+=GetVarFrom(Simu::Hab_bonus, "AB_Red")*this->encajados;
+  this->Tk+=GetVarFrom("AB_Ktk", Simu::Hab_bonus)*this->tackles;
+  this->Tk+=GetVarFrom("AB_OG", Simu::Hab_bonus)*this->goles_propia;
+  this->Tk+=GetVarFrom("AB_Yellow", Simu::Hab_bonus)*this->encajados;
+  this->Tk+=GetVarFrom("AB_Red", Simu::Hab_bonus)*this->encajados;
   //Habilidad de pase
-  this->Ps+=GetVarFrom(Simu::Hab_bonus, "AB_Kps")*this->pases;
-  this->Ps+=GetVarFrom(Simu::Hab_bonus, "AB_Assist")*this->asistencias;
-  this->Ps+=GetVarFrom(Simu::Hab_bonus, "AB_OG")*this->goles_propia;
-  this->Ps+=GetVarFrom(Simu::Hab_bonus, "AB_Yellow")*this->encajados;
-  this->Ps+=GetVarFrom(Simu::Hab_bonus, "AB_Red")*this->encajados;
+  this->Ps+=GetVarFrom("AB_Kps", Simu::Hab_bonus)*this->pases;
+  this->Ps+=GetVarFrom("AB_Assist", Simu::Hab_bonus)*this->asistencias;
+  this->Ps+=GetVarFrom("AB_OG", Simu::Hab_bonus)*this->goles_propia;
+  this->Ps+=GetVarFrom("AB_Yellow", Simu::Hab_bonus)*this->encajados;
+  this->Ps+=GetVarFrom("AB_Red", Simu::Hab_bonus)*this->encajados;
   //Habilidad de chut
-  this->Sh+=GetVarFrom(Simu::Hab_bonus, "AB_Goal")*this->goles;
-  this->Sh+=GetVarFrom(Simu::Hab_bonus, "AB_Sht")*this->chuts;
-  this->Sh+=GetVarFrom(Simu::Hab_bonus, "AB_OG")*this->goles_propia;
-  this->Sh+=GetVarFrom(Simu::Hab_bonus, "AB_Yellow")*this->encajados;
-  this->Sh+=GetVarFrom(Simu::Hab_bonus, "AB_Red")*this->encajados;
+  this->Sh+=GetVarFrom("AB_Goal", Simu::Hab_bonus)*this->goles;
+  this->Sh+=GetVarFrom("AB_Sht", Simu::Hab_bonus)*this->chuts;
+  this->Sh+=GetVarFrom("AB_OG", Simu::Hab_bonus)*this->goles_propia;
+  this->Sh+=GetVarFrom("AB_Yellow", Simu::Hab_bonus)*this->encajados;
+  this->Sh+=GetVarFrom("AB_Red", Simu::Hab_bonus)*this->encajados;
   return;
 }

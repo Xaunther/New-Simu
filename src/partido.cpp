@@ -104,33 +104,33 @@ void partido::Update_exp(jug_stats* stats)
   if((stats == this->stats_local && this->goles_local < this->goles_visitante) ||
      (stats == this->stats_visitante && this->goles_visitante < this->goles_local))
   {
-    stats[rN].St+=GetVarFrom(Simu::Hab_bonus, "AB_Defeat_Random");
-    stats[rN].Tk+=GetVarFrom(Simu::Hab_bonus, "AB_Defeat_Random");
-    stats[rN].Ps+=GetVarFrom(Simu::Hab_bonus, "AB_Defeat_Random");
-    stats[rN].Sh+=GetVarFrom(Simu::Hab_bonus, "AB_Defeat_Random");
+    stats[rN].St+=GetVarFrom("AB_Defeat_Random", Simu::Hab_bonus);
+    stats[rN].Tk+=GetVarFrom("AB_Defeat_Random", Simu::Hab_bonus);
+    stats[rN].Ps+=GetVarFrom("AB_Defeat_Random", Simu::Hab_bonus);
+    stats[rN].Sh+=GetVarFrom("AB_Defeat_Random", Simu::Hab_bonus);
   }
   //Exp random para el equipo que gane
   else if((stats == this->stats_local && this->goles_local > this->goles_visitante) ||
           (stats == this->stats_visitante && this->goles_visitante > this->goles_local))
   {
-    stats[rN].St+=GetVarFrom(Simu::Hab_bonus, "AB_Victory_Random");
-    stats[rN].Tk+=GetVarFrom(Simu::Hab_bonus, "AB_Victory_Random");
-    stats[rN].Ps+=GetVarFrom(Simu::Hab_bonus, "AB_Victory_Random");
-    stats[rN].Sh+=GetVarFrom(Simu::Hab_bonus, "AB_Victory_Random");
+    stats[rN].St+=GetVarFrom("AB_Victory_Random", Simu::Hab_bonus);
+    stats[rN].Tk+=GetVarFrom("AB_Victory_Random", Simu::Hab_bonus);
+    stats[rN].Ps+=GetVarFrom("AB_Victory_Random", Simu::Hab_bonus);
+    stats[rN].Sh+=GetVarFrom("AB_Victory_Random", Simu::Hab_bonus);
   }
   //Exp random para el empate
   else
   {
-    stats[rN].St+=GetVarFrom(Simu::Hab_bonus, "AB_Draw_Random");
-    stats[rN].Tk+=GetVarFrom(Simu::Hab_bonus, "AB_Draw_Random");
-    stats[rN].Ps+=GetVarFrom(Simu::Hab_bonus, "AB_Draw_Random");
-    stats[rN].Sh+=GetVarFrom(Simu::Hab_bonus, "AB_Draw_Random");
+    stats[rN].St+=GetVarFrom("AB_Draw_Random", Simu::Hab_bonus);
+    stats[rN].Tk+=GetVarFrom("AB_Draw_Random", Simu::Hab_bonus);
+    stats[rN].Ps+=GetVarFrom("AB_Draw_Random", Simu::Hab_bonus);
+    stats[rN].Sh+=GetVarFrom("AB_Draw_Random", Simu::Hab_bonus);
   }
   //Exp para el portero por porteria a cero
   if((stats == this->stats_local && this->goles_local == 0) ||
      (stats == this->stats_visitante && this->goles_visitante == 0))
   {
-    stats[0].St+=GetVarFrom(Simu::Hab_bonus, "AB_Clean_Sheet");
+    stats[0].St+=GetVarFrom("AB_Clean_Sheet", Simu::Hab_bonus);
   }
   
   //Exp por stats individuales (loop)
@@ -206,8 +206,8 @@ void partido::Simulate(int tiempo)
 //Escribe el previo
 void partido::Write_Init()
 {
-  string loc_name = GetLeagueDatString(ali_local->abrev);
-  string visit_name = GetLeagueDatString(ali_visitante->abrev);
+  string loc_name = GetStringVarFrom(ali_local->abrev, Simu::Teams);
+  string visit_name = GetStringVarFrom(ali_visitante->abrev, Simu::Teams);
   //Encabezado: Nombre de la competicion y equipos enfrentados
   outf << GetLeagueDatString("Games") << ", " << loc_name << " vs. " << visit_name;
   //Fecha de simulacion
@@ -412,7 +412,7 @@ void partido::Write_Tactic(alineacion* ali, string tactica)
   string format_string = GetRandomText(Simu::Tacticas_lang);
   //Hay 2 cosas que sustituir: {tactica} y {equipo}
   Substitute(format_string, "{tactica}", tactica);
-  Substitute(format_string, "{equipo}", GetLeagueDatString(ali->abrev));
+  Substitute(format_string, "{equipo}", GetStringVarFrom(ali->abrev, Simu::Teams));
   Substitute(format_string, "\\n", "\n          ...  ");
   Write_Event(ali, format_string);
   return;
@@ -443,7 +443,7 @@ void partido::Write_HT()
 {
   outf << endl;
   outf << "*************  :primeraparte:  ****************" << endl;
-  outf << "Resultado al descanso: " << GetLeagueDatString(ali_local->abrev) << " " << goles_local << "-" << goles_visitante << " " << GetLeagueDatString(ali_visitante->abrev) << endl;
+  outf << "Resultado al descanso: " << GetStringVarFrom(ali_local->abrev, Simu::Teams) << " " << goles_local << "-" << goles_visitante << " " << GetStringVarFrom(ali_visitante->abrev, Simu::Teams) << endl;
   outf << endl;
 }
 
@@ -490,8 +490,8 @@ void partido::ReduceFit()
 //Printear stats (al final del partido)
 void partido::Print()
 {
-  string loc_name = GetLeagueDatString(ali_local->abrev);
-  string visit_name = GetLeagueDatString(ali_visitante->abrev);
+  string loc_name = GetStringVarFrom(ali_local->abrev, Simu::Teams);
+  string visit_name = GetStringVarFrom(ali_visitante->abrev, Simu::Teams);
   //Separo
   outf << endl << endl;
   //Estadio
@@ -548,7 +548,7 @@ void partido::Print()
 
 void partido::PrintStats(alineacion* ali, jug_stats* stats)
 {
-  outf << "Estadisticas individuales - " << GetLeagueDatString(ali->abrev) << " (" << ali->abrev << ")" << endl;
+  outf << "Estadisticas individuales - " << GetStringVarFrom(ali->abrev, Simu::Teams) << " (" << ali->abrev << ")" << endl;
   outf << Simu::stat_header << endl;
   outf << Simu::stat_headline << endl;
   for(int i=0;i<N_titulares;i++)

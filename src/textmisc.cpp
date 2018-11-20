@@ -1,6 +1,7 @@
 //Implementacion de las funciones
 
 #include "textmisc.h"
+#include "Simu.h"
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -116,7 +117,7 @@ void AddSkillschTxt(string newline)
 //Obtener una variable del League.dat
 int GetLeagueDat(string variable) //Legacy
 {
-  return GetVarFrom(variable, "League.dat");
+  return GetVarFrom(variable, Simu::League);
 }
 int GetVarFrom(string variable, string filename)
 {
@@ -124,25 +125,29 @@ int GetVarFrom(string variable, string filename)
   string basura;
   ifstream f;
   f.open(filename.c_str());
+  if(!f)
+  {
+    cout << "No se ha encontrado el archivo " << filename << endl;
+    exit(1);
+  }
   f >> basura;
   do
     {
       if(basura==variable)
-	{
-	  f >> basura; //Me como el igual
-	  f >> value;
-	  return value;
-	}
-      basura = "";
+      {
+        f >> basura; //Me como el igual
+        f >> value;
+        return value;
+      }
       f >> basura;
-    }while (basura!="");
+    }while (!f.eof());
   f.close();
 }
 
 //Legacy for more general function
 string GetLeagueDatString(string variable)
 {
-  return GetStringVarFrom(variable, "League.dat");
+  return GetStringVarFrom(variable, Simu::League);
 }
 string GetStringVarFrom(string variable, string filename)
 {
@@ -150,19 +155,23 @@ string GetStringVarFrom(string variable, string filename)
   string basura;
   ifstream f;
   f.open(filename.c_str());
+  if(!f)
+  {
+    cout << "No se ha encontrado el archivo " << filename << endl;
+    exit(1);
+  }
   f >> basura;
   do
     {
       if(basura==variable)
-	{
-	  f >> basura; //Me como el igual
-	  f >> value;
-       value = Substitute(value, "_", " ");
-	  return value;
-	}
-      basura = "";
+      {
+        f >> basura; //Me como el igual
+        f >> value;
+        value = Substitute(value, "_", " ");
+        return value;
+      }
       f >> basura;
-    }while (basura!="");
+    }while (!f.eof());
   f.close();
 }
 
@@ -177,7 +186,7 @@ int GetUsedLines(string filename)
   if(!f)
     {
       cout << "No se ha encontrado el archivo " << filename << endl;
-      return 0; 
+      exit(1); 
     }
   while(!f.eof())
     {

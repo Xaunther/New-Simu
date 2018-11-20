@@ -32,6 +32,7 @@ namespace Simu
   
   //Nombres de archivos
   static const std::string League = "../config/League.dat";
+  static const std::string Teams = "../config/Teams.dat";
   static const std::string Hab_bonus = "../config/Hab_bonus.dat";
   static const std::string Estadios = "../config/Estadios.dat";
   //Lang files
