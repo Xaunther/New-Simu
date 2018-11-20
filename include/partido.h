@@ -2,6 +2,7 @@
 #define partido_h
 
 #include "alineacion.h"
+#include "position.h"
 #include "jug_stats.h"
 #include "Simu.h"
 #include <fstream>
@@ -45,7 +46,10 @@ class partido
   
   //Funciones
   partido(alineacion*, alineacion*);
+  ~partido();
   void Update_pts();
+  void Update_exp();
+  void Update_exp(jug_stats*);
   void Stats_Init();
   void SetLocalBoost();
   void Simulate(int);
@@ -56,10 +60,14 @@ class partido
   void ReduceFit();
   //Funciones de escritura
   void Write_Init();
-  void Write_Sub(alineacion*, string, string, Simu::Lposition);
+  void Write_Sub(alineacion*, string, string, string);
+  void Write_ChangePos(alineacion*, string, string);
+  void Write_Tactic(alineacion*, string);
   void Write_Event(alineacion*, string);
   void Write_HT();
   void Write_FT();
+  void Print();
+  void PrintStats(alineacion*, jug_stats*);
 };
 
 

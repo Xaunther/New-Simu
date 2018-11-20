@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iomanip>
 #include <cmath>
+#include <stdlib.h>
 using namespace std;
 
 #define col_w 40
@@ -49,6 +50,15 @@ partido::partido(alineacion* _local, alineacion* _visitante):
   outf.close();
 }
 
+//Destructor
+partido::~partido()
+{
+  if(this->outf)
+  {
+    outf.close();
+  }
+}
+
 //Funcion para obtener los puntos de rendimiento de cada equipo en cada posicion
 void partido::Update_pts()
 {
@@ -79,6 +89,55 @@ void partido::Update_pts()
 		med_visitante+=eff[2]*ali_visitante->titulares[i]->Ps*(!this->stats_visitante[i].rojas)*(!this->stats_visitante[i].lesionado);
 		atk_visitante+=eff[3]*ali_visitante->titulares[i]->Sh*(!this->stats_visitante[i].rojas)*(!this->stats_visitante[i].lesionado);
 	}
+}
+
+void partido::Update_exp()
+{
+  this->Update_exp(this->stats_local);
+  this->Update_exp(this->stats_visitante);
+}
+//Funcion para rellenar la exp ganada por cada jugador
+void partido::Update_exp(jug_stats* stats)
+{
+  //Exp random para el equipo que pierda
+  int rN = rand() % N_titulares;
+  if((stats == this->stats_local && this->goles_local < this->goles_visitante) ||
+     (stats == this->stats_visitante && this->goles_visitante < this->goles_local))
+  {
+    stats[rN].St+=GetVarFrom(Simu::Hab_bonus, "AB_Defeat_Random");
+    stats[rN].Tk+=GetVarFrom(Simu::Hab_bonus, "AB_Defeat_Random");
+    stats[rN].Ps+=GetVarFrom(Simu::Hab_bonus, "AB_Defeat_Random");
+    stats[rN].Sh+=GetVarFrom(Simu::Hab_bonus, "AB_Defeat_Random");
+  }
+  //Exp random para el equipo que gane
+  else if((stats == this->stats_local && this->goles_local > this->goles_visitante) ||
+          (stats == this->stats_visitante && this->goles_visitante > this->goles_local))
+  {
+    stats[rN].St+=GetVarFrom(Simu::Hab_bonus, "AB_Victory_Random");
+    stats[rN].Tk+=GetVarFrom(Simu::Hab_bonus, "AB_Victory_Random");
+    stats[rN].Ps+=GetVarFrom(Simu::Hab_bonus, "AB_Victory_Random");
+    stats[rN].Sh+=GetVarFrom(Simu::Hab_bonus, "AB_Victory_Random");
+  }
+  //Exp random para el empate
+  else
+  {
+    stats[rN].St+=GetVarFrom(Simu::Hab_bonus, "AB_Draw_Random");
+    stats[rN].Tk+=GetVarFrom(Simu::Hab_bonus, "AB_Draw_Random");
+    stats[rN].Ps+=GetVarFrom(Simu::Hab_bonus, "AB_Draw_Random");
+    stats[rN].Sh+=GetVarFrom(Simu::Hab_bonus, "AB_Draw_Random");
+  }
+  //Exp para el portero por porteria a cero
+  if((stats == this->stats_local && this->goles_local == 0) ||
+     (stats == this->stats_visitante && this->goles_visitante == 0))
+  {
+    stats[0].St+=GetVarFrom(Simu::Hab_bonus, "AB_Clean_Sheet");
+  }
+  
+  //Exp por stats individuales (loop)
+  for(int i=0;i<N_titulares+N_suplentes;i++)
+  {
+    stats[i].Update();
+  }
 }
 
 //Inicializar stats a alguna cosa no por defecto (por ejemplo los titulares han jugado)
@@ -204,6 +263,7 @@ void partido::Do_Inst(bool side, int k)
   }
   //Si no cumple, nada
   if(!cumple){return;}
+  cumple = false;
   //Chequear que el archivo este abierto
   if(!outf.is_open()){outf.open((ali_local->abrev+"_"+ali_visitante->abrev+".txt").c_str(), std::ios_base::app);}
   switch(ali->condicion[k].type)
@@ -220,18 +280,16 @@ void partido::Do_Inst(bool side, int k)
     case Simu::lTACTIC:
       if(ali->tactica.tac != ali->condicion[k].tactic)
       {
-        ss << "tactic: " << ali->condicion[k].tactic;
-        this->Write_Event(ali, ss.str());
+        ali->tactica.tac = ali->condicion[k].tactic;
+        this->Write_Tactic(ali, ali->tactica.symbol());
       }
-      ali->tactica.tac = ali->condicion[k].tactic;
       return;
     case Simu::lSUB:
       if(!side)
       {
         if(this->cambios_local < GetLeagueDat("Cambios") && !this->stats_local[ali->condicion[k].arg2-1].hajugado && !this->stats_local[ali->condicion[k].arg1-1].rojas)
         {
-          ss << "cambio: " << ali->condicion[k].arg1 << ", " << ali->condicion[k].arg2;
-          this->Write_Event(ali, ss.str());
+          cumple = true;
           //Intercambio jugadores
           jugador* temp;
           temp = ali->titulares[ali->condicion[k].arg1-1];
@@ -252,8 +310,7 @@ void partido::Do_Inst(bool side, int k)
       {
         if(this->cambios_visitante < GetLeagueDat("Cambios") && !this->stats_visitante[ali->condicion[k].arg2-1].hajugado && !this->stats_local[ali->condicion[k].arg1-1].rojas)
         {
-          ss << "cambio: " << ali->condicion[k].arg1 << ", " << ali->condicion[k].arg2;
-          this->Write_Event(ali, ss.str());
+          cumple = true;
           //Intercambio jugadores
           jugador* temp;
           temp = ali->titulares[ali->condicion[k].arg1-1];
@@ -276,7 +333,10 @@ void partido::Do_Inst(bool side, int k)
         ali->pos_titulares[ali->condicion[k].arg1-1].pos =ali->condicion[k].pos;
       }
       //Escribe evento
-      this->Write_Sub(ali, ali->titulares[ali->condicion[k].arg1-1]->Name, ali->suplentes[ali->condicion[k].arg2-N_titulares-1]->Name, ali->pos_titulares[ali->condicion[k].arg1-1].pos);
+      if(cumple)
+      {
+        this->Write_Sub(ali, ali->titulares[ali->condicion[k].arg1-1]->Name, ali->suplentes[ali->condicion[k].arg2-N_titulares-1]->Name, ali->pos_titulares[ali->condicion[k].arg1-1].symbol());
+      }
       return;
     case Simu::lCHANGEPOS:
       if(ali->pos_titulares[ali->condicion[k].arg1-1].pos == Simu::lGK || ali->condicion[k].pos == Simu::lGK)
@@ -285,10 +345,9 @@ void partido::Do_Inst(bool side, int k)
       }
       if(ali->pos_titulares[ali->condicion[k].arg1-1].pos != ali->condicion[k].pos)
       {
-        ss << "changepos: " << ali->condicion[k].tactic;
-        this->Write_Event(ali, ss.str());
+        ali->pos_titulares[ali->condicion[k].arg1-1].pos = ali->condicion[k].pos;
+        this->Write_ChangePos(ali, ali->titulares[ali->condicion[k].arg1-1]->Name, ali->pos_titulares[ali->condicion[k].arg1-1].symbol());
       }
-      ali->pos_titulares[ali->condicion[k].arg1-1].pos = ali->condicion[k].pos;
       return;
   }
 }
@@ -336,8 +395,37 @@ bool partido::Is_Doable(bool side, int k, int j)
 }
 
 //Escribir un cambio //SIN IMPLEMENTAR
-void partido::Write_Sub(alineacion* ali, string entra, string sale, Simu::Lposition pos)
+void partido::Write_Sub(alineacion* ali, string entra, string sale, string pos)
 {
+  string format_string = GetRandomText(Simu::Cambios_lang);
+  //Hay 3 cosas que sustituir: {entra} {sale} {pos}
+  Substitute(format_string, "{entra}", entra);
+  Substitute(format_string, "{sale}", sale);
+  Substitute(format_string, "{pos}", pos);
+  Substitute(format_string, "\\n", "\n          ...  ");
+  Write_Event(ali, format_string);
+  return;
+}
+
+void partido::Write_Tactic(alineacion* ali, string tactica)
+{
+  string format_string = GetRandomText(Simu::Tacticas_lang);
+  //Hay 2 cosas que sustituir: {tactica} y {equipo}
+  Substitute(format_string, "{tactica}", tactica);
+  Substitute(format_string, "{equipo}", GetLeagueDatString(ali->abrev));
+  Substitute(format_string, "\\n", "\n          ...  ");
+  Write_Event(ali, format_string);
+  return;
+}
+
+void partido::Write_ChangePos(alineacion* ali, string jug, string pos)
+{
+  string format_string = GetRandomText(Simu::Chpos_lang);
+  //Hay 2 cosas que sustituir: {tactica} y {equipo}
+  Substitute(format_string, "{jugador}", jug);
+  Substitute(format_string, "{pos}", pos);
+  Substitute(format_string, "\\n", "\n          ...  ");
+  Write_Event(ali, format_string);
   return;
 }
 
@@ -345,9 +433,9 @@ void partido::Write_Sub(alineacion* ali, string entra, string sale, Simu::Lposit
 void partido::Write_Event(alineacion* ali, string cosa)
 {
   //Minuto
-  outf << "Min. " << minuto << setw(3-int(log10(minuto))) << ":(" << ali->abrev << ") ";
+  outf << "Min. " << minuto << setw(4-int(log10(minuto))) << ":(" << ali->abrev << ") ";
   //Cosa
-  outf << cosa << endl;
+  outf << cosa.c_str() << endl;
 }
 
 //Escribir descanso
@@ -364,7 +452,6 @@ void partido::Write_FT()
 {
   outf << endl;
   outf << "*************  :segundaparte:  ****************" << endl;
-  outf << "Resultado final: " << GetLeagueDatString(ali_local->abrev) << " " << goles_local << "-" << goles_visitante << " " << GetLeagueDatString(ali_visitante->abrev) << endl;
   outf << endl;
 }
 
@@ -397,5 +484,125 @@ void partido::ReduceFit()
     {
       this->ali_visitante->titulares[i]->Fit--;
     }
+  }
+}
+
+//Printear stats (al final del partido)
+void partido::Print()
+{
+  string loc_name = GetLeagueDatString(ali_local->abrev);
+  string visit_name = GetLeagueDatString(ali_visitante->abrev);
+  //Separo
+  outf << endl << endl;
+  //Estadio
+  outf << "Detalles del partido" << endl;
+  outf << Simu::stat_headline << endl;
+  outf << "Campo               " << ": " << GetStringVarFrom(this->ali_local->abrev, Simu::Estadios) << endl;
+  outf << Simu::stat_headline << endl;
+  //Info local
+  outf << "Informacion " << loc_name << " (" << this->ali_local->abrev << ")" << endl;
+  outf << Simu::stat_headline << endl;
+  //Sin implementar
+  outf << "Mejor jugador       : " << "-" << endl;
+  outf << "Goleadores          : " << "-" << endl;
+  outf << "Expulsados          : " << "-" << endl;
+  outf << "Amonestados         : " << "-" << endl;
+  outf << "Lesionados          : " << "-" << endl;
+  outf << Simu::stat_headline << endl;
+  //Info visitante
+  outf << "Informacion " << visit_name << " (" << this->ali_visitante->abrev << ")" << endl;
+  outf << Simu::stat_headline << endl;
+  //Sin implementar
+  outf << "Mejor jugador       : " << "-" << endl;
+  outf << "Goleadores          : " << "-" << endl;
+  outf << "Expulsados          : " << "-" << endl;
+  outf << "Amonestados         : " << "-" << endl;
+  outf << "Lesionados          : " << "-" << endl;
+  outf << Simu::stat_headline << endl;
+  //Stats
+  outf << "Estadisticas del partido" << endl;
+  outf << Simu::stat_headline << endl;
+  outf << "                     " <<  loc_name << "  |  " << visit_name << endl;
+  outf << "Ocasiones de gol    :"  << setw(loc_name.length()-3) << this->chuts_local << "     |     " << this->chuts_visitante << endl;
+  outf << "Disparos a puerta   :"  << setw(loc_name.length()-3) << this->chuts_puerta_local << "     |     " << this->chuts_puerta_visitante << endl;
+  outf << "Posesion            :"  << setw(loc_name.length()-3) << this->posesion_local << "     |     " << this->posesion_visitante << endl;
+  outf << "Corners             :"  << setw(loc_name.length()-3) << this->corners_local << "     |     " << this->corners_visitante << endl;
+  outf << "Amarillas           :"  << setw(loc_name.length()-3) << this->amarillas_local << "     |     " << this->amarillas_visitante << endl;
+  outf << "Rojas               :"  << setw(loc_name.length()-3) << this->rojas_local << "     |     " << this->rojas_visitante << endl;
+  outf << "Cambios             :"  << setw(loc_name.length()-3) << this->cambios_local << "     |     " << this->cambios_visitante << endl;
+  outf << "Faltas              :"  << setw(loc_name.length()-3) << this->faltas_local << "     |     " << this->faltas_visitante << endl;
+  outf << "Entradas            :"  << setw(loc_name.length()-3) << this->tackles_local << "     |     " << this->tackles_visitante << endl;
+  outf << Simu::stat_headline << endl;
+  outf << "Resultado final: " << loc_name << " " << goles_local << "-" << goles_visitante << " " << visit_name << endl;
+  outf << Simu::stat_headline << endl;
+  outf << endl << endl;
+  //Hay que calcular primero la exp ganada
+  this->Update_exp(this->stats_local);
+  this->Update_exp(this->stats_visitante);
+  //Stats individuales local
+  PrintStats(this->ali_local, this->stats_local);
+  outf << endl;
+  //Stats individuales visitante
+  PrintStats(this->ali_visitante, this->stats_visitante);
+}
+
+void partido::PrintStats(alineacion* ali, jug_stats* stats)
+{
+  outf << "Estadisticas individuales - " << GetLeagueDatString(ali->abrev) << " (" << ali->abrev << ")" << endl;
+  outf << Simu::stat_header << endl;
+  outf << Simu::stat_headline << endl;
+  for(int i=0;i<N_titulares;i++)
+  {
+    //Habilidades
+    outf << ali->titulares[i]->Name << setw(1 + Simu::w_name - ali->titulares[i]->Name.length()) << " "; //Nombre
+    outf << setw(3) << ali->pos_titulares[i].symbol() << " "; //Posicion
+    outf << setw(3) << ali->titulares[i]->St << " "; //St
+    outf << setw(3) << ali->titulares[i]->Tk << " "; //Tk
+    outf << setw(3) << ali->titulares[i]->Ps << " "; //Ps
+    outf << setw(3) << ali->titulares[i]->Sh << " "; //Sh
+    outf << "| ";
+    //Llegan los stats
+    outf << setw(3) << stats[i].minutos << " "; //Minutos
+    outf << setw(3) << stats[i].paradas << " "; //Paradas
+    outf << setw(3) << stats[i].tackles << " "; //Tackles
+    outf << setw(3) << stats[i].pases << " "; //Pases
+    outf << setw(3) << stats[i].asistencias << " "; //Asistencias
+    outf << setw(3) << stats[i].chuts << " "; //Disparos
+    outf << setw(3) << stats[i].goles << " "; //Goles
+    outf << setw(3) << stats[i].amarillas << " "; //Amarillas
+    outf << setw(3) << stats[i].rojas << " "; //Rojas
+    //Hay que implementar
+    outf << setw(3) << stats[i].St << " "; //GK Hab
+    outf << setw(3) << stats[i].Tk << " "; //DF Hab
+    outf << setw(3) << stats[i].Ps << " "; //MF Hab
+    outf << setw(3) << stats[i].Sh << " "; //FW Hab
+    outf << endl;
+  }
+  for(int i=0;i<N_suplentes;i++)
+  {
+    //Habilidades
+    outf << ali->suplentes[i]->Name << setw(1 + Simu::w_name - ali->suplentes[i]->Name.length()) << " "; //Nombre
+    outf << setw(3) << ali->pos_suplentes[i].symbol() << " "; //Posicion
+    outf << setw(3) << ali->suplentes[i]->St << " "; //St
+    outf << setw(3) << ali->suplentes[i]->Tk << " "; //Tk
+    outf << setw(3) << ali->suplentes[i]->Ps << " "; //Ps
+    outf << setw(3) << ali->suplentes[i]->Sh << " "; //Sh
+    outf << "| ";
+    //Llegan los stats
+    outf << setw(3) << stats[N_titulares+i].minutos << " "; //Minutos
+    outf << setw(3) << stats[N_titulares+i].paradas << " "; //Paradas
+    outf << setw(3) << stats[N_titulares+i].tackles << " "; //Tackles
+    outf << setw(3) << stats[N_titulares+i].pases << " "; //Pases
+    outf << setw(3) << stats[N_titulares+i].asistencias << " "; //Asistencias
+    outf << setw(3) << stats[N_titulares+i].chuts << " "; //Disparos
+    outf << setw(3) << stats[N_titulares+i].goles << " "; //Goles
+    outf << setw(3) << stats[N_titulares+i].amarillas << " "; //Amarillas
+    outf << setw(3) << stats[N_titulares+i].rojas << " "; //Rojas
+    //Hay que implementar
+    outf << setw(3) << stats[N_titulares+i].St << " "; //GK Hab
+    outf << setw(3) << stats[N_titulares+i].Tk << " "; //DF Hab
+    outf << setw(3) << stats[N_titulares+i].Ps << " "; //MF Hab
+    outf << setw(3) << stats[N_titulares+i].Sh << " "; //FW Hab
+    outf << endl;
   }
 }

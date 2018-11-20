@@ -1,0 +1,8 @@
+# Lenguaje del simulador para los cambios de tactica. No hay limite en cuantas frases poner, pero cada una de ellas debe ir SOLO en una linea
+# Los saltos de linea deben ir indicados por el simbolo \n (puedes seguir los ejemplos)
+# La tactica nueva del equipo se sustituira donde se indique {tactica}
+# Tambien se puede indicar el nombre del equipo que cambia la estrategia mediante {equipo}
+# Tambien se pueden añadir lineas comentadas como estas en cualquier sitio, si el primer caracter es una #
+
+El {equipo} jugará ahora {tactica}
+Parece que el {equipo} busca algo diferente, jugará {tactica}

@@ -1,0 +1,8 @@
+# Lenguaje del simulador para los cambios de posicion. No hay limite en cuantas frases poner, pero cada una de ellas debe ir SOLO en una linea
+# Los saltos de linea deben ir indicados por el simbolo \n (puedes seguir los ejemplos)
+# La nueva posicion del jugador irá en el lugar de {pos}
+# El nombre del jugador que cambia su posición irá en {jugador}
+# Tambien se pueden añadir lineas comentadas como estas en cualquier sitio, si el primer caracter es una #
+
+{jugador} pasa ahora a jugar de {pos}
+El entrenador reorganiza al equipo.\n{jugador} pasa a jugar de {pos}
