@@ -63,11 +63,12 @@ class partido
   void Write_Sub(alineacion*, string, string, string);
   void Write_ChangePos(alineacion*, string, string);
   void Write_Tactic(alineacion*, string);
-  void Write_Event(alineacion*, string);
+  void Write_Event(alineacion*, string, bool = false);
   void Write_HT();
   void Write_FT();
-  void Print();
-  void PrintStats(alineacion*, jug_stats*);
+  void Write_End();
+  void WriteStats(alineacion*, jug_stats*);
+  void Print_Result();
 };
 
 

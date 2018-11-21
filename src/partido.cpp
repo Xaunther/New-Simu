@@ -4,6 +4,7 @@
 #include "jug_stats.h"
 #include <string>
 #include <fstream>
+#include <iostream>
 #include <iomanip>
 #include <cmath>
 #include <stdlib.h>
@@ -163,10 +164,13 @@ void partido::Simulate(int tiempo)
   if(minuto==0)
   {
     //Abramos el archivo para escribir
-    outf.open((ali_local->abrev+"_"+ali_visitante->abrev+".txt").c_str());
+    if(!outf.is_open())
+    {
+      outf.open((ali_local->abrev+"_"+ali_visitante->abrev+".txt").c_str());
+    }
     Write_Init();
   }
-  else
+  else if(!outf.is_open())
   {
     outf.open((ali_local->abrev+"_"+ali_visitante->abrev+".txt").c_str(), std::ios_base::app);
   }
@@ -430,10 +434,18 @@ void partido::Write_ChangePos(alineacion* ali, string jug, string pos)
 }
 
 //Escribir un evento en cierto minuto
-void partido::Write_Event(alineacion* ali, string cosa)
+void partido::Write_Event(alineacion* ali, string cosa, bool cont)
 {
   //Minuto
-  outf << "Min. " << minuto << setw(4-int(log10(minuto))) << ":(" << ali->abrev << ") ";
+  if(!cont)
+  {
+    outf << "Min. " << minuto << setw(4-int(log10(minuto))) << ":(" << ali->abrev << ") ";
+  }
+  //O si se continua el evento
+  else
+  {
+    outf << "          ...  ";
+  }
   //Cosa
   outf << cosa.c_str() << endl;
 }
@@ -488,7 +500,7 @@ void partido::ReduceFit()
 }
 
 //Printear stats (al final del partido)
-void partido::Print()
+void partido::Write_End()
 {
   string loc_name = GetStringVarFrom(ali_local->abrev, Simu::Teams);
   string visit_name = GetStringVarFrom(ali_visitante->abrev, Simu::Teams);
@@ -540,13 +552,13 @@ void partido::Print()
   this->Update_exp(this->stats_local);
   this->Update_exp(this->stats_visitante);
   //Stats individuales local
-  PrintStats(this->ali_local, this->stats_local);
+  WriteStats(this->ali_local, this->stats_local);
   outf << endl;
   //Stats individuales visitante
-  PrintStats(this->ali_visitante, this->stats_visitante);
+  WriteStats(this->ali_visitante, this->stats_visitante);
 }
 
-void partido::PrintStats(alineacion* ali, jug_stats* stats)
+void partido::WriteStats(alineacion* ali, jug_stats* stats)
 {
   outf << "Estadisticas individuales - " << GetStringVarFrom(ali->abrev, Simu::Teams) << " (" << ali->abrev << ")" << endl;
   outf << Simu::stat_header << endl;
@@ -605,4 +617,11 @@ void partido::PrintStats(alineacion* ali, jug_stats* stats)
     outf << setw(3) << stats[N_titulares+i].Sh << " "; //FW Hab
     outf << endl;
   }
+}
+
+//Para printear el resultado final
+void partido::Print_Result()
+{
+  cout << "Resultado: " << GetStringVarFrom(ali_local->abrev, Simu::Teams) << " " << goles_local << "-" << goles_visitante << " " << GetStringVarFrom(ali_visitante->abrev, Simu::Teams) << endl;
+
 }

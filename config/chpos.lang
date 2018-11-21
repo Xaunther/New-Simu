@@ -6,3 +6,15 @@
 
 {jugador} pasa ahora a jugar de {pos}
 El entrenador reorganiza al equipo.\n{jugador} pasa a jugar de {pos}
+{jugador} deja su actual posición para jugar de {pos}
+{jugador} cambia su posición en el dibujo táctico. Jugará de {pos}
+{jugador} cambia su ubicación en el campo. Ahora juega de {pos}
+{jugador} va a jugar los próximos minutos de {pos}
+{jugador} pasa a jugar de {pos} tras recibir las indicaciones de su entrenador
+{jugador} escucha las órdenes que le dicta su técnico y se mueve a la posición de {pos}
+El entrenador le hace señas\n{jugador} se reubica como {pos}
+{jugador} cambia a la posición de {pos} en un cambio táctico
+El entrenador gesticul\nle indica a {jugador} que pase a jugar de {pos}
+interesante cambio táctico\n{jugador} se coloca de {pos}
+Parece que {jugador} va a jugar ahora de {pos}
+Creo que {jugador} ha pasado a jugar de {pos}

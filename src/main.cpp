@@ -9,6 +9,7 @@
 #include "position.h"
 #include "partido.h"
 #include "Simu.h"
+#include "textmisc.h"
 using namespace std;
 
 int main(void)
@@ -16,6 +17,7 @@ int main(void)
   //Inicializa random seed
   srand (time(NULL));
   string nombre, nombre2;
+  string op;
   cout << "Equipo local: ";
   //cin >> nombre;
   cout << endl; nombre = "ros";
@@ -35,10 +37,28 @@ int main(void)
   //Partido
   partido match(&ali, &ali2);
   match.Simulate(90);
-  
-  //Aqui deberia preguntarse si se quiere prorroga/penalties
+  //Preguntar por prorroga
+  if(GetVarFrom("Extra_Time", Simu::League))
+  {
+    match.Print_Result();
+    cout << "Quieres empezar una prorroga? [S/N]: ";
+    cin >> op;
+    if(op == "S" || op == "s")
+    {
+      match.Simulate(30);
+    }
+  }
+  if(GetVarFrom("Tanda_Pen", Simu::League))
+  {
+    match.Print_Result();
+    cout << "Quieres empezar una tanda de penalties? [S/N]: ";
+    cin >> op;
+    if(op == "S" || op == "s")
+    {
+      //match.Tanda_Pen(); Sin implementar
+    }
+  }
   //Al final, printear stats
-  match.Print();
-  cout << "Test correcto" << endl;
+  match.Write_End();
   return 0;
 }

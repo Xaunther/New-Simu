@@ -8,15 +8,15 @@ Cambios = 3
 Fit_perdido = 3
 #Nombre competicion
 Games = <pre>(pde)_Primera_Division_LMV
-
-Attendances_Pack = 0
-Cup = 1
+#Si se quiere la opción de jugar prorroga y/o penalties (0 = no, 1 = si)
 Extra_Time = 1
-Silver_Goal = 0
-Fitness = 1
-FitFactor_0 = 12
-FitFactor_90 = -8
-Fit_TSC = 30
+Tanda_Pen = 1
+#Si se quieren actualizar los stats(goles, pases...), skills(St, Tk, Ps, Sh) o el fit tras el partido (0 = no, 1 = si)
+Update_Stats = 1
+Update_Skills = 1
+Update_Fitness = 1
+
+
 Min_DF = 3
 Max_DF = 7
 Max_DM = 3
@@ -33,7 +33,6 @@ Reports_Type = 7
 Rerate0_999 = 1
 Skill_Abs = 1
 Stats_Pack = 1
-Short_Sheet = 1
 T_Tactic = 80
 Tactic_7 = 1
 Tactical = 1
