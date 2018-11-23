@@ -60,5 +60,21 @@ int main(void)
   }
   //Al final, printear stats
   match.Write_End();
+  //Updatear skills? (St, Tk, Ps, Sh)
+  if(GetVarFrom("Update_Skills", Simu::League))
+  {
+    match.Update_Skills();
+  }
+  //Updatear stats? pases, goles etc.
+  if(GetVarFrom("Update_Stats", Simu::League))
+  {
+    match.Update_Stats();
+  }
+  //Updatear fit?
+  if(GetVarFrom("Update_Fitness", Simu::League))
+  {
+    match.Update_Fitness();
+  }
+  
   return 0;
 }

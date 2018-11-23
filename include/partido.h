@@ -69,6 +69,13 @@ class partido
   void Write_End();
   void WriteStats(alineacion*, jug_stats*);
   void Print_Result();
+  //Update de las plantillas
+  void Update_Skills();
+  void Update_Skills(alineacion*, jug_stats*);
+  void Update_Stats();
+  void Update_Stats(alineacion*, jug_stats*);
+  void Update_Fitness();
+  void Update_Fitness(alineacion*, jug_stats*);
 };
 
 

@@ -623,5 +623,30 @@ void partido::WriteStats(alineacion* ali, jug_stats* stats)
 void partido::Print_Result()
 {
   cout << "Resultado: " << GetStringVarFrom(ali_local->abrev, Simu::Teams) << " " << goles_local << "-" << goles_visitante << " " << GetStringVarFrom(ali_visitante->abrev, Simu::Teams) << endl;
+}
 
+//Update de las plantillas
+void partido::Update_Skills(alineacion* ali, jug_stats* stats)
+{
+}
+void partido::Update_Stats(alineacion* ali, jug_stats* stats)
+{
+}
+void partido::Update_Fitness(alineacion* ali, jug_stats* stats)
+{
+}
+void partido::Update_Skills()
+{
+  this->Update_Skills(this->ali_local, this->stats_local);
+  this->Update_Skills(this->ali_visitante, this->stats_visitante);
+}
+void partido::Update_Stats()
+{
+  this->Update_Stats(this->ali_local, this->stats_local);
+  this->Update_Stats(this->ali_visitante, this->stats_visitante);
+}
+void partido::Update_Fitness()
+{
+  this->Update_Fitness(this->ali_local, this->stats_local);
+  this->Update_Fitness(this->ali_visitante, this->stats_visitante);
 }
