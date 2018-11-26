@@ -5,6 +5,7 @@
 #include <sstream>
 #include <stdlib.h>
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 void jugador::AddGam(int v){Gam+=v;}
@@ -68,8 +69,8 @@ void jugador::AddHAb(int bonus, string abrev, string habopt)
   factor2 = expbonus_age[i][1]*expbonus_skill[min(max(0,(*hab)+1-15),15)];
   if(bonus > 0)
     {
-      int add1  = min((1000-(*habexp))/factor1, double(bonus));	
-      add = add1*factor1+(bonus-add1)*factor2;
+      int add1  = int(min((1000-(*habexp))/factor1, double(bonus)));	
+      add = int(add1*factor1+(bonus-add1)*factor2);
       exptotal += add;
     }
   else
@@ -122,19 +123,19 @@ void jugador::SetInj(string abrev)
 		int rangestep;
 		for(rangestep=0;Age>agerange[rangestep];rangestep++){}
 		Fit -= penalty[rangestep];
-		AddInjuryTxt(Name + " (" + abrev + ") no se ha lesionado, pero está dolorido para el próximo partido");
+		AddInjuryTxt(Name + " (" + abrev + ") no se ha lesionado, pero estï¿½ dolorido para el prï¿½ximo partido");
 		hasPain = true;
 	}
 	else
 	{
-		AddInjuryTxt(Name + " (" + abrev + ") está lesionado " + ss.str() + " semanas con " + GetInjuryType());
+		AddInjuryTxt(Name + " (" + abrev + ") estï¿½ lesionado " + ss.str() + " semanas con " + GetInjuryType());
 	}
 }
 void jugador::ReduceInj(string abrev)
 {
 	if (Inj == 1)
 	{
-		AddInjuryTxt(Name + " (" + abrev + ") vuelve de la lesión");
+		AddInjuryTxt(Name + " (" + abrev + ") vuelve de la lesiï¿½n");
 	}
 	Inj=max(0,Inj-1);
 }
@@ -142,7 +143,7 @@ void jugador::ReduceSus(string abrev)
 {
 	if (Sus == 1)
 	{
-		AddSuspendTxt(Name + " (" + abrev + ") vuelve de la sanción");
+		AddSuspendTxt(Name + " (" + abrev + ") vuelve de la sanciï¿½n");
 	}
 	Sus=max(0,Sus-1);
 }
@@ -220,7 +221,7 @@ void jugador::AddTrd(int trdbonus)
 }
 void jugador::SetCond()
 {
- 	//Función desde T13 para establecer la condicion del jugador
+ 	//Funciï¿½n desde T13 para establecer la condicion del jugador
  	//Version igual para todos
   //Si no ha jugado
   	if(MinHoy==0)
@@ -283,12 +284,12 @@ void jugador::DetSus(int DPtoday, string abrev)
 	}
 	else if(DP%Suspension_margin == 0) //Multiplo de suspension_margin
 	{
-		Sus = 1; //1 Jornada de sanción
+		Sus = 1; //1 Jornada de sanciï¿½n
 	}
 	ss << Sus;
 	if(Sus>=1)
 	{
-		AddSuspendTxt(Name + " (" + abrev + ") está suspendido para " + ss.str() + " partido");
+		AddSuspendTxt(Name + " (" + abrev + ") estï¿½ suspendido para " + ss.str() + " partido");
 	}
 }
 bool jugador::isGK()

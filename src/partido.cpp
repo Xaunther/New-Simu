@@ -4,6 +4,7 @@
 #include "jug_stats.h"
 #include <string>
 #include <fstream>
+#include <sstream>
 #include <iostream>
 #include <iomanip>
 #include <cmath>
@@ -263,7 +264,7 @@ void partido::Do_Inst(bool side, int k)
   }
   for(int i=0;i<ali->condicion[k].N_usedcond;i++)
   {
-    cumple *= Is_Doable(side, k, i);
+    cumple = cumple*bool(Is_Doable(side, k, i));
   }
   //Si no cumple, nada
   if(!cumple){return;}
