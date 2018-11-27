@@ -23,6 +23,7 @@ public:
     int faltas;
     bool hajugado;
     bool lesionado;
+    int trd_inicial;
     int St;
     int Tk;
     int Ps;

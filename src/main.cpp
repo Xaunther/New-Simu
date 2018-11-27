@@ -28,12 +28,9 @@ int main(void)
   alineacion ali2(nombre2+"sht.txt");
   equipo eq(nombre);
   equipo eq2(nombre2);
-  eq.Load();
-  eq2.Load();
-  ali.Link(&eq);
-  ali2.Link(&eq2);
-  ali.Check();
-  ali2.Check();
+  eq.Load(); ali.Link(&eq); ali.Check();
+  eq2.Load(); ali2.Link(&eq2); ali2.Check();
+  
   //Partido
   partido match(&ali, &ali2);
   match.Simulate(90);
@@ -71,9 +68,13 @@ int main(void)
     match.Update_Stats();
   }
   //Updatear fit?
-  if(GetVarFrom("Update_Fitness", Simu::League))
+  if(GetVarFrom("Update_Fitness", Simu::League) == 0)
   {
-    match.Update_Fitness();
+    match.Reset_Fitness();
+  }
+  else
+  {
+    eq.AddTrd(GetVarFrom("Fit_recuperado", Simu::League));
   }
   
   return 0;

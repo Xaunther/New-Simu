@@ -1,20 +1,36 @@
-# Numero de suplentes
-Suplentes = 5
-# Bonus equipo local
-Home_Bonus = 200
-# Numero cambios permitidos
-Cambios = 3
-# Cada cuantos minutos se pierde 1 de fit
-Fit_perdido = 3
 #Nombre competicion
 Games = <pre>(pde)_Primera_Division_LMV
+
+# Bonus equipo local
+Home_Bonus = 200
+
+# Numero de suplentes
+Suplentes = 5
+
+# Numero cambios permitidos
+Cambios = 3
+
 #Si se quiere la opción de jugar prorroga y/o penalties (0 = no, 1 = si)
 Extra_Time = 1
 Tanda_Pen = 1
+
+# Cada cuantos minutos se pierde 1 de fit, cuanto fit se recupera
+Fit_perdido = 3
+Fit_recuperado = 15
+
 #Si se quieren actualizar los stats(goles, pases...), skills(St, Tk, Ps, Sh) o el fit tras el partido (0 = no, 1 = si)
 Update_Stats = 1
 Update_Skills = 1
 Update_Fitness = 1
+
+#Cuantos DPs por amarilla?
+DP_for_Yellow = 1
+#Cuantos DPs para acumular partido de sancion?
+DP_for_Suspension = 5
+
+#Habilidad maxima y minima
+Max_Skill = 30
+Min_Skill = 15
 
 
 Min_DF = 3
@@ -25,19 +41,14 @@ Max_MF = 7
 Max_AM = 3
 Min_FW = 0
 Max_FW = 3
-Max_Skill = 30
 Positions = 1
 Referees = 0
-Reports_Style = 2
 Reports_Type = 7
 Rerate0_999 = 1
-Skill_Abs = 1
 Stats_Pack = 1
 T_Tactic = 80
 Tactic_7 = 1
 Tactical = 1
 Team_Data = 0
-DP_for_Yellow = 2
-DP_for_Red = 10
 Suspension_margin = 10
 Max_injury_length = 6

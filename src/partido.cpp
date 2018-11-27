@@ -78,6 +78,7 @@ void partido::Update_pts()
 		//Equipo local
 		ali_local->pos_titulares[i].SetEff(ali_local->tactica.tac);
 		double* eff = ali_local->pos_titulares[i].ability_eff;
+    //Factor de fit: 0 de fit equivale a jugar con
 		gk_local+=eff[0]*ali_local->titulares[i]->St*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado);
 		def_local+=eff[1]*ali_local->titulares[i]->Tk*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado);
 		med_local+=eff[2]*ali_local->titulares[i]->Ps*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado);
@@ -149,6 +150,14 @@ void partido::Stats_Init()
   {
     this->stats_local[i].hajugado = true;
     this->stats_visitante[i].hajugado = true;
+    //Guardar el fit inicial tambien
+    this->stats_local[i].trd_inicial = this->ali_local->titulares[i]->Fit;
+    this->stats_visitante[i].trd_inicial = this->ali_visitante->titulares[i]->Fit;
+  }
+  for(int i=0;i<N_suplentes;i++)
+  {
+    this->stats_local[N_titulares+i].trd_inicial = this->ali_local->suplentes[i]->Fit;
+    this->stats_visitante[N_titulares+i].trd_inicial = this->ali_visitante->suplentes[i]->Fit;
   }
 }
 
@@ -629,13 +638,103 @@ void partido::Print_Result()
 //Update de las plantillas
 void partido::Update_Skills(alineacion* ali, jug_stats* stats)
 {
+  for(int i=0;i<N_titulares;i++)
+  {
+    ali->titulares[i]->AddHAb(stats[i].St, ali->abrev, "St");
+    ali->titulares[i]->AddHAb(stats[i].Tk, ali->abrev, "Tk");
+    ali->titulares[i]->AddHAb(stats[i].Ps, ali->abrev, "Ps");
+    ali->titulares[i]->AddHAb(stats[i].Sh, ali->abrev, "Sh");
+  }
+  for(int i=0;i<N_suplentes;i++)
+  {
+    ali->suplentes[i]->AddHAb(stats[N_titulares+i].St, ali->abrev, "St");
+    ali->suplentes[i]->AddHAb(stats[N_titulares+i].Tk, ali->abrev, "Tk");
+    ali->suplentes[i]->AddHAb(stats[N_titulares+i].Ps, ali->abrev, "Ps");
+    ali->suplentes[i]->AddHAb(stats[N_titulares+i].Sh, ali->abrev, "Sh");
+  }
 }
+//Función para actualizar stats
 void partido::Update_Stats(alineacion* ali, jug_stats* stats)
 {
+  for(int i=0;i<N_titulares;i++)
+  {
+    //Partido jugado
+    ali->titulares[i]->AddGam(int(stats[i].hajugado));
+    //Minutos
+    ali->titulares[i]->AddMin(int(stats[i].minutos));
+    //Man of the match (sin implementar)
+    //Paradas
+    ali->titulares[i]->AddSav(int(stats[i].paradas));
+    //Encajados
+    ali->titulares[i]->AddCon(int(stats[i].encajados));
+    //Tackles
+    ali->titulares[i]->AddKtk(int(stats[i].tackles));
+    //Pases
+    ali->titulares[i]->AddKps(int(stats[i].pases));
+    //Chuts
+    ali->titulares[i]->AddSht(int(stats[i].chuts));
+    //Goles
+    ali->titulares[i]->AddGls(int(stats[i].goles));
+    //Asistencias
+    ali->titulares[i]->AddAss(int(stats[i].asistencias));
+    //Puntos de sancion
+    int DPtoday = int(stats[i].amarillas)*GetVarFrom("DP_for_Yellow", Simu::League)+int(stats[i].rojas)*GetVarFrom("DP_for_Suspension", Simu::League);
+    ali->titulares[i]->AddDP(DPtoday);
+    //Lesiones
+    if(ali->titulares[i]->Inj!=0)
+    {
+      ali->titulares[i]->SetInj(ali->abrev);
+    }
+    //Sanciones
+    ali->titulares[i]->DetSus(DPtoday, ali->abrev);
+  }
+  for(int i=0;i<N_suplentes;i++)
+  {
+    //Partido jugado
+    ali->suplentes[i]->AddGam(int(stats[N_titulares+i].hajugado));
+    //Minutos
+    ali->suplentes[i]->AddMin(int(stats[N_titulares+i].minutos));
+    //Man of the match (sin implementar)
+    //Paradas
+    ali->suplentes[i]->AddSav(int(stats[N_titulares+i].paradas));
+    //Encajados
+    ali->suplentes[i]->AddCon(int(stats[N_titulares+i].encajados));
+    //Tackles
+    ali->suplentes[i]->AddKtk(int(stats[N_titulares+i].tackles));
+    //Pases
+    ali->suplentes[i]->AddKps(int(stats[N_titulares+i].pases));
+    //Chuts
+    ali->suplentes[i]->AddSht(int(stats[N_titulares+i].chuts));
+    //Goles
+    ali->suplentes[i]->AddGls(int(stats[N_titulares+i].goles));
+    //Asistencias
+    ali->suplentes[i]->AddAss(int(stats[N_titulares+i].asistencias));
+    //Puntos de sancion
+    int DPtoday = int(stats[N_titulares+i].amarillas)*GetVarFrom("DP_for_Yellow", Simu::League)+int(stats[N_titulares+i].rojas)*GetVarFrom("DP_for_Suspension", Simu::League);
+    ali->suplentes[i]->AddDP(DPtoday);
+    //Lesiones
+    if(ali->suplentes[i]->Inj!=0)
+    {
+      ali->suplentes[i]->SetInj(ali->abrev);
+    }
+    //Sanciones
+    ali->suplentes[i]->DetSus(DPtoday, ali->abrev);
+  }
 }
-void partido::Update_Fitness(alineacion* ali, jug_stats* stats)
+//Función para resetear el fit al inicial
+void partido::Reset_Fitness(alineacion* ali, jug_stats* stats)
 {
+  //Resetea el fit al fit inicial
+  for(int i=0;i<N_titulares;i++)
+  {
+    ali->titulares[i]->Trd = stats[i].trd_inicial;
+  }
+  for(int i=0;i<N_suplentes;i++)
+  {
+    ali->suplentes[i]->Trd = stats[N_titulares+i].trd_inicial;
+  }
 }
+//Overloaded :)
 void partido::Update_Skills()
 {
   this->Update_Skills(this->ali_local, this->stats_local);
@@ -646,8 +745,8 @@ void partido::Update_Stats()
   this->Update_Stats(this->ali_local, this->stats_local);
   this->Update_Stats(this->ali_visitante, this->stats_visitante);
 }
-void partido::Update_Fitness()
+void partido::Reset_Fitness()
 {
-  this->Update_Fitness(this->ali_local, this->stats_local);
-  this->Update_Fitness(this->ali_visitante, this->stats_visitante);
+  this->Reset_Fitness(this->ali_local, this->stats_local);
+  this->Reset_Fitness(this->ali_visitante, this->stats_visitante);
 }

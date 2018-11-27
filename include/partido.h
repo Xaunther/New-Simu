@@ -74,8 +74,8 @@ class partido
   void Update_Skills(alineacion*, jug_stats*);
   void Update_Stats();
   void Update_Stats(alineacion*, jug_stats*);
-  void Update_Fitness();
-  void Update_Fitness(alineacion*, jug_stats*);
+  void Reset_Fitness();
+  void Reset_Fitness(alineacion*, jug_stats*);
 };
 
 

@@ -19,6 +19,7 @@ jug_stats::jug_stats():
   faltas(0),
   hajugado(false),
   lesionado(false),
+  trd_inicial(0),
   St(0),
   Tk(0),
   Ps(0),

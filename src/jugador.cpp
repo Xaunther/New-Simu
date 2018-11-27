@@ -48,57 +48,32 @@ void jugador::AddHAb(int bonus, string abrev, string habopt)
   int hab0 = *hab;
   int habexp0 = *habexp;
   int exptotal = hab0*1000+habexp0;
-  int add = 0;
-  int i;
-  double factor1, factor2;
-  ostringstream ss, ss2;
-  double expbonus_age[6][2]=
-    {
-      {18,2},
-      {21,1.5},
-      {25,1},
-      {29,0.9},
-      {33,0.75},
-      {80,0.5}
-    };
-  //Set age bonus
-  for(i=0;Age>expbonus_age[i][0];i++){}
-  double expbonus_skill[16]={2,1.5,1.5,1.5,1,1,1,1,0.7,0.6,0.5,0.4,0.3,0.25,0.2,0};
-  //Set bonus factors (current skill and next skill level)
-  factor1 = expbonus_age[i][1]*expbonus_skill[max(0,(*hab)-15)];
-  factor2 = expbonus_age[i][1]*expbonus_skill[min(max(0,(*hab)+1-15),15)];
-  if(bonus > 0)
-    {
-      int add1  = int(min((1000-(*habexp))/factor1, double(bonus)));	
-      add = int(add1*factor1+(bonus-add1)*factor2);
-      exptotal += add;
-    }
-  else
-    {
-      add = -1*bonus;
-      exptotal += bonus;
-    }
   *hab = exptotal/1000; //Parte entera
   *habexp = max(1,exptotal%1000);
+  //No se puede pasar de un maximo ni un minimo establecidos en League.dat
+  if(this->isPos(habopt))
+  {
+    if(*hab > GetLeagueDat("Max_Skill"))
+    {
+      *hab = GetLeagueDat("Max_Skill");
+      *habexp = 999;
+    }
+    else if(*hab < GetLeagueDat("Min_Skill"))
+    {
+      *hab = GetLeagueDat("Min_Skill");
+      *habexp = 1;
+    }
+  }
+  stringstream ss;
   ss << (*hab);
-  ss2 << add;
   if((*hab)>hab0)//Ha subido media
     {
-      AddSkillschTxt(Name + " (" + abrev + ") gana " + ss2.str() + " de XP en " + habopt + " y sube a " + ss.str() + ".");
-    }
-  else if(bonus > 0)//Gana exp sin subir media
-    {
-      AddSkillschTxt(Name + " (" + abrev + ") gana " + ss2.str() + " de XP en " + habopt + ".");
+      AddSkillschTxt(Name + " (" + abrev + ") sube a " + ss.str() + ".");
     }
   else if((*hab)<hab0)//Ha bajado media
     {
-      AddSkillschTxt(Name + " (" + abrev + ") pierde " + ss2.str() + " de XP en " + habopt + " y baja a " + ss.str() + ".");
+      AddSkillschTxt(Name + " (" + abrev + ") baja a " + ss.str() + ".");
     }
-  else if(bonus < 0)//Pierde exp sin bajar media
-    {
-      AddSkillschTxt(Name + " (" + abrev + ") pierde " + ss2.str() + " de XP en " + habopt + ".");
-    }
-
 }
 
 void jugador::SetInj(string abrev)
@@ -114,11 +89,11 @@ void jugador::SetInj(string abrev)
 	{
 		if(randominj >= rangos[i])
 		{
-			Inj = i;
+			Inj = i+1;
 		}
 	}
 	ss << Inj;
-	if(Inj == 0)
+	if(Inj == 1)
 	{
 		int rangestep;
 		for(rangestep=0;Age>agerange[rangestep];rangestep++){}
@@ -187,33 +162,8 @@ void jugador::SetTrd()
 }
 void jugador::AddTrd(int trdbonus)
 {
-	//Tabla para sumar dependiendo de la edad
-	int extra;
-	if(Age >= 33)
-	{
-		extra = -4;
-	}
-	else if(Age >= 30)
-	{
-		extra = -2;
-	}
-	else if(Age >= 26)
-	{
-		extra = -1;
-	}
-	else if(Age >= 22)
-	{
-		extra = 1;
-	}
-	else if(Age >= 20)
-	{
-		extra = 2;
-	}
-	else
-	{
-		extra = 4;
-	}
-	Trd=max(70,min(100,Trd+trdbonus+extra));
+	//Todos por igual, el cansancio por edad se aplicara durante el partido
+	Trd = min(100,Trd+trdbonus);
 	if(isGK()) //Porteros siempre descansados
 	{
 		Trd=100;
@@ -275,19 +225,33 @@ void jugador::ComputeFit()
 void jugador::DetSus(int DPtoday, string abrev)
 {
 	//Necesitamos saber el ciclo de tarjetas (normalmente son 10 DPs)
-	int Suspension_margin = GetLeagueDat("Suspension_margin");
+	int Suspension_margin = GetLeagueDat("DP_for_Suspension");
 	ostringstream ss;
-	//Si ha recibido roja, solo se cuenta la roja
-	if(DPtoday==Suspension_margin)
+	//Si ha recibido roja y amarilla
+  if(DPtoday>Suspension_margin)
+  {
+    //Si cumple ciclo de amarillas
+    if(this->DP%Suspension_margin == 0)
+    {
+      Sus = 3;
+    }
+    else
+    {
+      Sus = 2;
+    }
+  }
+  //Si es roja sólo
+	else if(DPtoday==Suspension_margin)
 	{
-		Sus = 1;
+		Sus = 2;
 	}
-	else if(DP%Suspension_margin == 0) //Multiplo de suspension_margin
+  //Ciclo de amarillas
+	else if(DP%Suspension_margin == 0 && DPtoday > 0) //Multiplo de suspension_margin
 	{
-		Sus = 1; //1 Jornada de sanci�n
+		Sus = 2; //1 Jornada de sanci�n
 	}
 	ss << Sus;
-	if(Sus>=1)
+	if(Sus>=2)
 	{
 		AddSuspendTxt(Name + " (" + abrev + ") est� suspendido para " + ss.str() + " partido");
 	}
@@ -302,6 +266,62 @@ bool jugador::isGK()
 	{
 		return false;
 	}
+}
+bool jugador::isDF()
+{
+	if(Tk>=St && Tk>=Ps && St>=Sh)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+bool jugador::isMF()
+{
+	if(Ps>=Tk && Ps>=St && Ps>=Sh)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+bool jugador::isFW()
+{
+	if(Sh>=Tk && Sh>=Ps && Sh>=St)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+bool jugador::isPos(string spos)
+{
+  if(spos == "GK" || spos == "St")
+  {
+    return this->isGK();
+  }
+  else if(spos == "DF" || spos == "Tk")
+  {
+    return this->isDF();
+  }
+  else if(spos == "MF" || spos == "Ps")
+  {
+    return this->isMF();
+  }
+  else if(spos == "FW" || spos == "Sh")
+  {
+    return this->isFW();
+  }
+  else
+  {
+    return false;
+  }
 }
 
 void jugador::dump()
