@@ -1,9 +1,11 @@
 //Implementacion de la clase alineacion
 #include <string>
 #include <fstream>
+#include <sstream>
 #include <stdlib.h>
 #include "alineacion.h"
 #include "equipo.h"
+#include "Simu.h"
 #include "instruccion.h"
 #include "arraytools.h"
 #include "textmisc.h"
@@ -48,13 +50,30 @@ void alineacion::Leer(string filename)
   fAli >> basura;
   this->tactica.SetTactic(basura);
   //11 titulares
+  bool hay_GK = false;
   for(int i=0;i<N_titulares;i++)
     {
       fAli >> basura;
       pos_titulares[i].SetPos(basura);
+      if(pos_titulares[i].pos == Simu::lGK)
+      {
+        if(hay_GK)
+        {
+          cout << "No puede haber mas de 1 portero!" << endl;
+          exit(1);
+        }
+        hay_GK = true;
+      }
       fAli >> basura;
       names_titulares[i] = basura;
     }
+  if(!hay_GK)
+  {
+    cout << "Debe haber 1 portero asignado" << endl;
+    exit(1);
+  }
+  //Para facilitar las cosas, el portero ira siempre en la primera posicion del array
+  this->GK_First();
   //X suplentes
   for(int i=0;i<N_suplentes;i++)
     {
@@ -130,6 +149,35 @@ void alineacion::Check()
     }
 }
 
+//Funcion que devuelve la formacion usada (4-4-2 P por ejemplo)
+string alineacion::Formation()
+{
+  stringstream formation;
+  bool usado = false;
+  int N[Simu::NPositions] = {0};
+  for(int i=0;i<N_titulares;i++)
+  {
+    N[(int)pos_titulares[i].pos]++;
+  }
+  for(int i=1;i<Simu::NPositions;i++)
+  {
+    if(N[i]>0)
+    {
+      if(!usado)
+      {
+        formation << N[i];
+        usado = true;
+      }
+      else
+      {
+        formation << "-" << N[i]; 
+      }
+    }
+  }
+  formation << " " << this->tactica.symbol();
+  return formation.str();
+}
+
 void alineacion::dump()
 {
   cout << "-------------------------------------" << endl;
@@ -168,4 +216,27 @@ void alineacion::dump()
       condicion[i].dump();
     }
   cout << "-------------------------------------" << endl;
+}
+
+void alineacion::GK_First()
+{
+  for(int i=0;i<N_titulares;i++)
+  {
+    if(this->pos_titulares[i].pos == Simu::lGK)
+    {
+      if(i!=0)
+      {
+        string tempname;
+        Simu::Lposition temppos;
+        tempname = this->names_titulares[i];
+        temppos = Simu::lGK;
+        this->names_titulares[i] = this->names_titulares[0];
+        this->pos_titulares[i].pos = this->pos_titulares[0].pos;
+        this->names_titulares[0] = tempname;
+        this->pos_titulares[0].pos = temppos;
+      }
+      i = N_titulares;
+    }
+  }
+  return;
 }

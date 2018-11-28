@@ -141,7 +141,25 @@ void tactic::SetTactic(string tacname)
       cout << "Tactica no valida en alineacion" << endl;
       exit(1);
     }
+}
 
+string tactic::symbol()
+{
+  switch(this->tac)
+  {
+    case lA:
+      return "A";
+    case lN:
+      return "N";
+    case lL:
+      return "L";
+    case lC:
+      return "C";
+    case lP:
+      return "P";
+    case lE:
+      return "E";
+  }
 }
 
 void tactic::dump()

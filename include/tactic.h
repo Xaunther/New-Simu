@@ -20,6 +20,7 @@ public:
   double* GetEffs(Simu::Ltactic, Simu::Lposition);
   double* GetEffs(Simu::Lposition);
   void SetTactic(string);
+  string symbol(); //Devuelve string con la tactica
   void dump();
 };
 

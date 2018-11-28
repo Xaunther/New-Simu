@@ -40,7 +40,7 @@ class jugador
   bool hasPain;
   int Cond; //Physical condition
   //Funciones
-  //Añadir exp, minutos... etc
+  //Aï¿½adir exp, minutos... etc
   void AddHAb(int bonus, string abrev, string habopt);
   void AddGam(int v = 0);
   void AddCond(int v = 0);
@@ -56,7 +56,6 @@ class jugador
   void AddDP(int pepepoints);
   void SetInj(string abrev);
   void ReduceInj(string abrev);
-  void SetSus(int susweeks);
   void ReduceSus(string abrev);
   void SetTrd();
   void AddTrd(int trdbonus);
@@ -64,6 +63,10 @@ class jugador
   void ComputeFit();
   void DetSus(int DPtoday, string abrev);
   bool isGK();
+  bool isDF();
+  bool isMF();
+  bool isFW();
+  bool isPos(string);
   void dump();
 };
 

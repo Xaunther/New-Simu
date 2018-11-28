@@ -1,10 +1,12 @@
 //Implementacion de las funciones
 
 #include "textmisc.h"
+#include "Simu.h"
 #include <string>
 #include <fstream>
 #include <iostream>
 #include <stdlib.h>
+#include <ctime>
 using namespace std;
 
 string GetInjuryType()
@@ -13,16 +15,16 @@ string GetInjuryType()
   int index = (rand() % 10);
   string types[10] = 
     {
-      "diarrea extrema :truño:",
+      "diarrea extrema :truno:",
       "bolas azules",
       "una pierna amputada",
       "un flechazo en la rodilla",
-      "un codo rasguñado",
+      "un codo rasgunado",
       "una fumada del 15 :weed:",
-      "cáncer testicular",
-      "cirugía plástica",
+      "cancer testicular",
+      "cirugia plastica",
       "un leve resfriado",
-      "un tentáculo roto"
+      "un tentaculo roto"
     };
   return types[index];
 }
@@ -113,46 +115,63 @@ void AddSkillschTxt(string newline)
 }
 
 //Obtener una variable del League.dat
-int GetLeagueDat(string variable)
+int GetLeagueDat(string variable) //Legacy
+{
+  return GetVarFrom(variable, Simu::League);
+}
+int GetVarFrom(string variable, string filename)
 {
   int value;
   string basura;
   ifstream f;
-  f.open("League.dat");
+  f.open(filename.c_str());
+  if(!f)
+  {
+    cout << "No se ha encontrado el archivo " << filename << endl;
+    exit(1);
+  }
   f >> basura;
   do
     {
       if(basura==variable)
-	{
-	  f >> basura; //Me como el igual
-	  f >> value;
-	  return value;
-	}
-      basura = "";
+      {
+        f >> basura; //Me como el igual
+        f >> value;
+        return value;
+      }
       f >> basura;
-    }while (basura!="");
+    }while (!f.eof());
   f.close();
 }
 
+//Legacy for more general function
 string GetLeagueDatString(string variable)
+{
+  return GetStringVarFrom(variable, Simu::League);
+}
+string GetStringVarFrom(string variable, string filename)
 {
   string value;
   string basura;
   ifstream f;
-  f.open("League.dat");
+  f.open(filename.c_str());
+  if(!f)
+  {
+    cout << "No se ha encontrado el archivo " << filename << endl;
+    exit(1);
+  }
   f >> basura;
   do
     {
       if(basura==variable)
-	{
-	  f >> basura; //Me como el igual
-	  f.ignore(1, ' ');
-	  getline(f,value);
-	  return value;
-	}
-      basura = "";
+      {
+        f >> basura; //Me como el igual
+        f >> value;
+        value = Substitute(value, "_", " ");
+        return value;
+      }
       f >> basura;
-    }while (basura!="");
+    }while (!f.eof());
   f.close();
 }
 
@@ -167,7 +186,7 @@ int GetUsedLines(string filename)
   if(!f)
     {
       cout << "No se ha encontrado el archivo " << filename << endl;
-      return 0; 
+      exit(1); 
     }
   while(!f.eof())
     {
@@ -179,4 +198,88 @@ int GetUsedLines(string filename)
     }
   f.close();
   return Nlines;
+}
+
+char* GetTime()
+{
+  char* result;
+  time_t rawtime;
+  struct tm * timeinfo;
+
+  time ( &rawtime );
+  timeinfo = localtime ( &rawtime );
+  result = asctime (timeinfo);
+  result[24]='\0';
+  return result;
+}
+
+//Sustituye todas las coincidencias de s_search en la string s por s_sub
+string Substitute(string &s, string s_search, string s_sub)
+{
+  size_t pos = 0;
+  do
+  {
+    pos = s.find(s_search);
+    if(pos != string::npos)
+    {
+      s.replace(pos, s_search.length(), s_sub);
+      pos += s_sub.length();
+    }
+  }while(s.find(s_search) != string::npos);
+
+  return s;
+}
+
+//Numero de frases en un archivo (cuenta lineas salvo que empiecen  por # o estÃ©n vacÃ­as
+int GetNTexts(string filename)
+{
+  //Abro fichero
+  ifstream infile;
+  infile.open(filename.c_str());
+  int N = 0;
+  string basura;
+  //Comprobar que el fichero existe
+  if(!infile)
+  {
+    cout << filename << " no encontrado" << endl;
+    exit(1);
+  }
+  //Leer cuantas lineas hay que no esten vacias ni empiecen por #
+  while(!infile.eof())
+  {
+    getline(infile, basura);
+    if(basura.substr(0,1)!="#" && basura != "")
+    {
+      N++;
+    }
+  }
+  return N;
+}
+
+//Devuelve string random de las que se encuentran en un archivo lang
+string GetRandomText(string filename)
+{
+  int N = GetNTexts(filename);
+  int k = rand() % N + 1;
+  //Abro fichero
+  ifstream infile;
+  infile.open(filename.c_str());
+  int i = 0;
+  string basura;
+  //Comprobar que el fichero existe
+  if(!infile)
+  {
+    cout << filename << " no encontrado" << endl;
+    exit(1);
+  }
+  //Leer cuantas lineas hay que no esten vacias ni empiecen por #
+  while(i<k)
+  {
+    getline(infile, basura);
+    if(basura.substr(0,1)!="#" && basura != "")
+    {
+      i++;
+    }
+  }
+  return basura;
 }

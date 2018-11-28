@@ -24,3 +24,25 @@
 
 ## Importante:
 Intentar trabajar en branches y sólo pushear a master cuando las cosas funcionen.
+
+## Cómo compilar en
+
+**LINUX**: Es necesario tener instalado cmake, make y un compilador de c++:
+* make: Desde la terminal:
+```
+sudo apt-get install make
+```
+* cmake: Desde la terminal:
+```
+sudo apt-get install cmake
+```
+* compilador: Desde la terminal:
+```
+sudo apt-get install g++
+```
+Abrir la terminal en la carpeta build y ejecutar:
+```
+cmake .. && make
+```
+
+**Windows**: Sólo he conseguido compilar usando [Visual Studio Code](https://code.visualstudio.com/?wt.mc_id=DX_841432), teniendo instalados [CMake](https://cmake.org/download/) y [Visual Studio Community 2017](https://visualstudio.microsoft.com/downloads/) como compilador de C++

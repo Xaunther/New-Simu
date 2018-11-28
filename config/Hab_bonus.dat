@@ -1,0 +1,29 @@
+######### Habilidades ############
+# Bonus x gol
+AB_Goal = 70
+# Bonus x asistencia
+AB_Assist = 100
+# Bonus x victoria (1 jugador random)
+AB_Victory_Random = 0
+# Bonus x empate (1 jugador random)
+AB_Draw_Random = 0
+# Bonus x derrota (1 jugador random)
+AB_Defeat_Random = 50
+# Bonus x porteria a cero
+AB_Clean_Sheet = 50
+# Bonus x tackle
+AB_Ktk = 48
+# Bonus x pase
+AB_Kps = 0
+# Bonus x chut
+AB_Sht = 0
+# Bonus x parada
+AB_Sav = 35
+# Bonus x gol en propia
+AB_OG = -15
+# Bonus x gol encajado (GK)
+AB_Concede = -18
+# Bonus x amarilla
+AB_Yellow = -5
+# Bonus x roja
+AB_Red = -25

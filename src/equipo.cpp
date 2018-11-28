@@ -5,13 +5,14 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 //Funciones de la clase equipo
 
 //El inicializador requiere de un archivo asociado
 equipo::equipo(string abrev):
-  Njugadores(GetUsedLines(abrev+".txt")-2), //El número de jugadores es el numero de lineas menos 2
+  Njugadores(GetUsedLines(abrev+".txt")-2), //El nï¿½mero de jugadores es el numero de lineas menos 2
   jug(new jugador[Njugadores])
 {
   abreviatura = abrev;
@@ -29,7 +30,7 @@ void equipo::Load()
     {
       return;
     }
-  //Bloque de cálculo (lectura de fichero)
+  //Bloque de cï¿½lculo (lectura de fichero)
   getline(fichero,basura);
   getline(fichero,basura); //Las dos primeras lineas son encabezados
   //Ya sabemos cuantos jugadores hay
@@ -72,7 +73,7 @@ void equipo::Load()
 }
 void equipo::Save()
 {
-  //Inicialización de variables
+  //Inicializaciï¿½n de variables
   ofstream fichero;
   string filename = abreviatura + ".txt";
   int i;
@@ -82,7 +83,7 @@ void equipo::Save()
   //Encabezados
   fichero << "Name         Age Nat St Tk Ps Sh Ag KAb TAb PAb SAb Gam Fit  Min Mom Sav Con Ktk Kps Sht Gls Ass  DP Inj Sus Sta" << endl;
   fichero << "----------------------------------------------------------------------------------------------------------------" << endl;
-  //Volcado de la información en el fichero
+  //Volcado de la informaciï¿½n en el fichero
   for (i=0;i<Njugadores;i++)
     {
       fichero << left << setfill(' ') << setw(13) << jug[i].Name;
@@ -190,7 +191,7 @@ string equipo::VetoedGK()
 	    }
 	}
     }
-  //Tengo el portero suplente, hay que mirar que esté disponible
+  //Tengo el portero suplente, hay que mirar que estï¿½ disponible
   if(jug[pos2best].Sus>0 || jug[pos2best].Inj>0)
     {
       return "";

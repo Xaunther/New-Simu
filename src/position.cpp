@@ -71,6 +71,25 @@ void position::SetEff(Simu::Ltactic _tac)
   this->ability_eff = tac.GetEffs(_tac, this->pos);
 }
 
+string position::symbol()
+{
+  switch(this->pos)
+  {
+    case Simu::lGK:
+      return "GK";
+    case Simu::lDF:
+      return "DF";
+    case Simu::lDM:
+      return "DM";
+    case Simu::lMF:
+      return "MF";
+    case Simu::lAM:
+      return "AM";
+    case Simu::lFW:
+      return "FW";
+  }
+}
+
 void position::dump()
 {
   cout << "-------------------------------------" << endl;
