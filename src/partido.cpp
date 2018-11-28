@@ -405,6 +405,8 @@ bool partido::Is_Doable(bool side, int k, int j)
       return(varvalue == ali->condicion[k].cond_value[j]);
     case Simu::lGT:
       return(varvalue >= ali->condicion[k].cond_value[j]);
+    default:
+      return(false);
   }
 }
 
