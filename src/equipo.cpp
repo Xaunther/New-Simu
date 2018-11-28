@@ -128,6 +128,7 @@ int equipo::Search(string nombre)
 	  return i;
 	}
     }
+  return -1;
 }
 
 void equipo::ReduceInj()

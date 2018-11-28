@@ -87,6 +87,8 @@ string position::symbol()
       return "AM";
     case Simu::lFW:
       return "FW";
+    default:
+      return "";
   }
 }
 

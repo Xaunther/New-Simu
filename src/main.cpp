@@ -15,7 +15,7 @@ using namespace std;
 int main(void)
 {
   //Inicializa random seed
-  srand (time(NULL));
+  srand (int(time(NULL)));
   string nombre, nombre2;
   string op;
   cout << "Equipo local: ";

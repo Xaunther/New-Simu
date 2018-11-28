@@ -159,6 +159,9 @@ string tactic::symbol()
       return "P";
     case lE:
       return "E";
+    default:
+      return "";
+    
   }
 }
 

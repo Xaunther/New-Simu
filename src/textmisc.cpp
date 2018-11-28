@@ -1,5 +1,8 @@
 //Implementacion de las funciones
 
+//Quitar warnings de las funciones antiguas de tiempo
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "textmisc.h"
 #include "Simu.h"
 #include <string>
@@ -142,6 +145,8 @@ int GetVarFrom(string variable, string filename)
       f >> basura;
     }while (!f.eof());
   f.close();
+  cout << "No se ha encontrado la palabra clave " << variable << endl;
+  return 0;
 }
 
 //Legacy for more general function
@@ -173,6 +178,8 @@ string GetStringVarFrom(string variable, string filename)
       f >> basura;
     }while (!f.eof());
   f.close();
+  cout << "No se ha encontrado la palabra clave " << variable << endl;
+  return 0;
 }
 
 //Contar lineas de un fichero que NO esten vacias
