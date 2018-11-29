@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "alineacion.h"
 #include "equipo.h"
+#include "position.h"
 #include "Simu.h"
 #include "instruccion.h"
 #include "arraytools.h"
@@ -147,8 +148,51 @@ void alineacion::Check()
 	  exit(1);
 	}
     }
+  //Chequeo min/max
+  if(!this->In_Range())
+  {
+    cout << "Jugadores por posicion fuera de rango" << endl;
+    exit(1);
+  }
 }
 
+//Funcion que devuelve si el nº de jugadores x posicion esta todo correcto o no
+bool alineacion::In_Range()
+{
+  int** range = this->Pos_Range(); //Rangos
+  //Numero de jugadores por posicion
+  int N[Simu::NPositions] = {0};
+  for(int i=0;i<N_titulares;i++)
+  {
+    N[(int)pos_titulares[i].pos]++;
+  }
+  //Trato especial a los MF, que cuenta los 3 tipos dee centrocampista
+  N[(int)Simu::lMF] += N[(int)Simu::lAM] + N[(int)Simu::lDM];
+  //Si no está en rango, salir
+  for(int i=0;i<Simu::NPositions-1;i++)
+  {
+    if(!(range[i][0] <= N[i+1] && N[i+1] <= range[i][1]))
+    {
+      return false;
+    }
+  }
+  return true;
+}
+int** alineacion::Pos_Range()
+{
+  //Array con los limites minimo y maximo
+  int** range = new int*[Simu::NPositions-1];
+  for(int i=0;i<Simu::NPositions-1;i++)
+  {
+    //Inicializo
+    range[i] = new int[2];
+    position temppos((Simu::Lposition)(i+1));
+    //Obtengo min y max, usando el symbol correspondiente :)
+    range[i][0] = GetLeagueDat("Min_"+temppos.symbol());
+    range[i][1] = GetLeagueDat("Max_"+temppos.symbol());
+  }
+  return range;
+}
 //Funcion que devuelve la formacion usada (4-4-2 P por ejemplo)
 string alineacion::Formation()
 {

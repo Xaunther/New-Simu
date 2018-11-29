@@ -34,15 +34,19 @@ DP_for_Suspension = 5
 Max_Skill = 30
 Min_Skill = 15
 
-
+#Numero de jugadores maximo y minimo, por posicion
+#El numero min y max de MF es la suma de DM, MF y AM
 Min_DF = 3
 Max_DF = 7
+Min_DM = 0
 Max_DM = 3
 Min_MF = 3
 Max_MF = 7
+Min_AM = 0
 Max_AM = 3
 Min_FW = 0
 Max_FW = 3
+
 Positions = 1
 Referees = 0
 Reports_Type = 7

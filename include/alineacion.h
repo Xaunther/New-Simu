@@ -46,6 +46,8 @@ public:
   void Leer(string); //Leer archivo de alineacion
   void Link (equipo*); //Para linkear los nombres a jugadores de verdah
   void Check(); //Para comprobar que no haya repes ni lesionados, sancionados
+  int** Pos_Range(); //Devuelve la matriz con los limites por posicion
+  bool In_Range(); //Comprueba que el numero de jug x posicion respeta los limites
   string Formation(); //Devuelve la formación elegida (4-4-2 P por ejemplo)
   void GK_First(); //Pone al GK en primer lugar del array
   void dump(); //Para vomitar todas las variables

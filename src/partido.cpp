@@ -280,6 +280,7 @@ void partido::Do_Inst(bool side, int k)
   cumple = false;
   //Chequear que el archivo este abierto
   if(!outf.is_open()){outf.open((ali_local->abrev+"_"+ali_visitante->abrev+".txt").c_str(), std::ios_base::app);}
+  Simu::Lposition oldpos;
   switch(ali->condicion[k].type)
   {
     case Simu::lPK: //No tiene output
@@ -342,9 +343,15 @@ void partido::Do_Inst(bool side, int k)
         }
       }
       //Posicion del jugador que entra
+      oldpos = ali->pos_titulares[ali->condicion[k].arg1-1].pos;
       if(ali->pos_titulares[ali->condicion[k].arg1-1].pos != Simu::lGK)
       {
         ali->pos_titulares[ali->condicion[k].arg1-1].pos =ali->condicion[k].pos;
+      }
+      //Chequear que cumple los criterios. Si no, revertir
+      if(!ali->In_Range())
+      {
+        ali->pos_titulares[ali->condicion[k].arg1-1].pos = oldpos;
       }
       //Escribe evento
       if(cumple)
@@ -360,7 +367,16 @@ void partido::Do_Inst(bool side, int k)
       if(ali->pos_titulares[ali->condicion[k].arg1-1].pos != ali->condicion[k].pos)
       {
         ali->pos_titulares[ali->condicion[k].arg1-1].pos = ali->condicion[k].pos;
-        this->Write_ChangePos(ali, ali->titulares[ali->condicion[k].arg1-1]->Name, ali->pos_titulares[ali->condicion[k].arg1-1].symbol());
+        oldpos = ali->pos_titulares[ali->condicion[k].arg1-1].pos;
+        //Si no, no se hace el cambio!
+        if(ali->In_Range())
+        {
+          this->Write_ChangePos(ali, ali->titulares[ali->condicion[k].arg1-1]->Name, ali->pos_titulares[ali->condicion[k].arg1-1].symbol());
+        }
+        else
+        {
+          ali->pos_titulares[ali->condicion[k].arg1-1].pos = oldpos;
+        }
       }
       return;
   }
