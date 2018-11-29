@@ -679,16 +679,6 @@ void partido::Update_Stats(alineacion* ali, jug_stats* stats)
     ali->titulares[i]->AddGls(int(stats[i].goles));
     //Asistencias
     ali->titulares[i]->AddAss(int(stats[i].asistencias));
-    //Puntos de sancion
-    int DPtoday = int(stats[i].amarillas)*GetVarFrom("DP_for_Yellow", Simu::League)+int(stats[i].rojas)*GetVarFrom("DP_for_Suspension", Simu::League);
-    ali->titulares[i]->AddDP(DPtoday);
-    //Lesiones
-    if(ali->titulares[i]->Inj!=0)
-    {
-      ali->titulares[i]->SetInj(ali->abrev);
-    }
-    //Sanciones
-    ali->titulares[i]->DetSus(DPtoday, ali->abrev);
   }
   for(int i=0;i<N_suplentes;i++)
   {
@@ -711,16 +701,6 @@ void partido::Update_Stats(alineacion* ali, jug_stats* stats)
     ali->suplentes[i]->AddGls(int(stats[N_titulares+i].goles));
     //Asistencias
     ali->suplentes[i]->AddAss(int(stats[N_titulares+i].asistencias));
-    //Puntos de sancion
-    int DPtoday = int(stats[N_titulares+i].amarillas)*GetVarFrom("DP_for_Yellow", Simu::League)+int(stats[N_titulares+i].rojas)*GetVarFrom("DP_for_Suspension", Simu::League);
-    ali->suplentes[i]->AddDP(DPtoday);
-    //Lesiones
-    if(ali->suplentes[i]->Inj!=0)
-    {
-      ali->suplentes[i]->SetInj(ali->abrev);
-    }
-    //Sanciones
-    ali->suplentes[i]->DetSus(DPtoday, ali->abrev);
   }
 }
 //Función para resetear el fit al inicial
@@ -736,6 +716,45 @@ void partido::Reset_Fitness(alineacion* ali, jug_stats* stats)
     ali->suplentes[i]->Trd = stats[N_titulares+i].trd_inicial;
   }
 }
+//Para actualizar las lesiones
+void partido::Update_Injuries(alineacion* ali, jug_stats* stats)
+{
+  for(int i=0;i<N_titulares;i++)
+  {
+    if(stats[i].lesionado)
+    {
+      ali->titulares[i]->SetInj(ali->abrev);
+    }
+  }
+  for(int i=0;i<N_suplentes;i++)
+  {
+    if(stats[N_titulares+i].lesionado)
+    {
+      ali->suplentes[i]->SetInj(ali->abrev);
+    }
+  }
+}
+//Para actualizar las sanciones
+void partido::Update_Suspensions(alineacion* ali, jug_stats* stats)
+{
+  for(int i=0;i<N_titulares;i++)
+  {
+    //Puntos de sancion
+    int DPtoday = int(stats[i].amarillas)*GetVarFrom("DP_for_Yellow", Simu::League)+int(stats[i].rojas)*GetVarFrom("DP_for_Suspension", Simu::League);
+    ali->titulares[i]->AddDP(DPtoday);
+    //Sanciones
+    ali->titulares[i]->DetSus(DPtoday, ali->abrev);
+  }
+  for(int i=0;i<N_suplentes;i++)
+  {
+    //Puntos de sancion
+    int DPtoday = int(stats[N_titulares+i].amarillas)*GetVarFrom("DP_for_Yellow", Simu::League)+int(stats[N_titulares+i].rojas)*GetVarFrom("DP_for_Suspension", Simu::League);
+    ali->suplentes[i]->AddDP(DPtoday);
+    //Sanciones
+    ali->suplentes[i]->DetSus(DPtoday, ali->abrev);
+  }
+}
+
 //Overloaded :)
 void partido::Update_Skills()
 {
@@ -751,4 +770,14 @@ void partido::Reset_Fitness()
 {
   this->Reset_Fitness(this->ali_local, this->stats_local);
   this->Reset_Fitness(this->ali_visitante, this->stats_visitante);
+}
+void partido::Update_Injuries()
+{
+  this->Update_Injuries(this->ali_local, this->stats_local);
+  this->Update_Injuries(this->ali_visitante, this->stats_visitante);
+}
+void partido::Update_Suspensions()
+{
+  this->Update_Suspensions(this->ali_local, this->stats_local);
+  this->Update_Suspensions(this->ali_visitante, this->stats_visitante);
 }

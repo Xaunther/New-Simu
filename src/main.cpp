@@ -75,6 +75,21 @@ int main(void)
   else
   {
     eq.AddTrd(GetVarFrom("Fit_recuperado", Simu::League));
+    eq2.AddTrd(GetVarFrom("Fit_recuperado", Simu::League));
+  }
+  //Updatear lesiones?
+  if(GetVarFrom("Update_Injuries", Simu::League))
+  {
+    match.Update_Injuries();
+    eq.ReduceInj();
+    eq2.ReduceInj();
+  }
+  //Updatear sanciones?
+  if(GetVarFrom("Update_Suspensions", Simu::League))
+  {
+    match.Update_Suspensions();
+    eq.ReduceSus();
+    eq2.ReduceSus();
   }
   
   return 0;

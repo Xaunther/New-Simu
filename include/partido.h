@@ -76,6 +76,10 @@ class partido
   void Update_Stats(alineacion*, jug_stats*);
   void Reset_Fitness();
   void Reset_Fitness(alineacion*, jug_stats*);
+  void Update_Injuries();
+  void Update_Injuries(alineacion*, jug_stats*);
+  void Update_Suspensions();
+  void Update_Suspensions(alineacion*, jug_stats*);
 };
 
 
