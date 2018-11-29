@@ -9,3 +9,6 @@
 
 #Netbeans project
 nbproject/*
+
+#VisualStudio project
+.vscode/*

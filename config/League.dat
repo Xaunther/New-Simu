@@ -18,10 +18,12 @@ Tanda_Pen = 1
 Fit_perdido = 3
 Fit_recuperado = 15
 
-#Si se quieren actualizar los stats(goles, pases...), skills(St, Tk, Ps, Sh) o el fit tras el partido (0 = no, 1 = si)
+#Si se quieren actualizar los stats(goles, pases, ...), skills(St, Tk, Ps, Sh),el fit, las lesiones o suspensiones tras el partido (0 = no, 1 = si)
 Update_Stats = 1
 Update_Skills = 1
 Update_Fitness = 1
+Update_Injuries = 1
+Update_Suspensions = 1
 
 #Cuantos DPs por amarilla?
 DP_for_Yellow = 1
@@ -51,4 +53,3 @@ Tactic_7 = 1
 Tactical = 1
 Team_Data = 0
 Suspension_margin = 10
-Max_injury_length = 6

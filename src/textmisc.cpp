@@ -8,29 +8,10 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <stdlib.h>
 #include <ctime>
 using namespace std;
-
-string GetInjuryType()
-{
-  //Obtener valor aleatorio entre 0 y 9
-  int index = (rand() % 10);
-  string types[10] = 
-    {
-      "diarrea extrema :truno:",
-      "bolas azules",
-      "una pierna amputada",
-      "un flechazo en la rodilla",
-      "un codo rasgunado",
-      "una fumada del 15 :weed:",
-      "cancer testicular",
-      "cirugia plastica",
-      "un leve resfriado",
-      "un tentaculo roto"
-    };
-  return types[index];
-}
 
 void AddSuspendTxt(string newline)
 {
@@ -180,6 +161,19 @@ string GetStringVarFrom(string variable, string filename)
   f.close();
   cout << "No se ha encontrado la palabra clave " << variable << endl;
   return 0;
+}
+
+//Función para obtener un array de un .dat
+int* GetArrayFrom(string prefix, string filename, int N)
+{
+  int* arr = new int[N];
+  for(int i=0;i<N;i++)
+  {
+    stringstream ss;
+    ss << prefix << i;
+    arr[0] = GetVarFrom(ss.str(), filename);
+  }
+  return arr;
 }
 
 //Contar lineas de un fichero que NO esten vacias

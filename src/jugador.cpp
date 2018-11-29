@@ -1,6 +1,8 @@
 //Funciones de la clase jugador
 #include "jugador.h"
 #include "textmisc.h"
+#include "arraytools.h"
+#include "Simu.h"
 #include <string>
 #include <sstream>
 #include <stdlib.h>
@@ -78,32 +80,43 @@ void jugador::AddHAb(int bonus, string abrev, string habopt)
 
 void jugador::SetInj(string abrev)
 {
-	//Obtener valor aleatorio entre 1 y 100
-	int randominj = (rand() % 100) + 1;
-	ostringstream ss;
-	int rangos[7] = {1,21,41,55,68,80,91};
-	int penalty[3] = {15,16,17};
-	int agerange[3] = {23,29,80};
+	//Obtengo el maximo de jornadas de lesion y la probabilidad de cada una
+	int max_inj = GetVarFrom("Max_injury_length", Simu::Injuries);
+	int* rangos = GetArrayFrom("Injury_", Simu::Injuries, max_inj+1);
+	//Obtengo penalty si la lesion es de 0
+	int penalty = GetVarFrom("Fit_Penalty", Simu::Injuries);
+	//Cuanto vale la suma
+	int sum = SumArray(rangos, max_inj+1);
+	//Obtener valor aleatorio entre 1 y la suma
+	int randominj = (rand() % sum) + 1;
+	stringstream ss;
 	//Mirar la tabla
+	int part_sum=0;
 	for(int i=0;i<7;i++)
 	{
-		if(randominj >= rangos[i])
+		if(randominj > part_sum)
 		{
 			Inj = i+1;
 		}
+		part_sum+=rangos[i];
 	}
-	ss << Inj;
+	//Lesion o golpe?
+	ss << Inj-1;
 	if(Inj == 1)
 	{
-		int rangestep;
-		for(rangestep=0;Age>agerange[rangestep];rangestep++){}
-		Fit -= penalty[rangestep];
-		AddInjuryTxt(Name + " (" + abrev + ") no se ha lesionado, pero est� dolorido para el pr�ximo partido");
+		Fit = max(0, Fit-penalty);
+		AddInjuryTxt(Name + " (" + abrev + ") no se ha lesionado, pero esta dolorido para el proximo partido");
 		hasPain = true;
 	}
 	else
 	{
-		AddInjuryTxt(Name + " (" + abrev + ") est� lesionado " + ss.str() + " semanas con " + GetInjuryType());
+		//Random text y sustituciones
+		string inj_report = GetRandomText(Simu::injury_report_lang);
+	  Substitute(inj_report, "{jugador}", this->Name);
+		Substitute(inj_report, "{abrev}", abrev);
+		Substitute(inj_report, "{jornadas}", ss.str());
+		//Enchufar al reports
+		AddInjuryTxt(inj_report);
 	}
 }
 void jugador::ReduceInj(string abrev)

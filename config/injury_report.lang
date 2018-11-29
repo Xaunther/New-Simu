@@ -1,0 +1,16 @@
+# Lenguaje del simulador para el report de lesiones. No hay limite en cuantas frases poner, pero cada una de ellas debe ir SOLO en una linea
+# Los saltos de linea deben ir indicados por el simbolo \n (puedes seguir los ejemplos)
+# El nombre del jugador se indica mediante {jugador}
+# La abreviatura del equipo se sustituirá en {abrev}
+# El numero de jornadas de lesión se indica con {jornadas}
+# Tambien se pueden añadir lineas comentadas como estas en cualquier sitio, si el primer caracter es una #
+{jugador} ({abrev}) esta lesionado {jornadas} jornadas con diarrea extrema :truno:
+{jugador} ({abrev}) esta lesionado {jornadas} jornadas con bolas azules
+{jugador} ({abrev}) esta lesionado {jornadas} jornadas con una pierna amputada
+{jugador} ({abrev}) esta lesionado {jornadas} jornadas con un flechazo en la rodilla
+{jugador} ({abrev}) esta lesionado {jornadas} jornadas con un codo rasgunado
+{jugador} ({abrev}) esta lesionado {jornadas} jornadas con una fumada del 15 :weed:
+{jugador} ({abrev}) esta lesionado {jornadas} jornadas con cancer testicular
+{jugador} ({abrev}) esta lesionado {jornadas} jornadas con cirugia plastica
+{jugador} ({abrev}) esta lesionado {jornadas} jornadas con un leve resfriado
+{jugador} ({abrev}) esta lesionado {jornadas} jornadas con un tentaculo roto
