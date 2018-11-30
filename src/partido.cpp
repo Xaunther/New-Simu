@@ -210,9 +210,6 @@ void partido::Simulate(int tiempo)
     
     //Lesiones
     //if(tocalesion){this->Make_Injury();}
-    outf << this->minuto << endl;
-
-    if(this->minuto == 12){this->Make_Injury();}
     //Re-checkear en caso de cambios en el resultado, lesiones...
     this->Do_Inst();
     //Cambios forzados (Sin implementar)
@@ -236,8 +233,8 @@ void partido::Write_Init()
   outf << setw(col_w) <<  loc_name << "  |  " << visit_name << endl;
   //Formaciones
   outf << setw(col_w) << ali_local->Formation() << "  |  " << ali_visitante->Formation() << endl;
-  //Entrenadores (busca abrev_DM)
-  outf << setw(col_w) << GetLeagueDatString(ali_local->abrev+"_DM") << "  |  " << GetLeagueDatString(ali_visitante->abrev+"_DM") << endl;
+  //Entrenadores (busca abrev_DT)
+  outf << setw(col_w) << GetLeagueDatString(ali_local->abrev+"_DT") << "  |  " << GetLeagueDatString(ali_visitante->abrev+"_DT") << endl;
   outf << setw(col_w) << " " << "  |  " << endl;
   //Titulares
   for(int i=0;i<N_titulares;i++)

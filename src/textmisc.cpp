@@ -126,7 +126,7 @@ int GetVarFrom(string variable, string filename)
       f >> basura;
     }while (!f.eof());
   f.close();
-  cout << "No se ha encontrado la palabra clave " << variable << endl;
+  cout << "(WARNING): No se ha encontrado la palabra clave " << variable << endl << endl;
   return 0;
 }
 
@@ -159,8 +159,8 @@ string GetStringVarFrom(string variable, string filename)
       f >> basura;
     }while (!f.eof());
   f.close();
-  cout << "No se ha encontrado la palabra clave " << variable << endl;
-  return 0;
+  cout << "(WARNING): No se ha encontrado la palabra clave " << variable << endl << endl;
+  return "";
 }
 
 //Función para obtener un array de un .dat
