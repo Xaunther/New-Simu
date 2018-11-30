@@ -1,0 +1,25 @@
+# Lenguaje del simulador para las lesiones. No hay limite en cuantas frases poner, pero cada una de ellas debe ir SOLO en una linea
+# Los saltos de linea deben ir indicados por el simbolo \n (puedes seguir los ejemplos)
+# El nombre del jugador que se lesiona es {jugador}
+# Tambien se pueden añadir lineas comentadas como estas en cualquier sitio, si el primer caracter es una #
+
+{jugador} trata de levantarse tras la entrada.\nImposible! Se ha hecho daño!
+{jugador} cae en mala posición. Se ha lesionado!
+{jugador} se ha torcido gravemente la rodilla!\nParece que va a seguir.\nNo! Se dirige al banquillo y pide el cambio.
+{jugador} se ha torcido gravemente la rodilla!\nEl fisio del club entra al campo apresuradamente.\nPero el Reflex no suerte efecto! Cambio!
+{jugador} está renqueante. Se prepara el cambio.
+{jugador} se toca el tobillo.\nPide urgentemente que le atienda el médico.\nNada que hacer! Cambio.
+{jugador} se toca la rodilla.\nSale del campo para que lo atienda el fisio.\nEs serio! Habrá cambio.
+{jugador} se ha lesionado! Cambio...
+{jugador} está lesionado. Qué mala suerte!
+{jugador} está en el suelo.\nEl fisio del club entra rápidamente.\nLlama a la camilla. Cambio!
+{jugador} está en el suelo.\nEl fisio del club entra rápidamente.\nDice que no con la cabeza. Cambio!
+{jugador} se retuerce de dolor sobre el césped!\nSu entrenador no tendrá más remedio que cambiarlo!
+{jugador} hace ostensibles gestos de dolor. Habrá cambio.
+{jugador} hace ostensibles gestos de dolor.\nTrata de seguir... Imposible!
+{jugador} parece lesionado. Ha tenido un tirón.\nEsperemos que sea eso y no una rotura de fibras.
+{jugador} parece lesionado. No va a seguir.\nEsperemos que no sea nada serio.
+{jugador} se levanta.\nPero el dolor es insoportable.\nMalas noticias! Pide el cambio!
+{jugador} se levanta.\nTrata de andar, pero va cojo!.\nMalas noticias! Pide el cambio!
+{jugador} se lleva la mano al muslo!\nHace que no con la cabeza! Se ha roto!
+{jugador} se tuerce gravemente el tobillo!\nNo continuará! Eso es un esguince como mínimo.

@@ -53,16 +53,20 @@ class partido
   void Stats_Init();
   void SetLocalBoost();
   void Simulate(int);
+  void Do_Inst();
   void Do_Inst(bool);
   void Do_Inst(bool, int);
   bool Is_Doable(bool, int, int);
   void AddMin();
   void ReduceFit();
+  //Eventos random
+  void Make_Injury();
   //Funciones de escritura
   void Write_Init();
   void Write_Sub(alineacion*, string, string, string);
   void Write_ChangePos(alineacion*, string, string);
   void Write_Tactic(alineacion*, string);
+  void Write_Injury(alineacion*, string);
   void Write_Event(alineacion*, string, bool = false);
   void Write_HT();
   void Write_FT();

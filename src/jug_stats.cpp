@@ -26,6 +26,20 @@ jug_stats::jug_stats():
   Sh(0)
 {
 }
+
+//Condicional para saber si el jugador esta en condiciones de jugar
+bool jug_stats::Is_Playable()
+{
+  if(!this->lesionado && !this->rojas)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
 //Calculadores de habilidad
 void jug_stats::Update()
 {

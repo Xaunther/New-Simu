@@ -1,6 +1,7 @@
 #include "equipo.h"
 #include "jugador.h"
 #include "textmisc.h"
+#include "Simu.h"
 #include <string>
 #include <fstream>
 #include <iomanip>
@@ -16,7 +17,7 @@ equipo::equipo(string abrev):
   jug(new jugador[Njugadores])
 {
   abreviatura = abrev;
-  nombre = GetLeagueDatString(abreviatura);
+  nombre = GetStringVarFrom(abreviatura, Simu::Teams);
 }
 void equipo::Clear(){Njugadores = 0;}
 void equipo::Load()

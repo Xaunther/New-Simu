@@ -191,18 +191,15 @@ void partido::Simulate(int tiempo)
   //Visitante
   this->Do_Inst(true);
   //Pasado el previo, llegamos al minuto 1 (o 91)
-  minuto++;
+  this->minuto++;
   int minuto_init = this->minuto;
   //Loop. Cada minuto una accion
-  for(minuto=minuto;minuto<minuto_init+tiempo;minuto++)
+  for(this->minuto=this->minuto;this->minuto<minuto_init+tiempo;this->minuto++)
   {
     //Descanso
-    if(minuto-minuto_init == tiempo/2){this->Write_HT();}
+    if(this->minuto-minuto_init == tiempo/2){this->Write_HT();}
     //Chequear las instrucciones
-    //Local
-    this->Do_Inst(false);
-    //Visitante
-    this->Do_Inst(true);
+    this->Do_Inst();
     //Añade un minuto de juego a todos los que hay en el campo
     this->AddMin();
     //Reduce el fit a los que estan jugando, si toca...
@@ -211,7 +208,14 @@ void partido::Simulate(int tiempo)
     this->Update_pts();
     //Eventos (Sin implementar)
     
-    //outf << "Min. " << minuto << setw(3-int(log10(minuto))) << ":" << endl;
+    //Lesiones
+    //if(tocalesion){this->Make_Injury();}
+    outf << this->minuto << endl;
+
+    if(this->minuto == 12){this->Make_Injury();}
+    //Re-checkear en caso de cambios en el resultado, lesiones...
+    this->Do_Inst();
+    //Cambios forzados (Sin implementar)
   }
   //Final
   this->Write_FT();
@@ -250,6 +254,13 @@ void partido::Write_Init()
   return;
 }
 
+//Ejecuta tanto la local como la visitante
+void partido::Do_Inst()
+{
+  this->Do_Inst(true);
+  this->Do_Inst(false);
+  return;
+}
 //Ejecuta, si cumple los criterios, la condición k del local (false) o visitante (true)
 void partido::Do_Inst(bool side)
 {
@@ -453,9 +464,18 @@ void partido::Write_Tactic(alineacion* ali, string tactica)
 void partido::Write_ChangePos(alineacion* ali, string jug, string pos)
 {
   string format_string = GetRandomText(Simu::Chpos_lang);
-  //Hay 2 cosas que sustituir: {tactica} y {equipo}
+  //Hay 2 cosas que sustituir: {jugador} y {pos}
   Substitute(format_string, "{jugador}", jug);
   Substitute(format_string, "{pos}", pos);
+  Substitute(format_string, "\\n", "\n          ...  ");
+  Write_Event(ali, format_string);
+  return;
+}
+void partido::Write_Injury(alineacion* ali, string jug)
+{
+  string format_string = GetRandomText(Simu::Injury_lang);
+  //Hay 1 cosa que sustituir: {jugador}
+  Substitute(format_string, "{jugador}", jug);
   Substitute(format_string, "\\n", "\n          ...  ");
   Write_Event(ali, format_string);
   return;
@@ -525,6 +545,37 @@ void partido::ReduceFit()
       this->ali_visitante->titulares[i]->Fit--;
     }
   }
+}
+
+//Eventos random
+void partido::Make_Injury()
+{
+  //Puntero a la alineacion que deba sumarse la lesion
+  alineacion* ali;
+  jug_stats* stats;
+  //Numero aleatorio entre 0 y 2*N_titulares-1
+  int rN = rand() % (2*N_titulares);
+  //0-10: jug local; 11-21: jug_visitante
+  if(bool(rN/N_titulares))
+  {
+    ali = this->ali_visitante;
+    stats = this->stats_visitante;
+  }
+  else
+  {
+    ali = this->ali_local;
+    stats = this->stats_local;
+  }
+  //Una vez sabido, se toma el numero del 0 a N_titulares que corresponde
+  rN = rN % N_titulares;
+  //Se lesiona sólo si está jugando
+  if(stats[rN].Is_Playable())
+  {
+    stats[rN].lesionado = true;
+    //Escribir el comentario
+    this->Write_Injury(ali, ali->titulares[rN]->Name);
+  }
+  return;
 }
 
 //Printear stats (al final del partido)

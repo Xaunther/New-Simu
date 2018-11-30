@@ -40,6 +40,7 @@ namespace Simu
   static const std::string Cambios_lang = "../config/cambios.lang";
   static const std::string Chpos_lang = "../config/chpos.lang";
   static const std::string Tacticas_lang = "../config/tacticas.lang";
+  static const std::string Injury_lang = "../config/injury.lang";
   static const std::string injury_report_lang = "../config/injury_report.lang";
 };
 
