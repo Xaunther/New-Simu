@@ -186,10 +186,7 @@ void partido::Simulate(int tiempo)
   }
   //Sorteo de quien inicia la posesion
   //Ajustes de minuto 0
-  //Local
-  this->Do_Inst(false);
-  //Visitante
-  this->Do_Inst(true);
+  this->Do_Inst();
   //Pasado el previo, llegamos al minuto 1 (o 91)
   this->minuto++;
   int minuto_init = this->minuto;

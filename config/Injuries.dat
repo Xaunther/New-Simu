@@ -15,3 +15,5 @@ Injury_6 = 10
 #Si el jugador acaba sin lesión, puede configurarse una pérdida de fit extra
 Fit_Penalty = 15
 
+#Cada cuantos minutos debe haber una lesión (de media)?
+Injury = 180

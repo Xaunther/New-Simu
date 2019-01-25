@@ -12,3 +12,8 @@ nbproject/*
 
 #VisualStudio project
 .vscode/*
+
+#Mierda de latex
+*.log
+*.aux
+*.gz
