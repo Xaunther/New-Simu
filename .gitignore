@@ -17,3 +17,4 @@ nbproject/*
 *.log
 *.aux
 *.gz
+*.out

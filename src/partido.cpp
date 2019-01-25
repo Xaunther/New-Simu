@@ -2,6 +2,7 @@
 #include "alineacion.h"
 #include "textmisc.h"
 #include "jug_stats.h"
+#include "RandomTools.h"
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -206,7 +207,7 @@ void partido::Simulate(int tiempo)
     //Eventos (Sin implementar)
     
     //Lesiones
-    //if(tocalesion){this->Make_Injury();}
+    if(RandT::Bingo(GetVarFrom("Injury", Simu::Injuries))){this->Make_Injury();}
     //Re-checkear en caso de cambios en el resultado, lesiones...
     this->Do_Inst();
     //Cambios forzados (Sin implementar)
