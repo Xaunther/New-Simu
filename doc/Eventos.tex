@@ -9,6 +9,7 @@
 \usepackage{enumerate}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage[utf8]{inputenc}
 
 \title{Generaci\'on de eventos.}
 \author{Xaunther}
@@ -73,12 +74,12 @@ La simulaci\'on es el \'unico elemento aleatorio de la lista (adem\'as de las le
 \section{Esquema de probabilidad}
 Aún sin conocer cómo se determina exactamente la probabilidad para cada evento, el anterior esquema de funcionamiento conlleva las siguientes relaciones de probabilidad, por minuto de juego:
 \begin{align}
-P(gol)&=P(posesion)\sum_i{P(gol|ocasion_i)P(ocasion_i|posesion)}\approx\frac{1}{90}
+P(gol)&=P(posesion)\sum_i{P(gol|ocasion_i)P(ocasion_i|posesion)}\approx\frac{1}{90}\\
 P(ocasion)&=P(posesion)\sum_i{P(ocasion_i|posesion)}\approx\frac{5}{90}
 \end{align}
 Los valores aproximados de probabilidad de gol y de ocasión pueden entenderse como una referencia cuando dos equipos de fuerzas parejas juegan un partido con tácticas neutras.
 
-En cuanto a la probabilidad de posesión, ésta se calcula de manera aproximada usando una cadena de Markov en la \autoref{sec:ProbPosesion}
+En cuanto a la probabilidad de posesión, ésta se calcula de manera aproximada usando una cadena de Markov en la \autoref{sec:ProbPosesion}.
 \section{Probabilidad de posesi\'on}\label{sec:ProbPosesion}
 La probabilidad de posesión tras m minutos de juego puede expresarse como:
 \begin{equation}
@@ -109,4 +110,17 @@ P(L) & 1-P(V) \\
 1
 \end{pmatrix}
 \end{equation}
+Donde hemos usado que al inicio del partido se hace un sorteo a cara o cruz para ver qué equipo saca, por lo que es un 50\% de probabilidad para cada equipo. Esto no es más que una cadena de Markov, al aplicar muchas veces la matriz de transición llegamos a un estado estable que no varía. Este estado estable es el vector propio asociado al valor propio 1, al que se llega cuando han pasado una gran cantidad de minutos, y es:
+\begin{align}
+	P_\infty(L)&=\frac{1-P(V)}{2-P(V)-P(L)}\\
+	P_\infty(V)&=\frac{1-P(L)}{2-P(V)-P(L)}
+\end{align}
+Ahora toca hacer dos aproximaciones. Por un lado, la probabilidad de que un equipo mantenga lo posesión de manera exacta es tarea casi imposible, pero podemos ignorar los cambios de posesión que se producen cuando se marca un gol, comienza el segundo tiempo o se termina una ocasión de gol perdiendo la posesión. La parte importante es la parte de conservación de balón, la cual depende sólo de la habilidad de pase del equipo que ataca y la habilidad de defensa del equipo defensor. Por otro lado, para calcular la posesión esperada de cada equipo:
+\begin{align}
+	P(posesion)(L,V)=\frac{1}{90}\sum_{m=1}^{90}P_m(L,V)
+\end{align}
+Dado que al estado estable se llega con bastante rapidez ($<10$ minutos), podemos aproximar la suma usando sólamente los estados estables:
+\begin{align}
+	P(posesion)(L,V)\approx\frac{1}{90}\sum_{m=1}^{90}P_\infty(L,V)=P_\infty(L,V)=\frac{1-P(V,L)}{2-P(V)-P(L)}
+\end{align}
 \end{document}
