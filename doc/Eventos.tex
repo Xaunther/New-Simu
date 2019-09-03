@@ -56,7 +56,7 @@ La simulaci\'on es el \'unico elemento aleatorio de la lista (adem\'as de las le
 \item Chut cercano.
 \item Chut lejano.
 \end{itemize}
-\item Determinar rematador, defensor y asistente. La probabilidad de a qui\'en le toca viene determinada por su posici\'on en el campo:
+\item Determinar rematador, defensor y asistente. La probabilidad de a qui\'en le toca viene determinada por su posici\'on en el campo, habilidad y táctica, pero a grandes rasgos:
 \begin{itemize}
 \item Rematador: FW $>$ AM $>$ MF $>$ DM $>$ DF $>$ GK ($=0$).
 \item Asistente: AM $>$ MF $>$ FW $>$ DM $>$ DF $>$ GK ($=0$).
@@ -122,6 +122,8 @@ Dado que al estado estable se llega con bastante rapidez ($<10$ minutos), podemo
 \begin{align}
 	P(posesion)(L,V)\approx\frac{1}{90}\sum_{m=1}^{90}P_\infty(L,V)=P_\infty(L,V)=\frac{1-P(V,L)}{2-P(V)-P(L)}
 \end{align}
+Cada vez que el equipo atacante retenga el balón (ya sea sólo manteniéndolo o generando una ocasión de gol) se añadirá un pase realizado a la estadística de pases de un jugador del equipo, de manera aleatoria. La probabilidad asignada depende de su posición en el campo y habilidad de pase (WIP).
+
 
 \section{Probabilidad de ocasión}\label{sec:ProbOcasion}
 \def \Pocasion {\ensuremath{\frac{12.675}{90}}}
@@ -147,6 +149,7 @@ Si tomamos como referencia las estadísticas de la Premier League 2018-19 \cite{
 	P(cercano)&\approx\Pclose\\
 	P(lejano)&\approx\Pfar
 \end{align}
+
 
 \section{Probabilidad de gol}\label{sec:ProbGol}
 \def \Pgol {\ensuremath{\frac{1}{90}}}
@@ -196,6 +199,25 @@ Estos valores numéricos son los valores medios, que deberían ocurrir cuando se
   \caption{Resumen de las probabilidades de ocasión y de gol}
   \label{table:probjug}
 \end{table}
+
+\section{Función de probabilidad}\label{subsec:ProbFunction}
+Es el momento de asignar la función para determinar que ocurra un evento en favor de un equipo o de otro. Esta función la expresaremos como la probabilidad de que ocurra un evento favorable al equipo atacante, en función del valor de habilidad requerido del equipo atacante, $x_A$, y el valor de habilidad requerido por el equipo defensor, $y_D$. Esta función ha de usarse, con modificaciones, a cada evento que requiera una probabilidad, y ha de tener las siguientes propiedades
+\begin{enumerate}
+	\item $P_A = P_A(x_A, y_D)$: La función ha de depender exclusivamente de un cierto valor del equipo atacante y de un cierto valor del equipo defensor.
+	\item $P_A(\Lambda x_A, \Lambda y_D) = P_A(x_A, y_D)$: Escalabilidad, si todas las habilidades se multiplican por un factor $\Lambda$ la probabilidad se mantiene constante.
+	\item $P_A(x_A, y_D) = P_{media} \iff x_A = y_D$: Punto de referencia, si el valor del atacante es igual al del defensor, la probabilidad de que ocurra esa acción será la probabilidad media que aplique obtenida en los apartados anteriores.
+	\item $P_A(x_A, y_D) > P_{media} \iff x_A > y_D$: Si el atacante es mejor que el defensor, la probabilidad aumentará
+	\item $P_A(x_A, y_D) < P_{media} \iff x_A < y_D$: Si el defensor es mejor que el atacante, la probabilidad disminuirá.
+	\item $\frac{\partial P_A(x_A, y_D)}{\partial x_A} > 0 $: La probabilidad siempre crece con la habilidad del atacante.
+	\item $\frac{\partial P_A(x_A, y_D)}{\partial y_D} < 0 $: La probabilidad siempre decrece con la habilidad del defensor.
+	\item $\lim\limits_{x_A/y_D\to\infty} P_A(x_A, y_D) = 1$: La probabilidad cuando el atacante es infinitamente mejor es 1.
+	\item $\lim\limits_{x_A/y_D\to 0} P_A(x_A, y_D) = 0$: la probabilidad cuando el defensor es infinitamente mejor es 0.
+\end{enumerate}
+La función más simple que cumple todas estás propiedades es:
+\begin{equation}
+	P_A(x_A, y_D) = \frac{x_A}{x_A+y_D}
+\end{equation}
+Recordando siempre que los valores de pase y tackle son los efectivos, es decir, tienen en cuenta modificadores de táctica y alineación.
 
 \newpage
 \begin{thebibliography}{999}
