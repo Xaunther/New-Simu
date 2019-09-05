@@ -219,6 +219,31 @@ La función más simple que cumple todas estás propiedades es:
 \end{equation}
 Recordando siempre que los valores de pase y tackle son los efectivos, es decir, tienen en cuenta modificadores de táctica y alineación.
 
+\section{Formaciones}\label{sec:Formaciones}
+Las formaciones permitidas se pueden configurar editando el archivo League.dat, que proporciona el número mínimo y máximo de jugadores de campo que puede haber en cada posición. Siempre ha de haber un portero. La alineación se considerará inválida si no se cumplen todas las condiciones, y en todo momento el simulador no permitirá salirse de los rangos definidos. De momento, se dejará a los usuarios explorar con las formaciones con bastante flexibilidad.
+
+\section{Tácticas}\label{sec:Tacticas}
+\section{Lista de tácticas y beneficios}\label{sec:Tacticas}
+A continuación se declaran todas las posibles tácticas, con sus pros y contras (multiplicadores a la defensa, pase y ataque). Recordemos que estos multiplicadores afectan al global del equipo, no jugador a jugador. Es decir, un jugador con media 20 de defensa contribuirá $20*bonus$ a la defensa de su equipo, pero en el caso de actuar individualmente su habilidad de defensa sigue siendo 20 (por el cansacio que pueda tener).
+\begin{table}
+  \begin{center}
+    \begin{tabular}{c c c c}
+      \hline
+      Posición & Tk bonus & Ps bonus & Sh bonus\\
+      \hline
+      GK & & & \\
+      DF & & & \\
+      DM & & & \\
+      MF & & & \\
+      AM & & & \\
+      FW & & & \\
+      \hline
+    \end{tabular}
+  \end{center}
+  \caption{Resumen de las probabilidades de ocasión y de gol}
+  \label{table:tacticbonus}
+\end{table}
+
 \newpage
 \begin{thebibliography}{999}
 
