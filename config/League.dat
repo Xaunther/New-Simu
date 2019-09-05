@@ -36,11 +36,11 @@ Min_Skill = 15
 
 #Numero de jugadores maximo y minimo, por posicion
 #El numero min y max de MF es la suma de DM, MF y AM
-Min_DF = 3
+Min_DF = 2
 Max_DF = 7
 Min_DM = 0
 Max_DM = 3
-Min_MF = 3
+Min_MF = 2
 Max_MF = 7
 Min_AM = 0
 Max_AM = 3
