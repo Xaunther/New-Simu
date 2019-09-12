@@ -30,58 +30,53 @@ tactic::tactic(Ltactic _tac)
 //Rellenar con los numeritos!
 void tactic::Fill()
 {
-  //Lista de bonus para editar, para no tener que editar tooooda la matriz
   if(!this->isFilled)
     {
+      //Lista de bonus para editar, para no tener que editar tooooda la matriz
+      double bonus_list[Simu::NTactics][Simu::NPositions];
       /////////////// Tactica A //////////////
-      effs[lA][lGK][lSt] = 1; effs[lA][lGK][lTk] = 0; effs[lA][lGK][lPs] = 0; effs[lA][lGK][lSh] = 0;
-      effs[lA][lDF][lSt] = 0; effs[lA][lDF][lTk] = -0.5/3.+1.3; effs[lA][lDF][lPs] = -0.5/3.+0.9; effs[lA][lDF][lSh] = -0.5/3.+0.8;
-      effs[lA][lDM][lSt] = 0; effs[lA][lDM][lTk] = -0.2/3.+0.9; effs[lA][lDM][lPs] = -0.2/3.+1.2; effs[lA][lDM][lSh] = -0.2/3.+0.9;
-      effs[lA][lMF][lSt] = 0; effs[lA][lMF][lTk] = -0.2/3.+0.9; effs[lA][lMF][lPs] = -0.2/3.+1.2; effs[lA][lMF][lSh] = -0.2/3.+0.9;
-      effs[lA][lAM][lSt] = 0; effs[lA][lAM][lTk] = -0.2/3.+0.9; effs[lA][lAM][lPs] = -0.2/3.+1.2; effs[lA][lAM][lSh] = -0.2/3.+0.9;
-      effs[lA][lFW][lSt] = 0; effs[lA][lFW][lTk] = 0.7/3.+0.8; effs[lA][lFW][lPs] = 0.7/3.+0.9; effs[lA][lFW][lSh] = 0.7/3.+1.3;
+      bonus_list[lA][lDF]=-0.5;bonus_list[lA][lDM]=-0.2;bonus_list[lA][lMF]=-0.2;bonus_list[lA][lAM]=-0.2; bonus_list[lA][lFW]=0.7;
       /////////////// Tactica D //////////////
-      effs[lD][lGK][lSt] = 1; effs[lD][lGK][lTk] = 0; effs[lD][lGK][lPs] = 0; effs[lD][lGK][lSh] = 0;
-      effs[lD][lDF][lSt] = 0; effs[lD][lDF][lTk] = 0.7/3.+1.3; effs[lD][lDF][lPs] = 0.7/3.+0.9; effs[lD][lDF][lSh] = 0.7/3.+0.8;
-      effs[lD][lDM][lSt] = 0; effs[lD][lDM][lTk] = -0.2/3.+0.9; effs[lD][lDM][lPs] = -0.2/3.+1.2; effs[lD][lDM][lSh] = -0.2/3.+0.9;
-      effs[lD][lMF][lSt] = 0; effs[lD][lMF][lTk] = -0.2/3.+0.9; effs[lD][lMF][lPs] = -0.2/3.+1.2; effs[lD][lMF][lSh] = -0.2/3.+0.9;
-      effs[lD][lAM][lSt] = 0; effs[lD][lAM][lTk] = -0.2/3.+0.9; effs[lD][lAM][lPs] = -0.2/3.+1.2; effs[lD][lAM][lSh] = -0.2/3.+0.9;
-      effs[lD][lFW][lSt] = 0; effs[lD][lFW][lTk] = -0.5/3.+0.8; effs[lD][lFW][lPs] = -0.5/3.+0.9; effs[lD][lFW][lSh] = -0.5/3.+1.3;
+      bonus_list[lD][lDF]=0.7;bonus_list[lD][lDM]=-0.2;bonus_list[lD][lMF]=-0.2;bonus_list[lD][lAM]=-0.2; bonus_list[lD][lFW]=-0.5;
       /////////////// Tactica N //////////////
-      effs[lN][lGK][lSt] = 1; effs[lN][lGK][lTk] = 0; effs[lN][lGK][lPs] = 0; effs[lN][lGK][lSh] = 0;
-      effs[lN][lDF][lSt] = 0; effs[lN][lDF][lTk] = 1.3; effs[lN][lDF][lPs] = 0.9; effs[lN][lDF][lSh] = 0.8;
-      effs[lN][lDM][lSt] = 0; effs[lN][lDM][lTk] = 0.9; effs[lN][lDM][lPs] = 1.2; effs[lN][lDM][lSh] = 0.9;
-      effs[lN][lMF][lSt] = 0; effs[lN][lMF][lTk] = 0.9; effs[lN][lMF][lPs] = 1.2; effs[lN][lMF][lSh] = 0.9;
-      effs[lN][lAM][lSt] = 0; effs[lN][lAM][lTk] = 0.9; effs[lN][lAM][lPs] = 1.2; effs[lN][lAM][lSh] = 0.9;
-      effs[lN][lFW][lSt] = 0; effs[lN][lFW][lTk] = 0.8; effs[lN][lFW][lPs] = 0.9; effs[lN][lFW][lSh] = 1.3;
+      bonus_list[lN][lDF]=0;bonus_list[lN][lDM]=0;bonus_list[lN][lMF]=0;bonus_list[lN][lAM]=0; bonus_list[lN][lFW]=0;
       /////////////// Tactica L //////////////
-      effs[lL][lGK][lSt] = 1; effs[lL][lGK][lTk] = 0; effs[lL][lGK][lPs] = 0; effs[lL][lGK][lSh] = 0;
-      effs[lL][lDF][lSt] = 0; effs[lL][lDF][lTk] = 0.3/3.+1.3; effs[lL][lDF][lPs] = 0.3/3.+0.9; effs[lL][lDF][lSh] = 0.3/3.+0.8;
-      effs[lL][lDM][lSt] = 0; effs[lL][lDM][lTk] = -0.6/3.+0.9; effs[lL][lDM][lPs] = -0.6/3.+1.2; effs[lL][lDM][lSh] = -0.6/3.+0.9;
-      effs[lL][lMF][lSt] = 0; effs[lL][lMF][lTk] = -0.6/3.+0.9; effs[lL][lMF][lPs] = -0.6/3.+1.2; effs[lL][lMF][lSh] = -0.6/3.+0.9;
-      effs[lL][lAM][lSt] = 0; effs[lL][lAM][lTk] = -0.6/3.+0.9; effs[lL][lAM][lPs] = -0.6/3.+1.2; effs[lL][lAM][lSh] = -0.6/3.+0.9;
-      effs[lL][lFW][lSt] = 0; effs[lL][lFW][lTk] = 0.3/3.+0.8; effs[lL][lFW][lPs] = 0.3/3.+0.9; effs[lL][lFW][lSh] = 0.3/3.+1.3;
+      bonus_list[lL][lDF]=0.3;bonus_list[lL][lDM]=-0.6;bonus_list[lL][lMF]=-0.6;bonus_list[lL][lAM]=-0.6; bonus_list[lL][lFW]=0.3;
       /////////////// Tactica C //////////////
-      effs[lC][lGK][lSt] = 1; effs[lC][lGK][lTk] = 0; effs[lC][lGK][lPs] = 0; effs[lC][lGK][lSh] = 0;
-      effs[lC][lDF][lSt] = 0; effs[lC][lDF][lTk] = 0.5/3.+1.3; effs[lC][lDF][lPs] = 0.5/3.+0.9; effs[lC][lDF][lSh] = 0.5/3.+0.8;
-      effs[lC][lDM][lSt] = 0; effs[lC][lDM][lTk] = -0.8/3.+0.9; effs[lC][lDM][lPs] = -0.8/3.+1.2; effs[lC][lDM][lSh] = -0.8/3.+0.9;
-      effs[lC][lMF][lSt] = 0; effs[lC][lMF][lTk] = -0.8/3.+0.9; effs[lC][lMF][lPs] = -0.8/3.+1.2; effs[lC][lMF][lSh] = -0.8/3.+0.9;
-      effs[lC][lAM][lSt] = 0; effs[lC][lAM][lTk] = -0.8/3.+0.9; effs[lC][lAM][lPs] = -0.8/3.+1.2; effs[lC][lAM][lSh] = -0.8/3.+0.9;
-      effs[lC][lFW][lSt] = 0; effs[lC][lFW][lTk] = 0.3/3.+0.8; effs[lC][lFW][lPs] = 0.3/3.+0.9; effs[lC][lFW][lSh] = 0.3/3.+1.3;
+      bonus_list[lC][lDF]=0.5;bonus_list[lC][lDM]=-0.8;bonus_list[lC][lMF]=-0.8;bonus_list[lC][lAM]=-0.8; bonus_list[lC][lFW]=0.3;
       /////////////// Tactica P //////////////
-      effs[lP][lGK][lSt] = 1; effs[lP][lGK][lTk] = 0; effs[lP][lGK][lPs] = 0; effs[lP][lGK][lSh] = 0;
-      effs[lP][lDF][lSt] = 0; effs[lP][lDF][lTk] = -0.2/3.+1.3; effs[lP][lDF][lPs] = -0.2/3.+0.9; effs[lP][lDF][lSh] = -0.2/3.+0.8;
-      effs[lP][lDM][lSt] = 0; effs[lP][lDM][lTk] = 0.6/3.+0.9; effs[lP][lDM][lPs] = 0.6/3.+1.2; effs[lP][lDM][lSh] = 0.6/3.+0.9;
-      effs[lP][lMF][lSt] = 0; effs[lP][lMF][lTk] = 0.6/3.+0.9; effs[lP][lMF][lPs] = 0.6/3.+1.2; effs[lP][lMF][lSh] = 0.6/3.+0.9;
-      effs[lP][lAM][lSt] = 0; effs[lP][lAM][lTk] = 0.6/3.+0.9; effs[lP][lAM][lPs] = 0.6/3.+1.2; effs[lP][lAM][lSh] = 0.6/3.+0.9;
-      effs[lP][lFW][lSt] = 0; effs[lP][lFW][lTk] = -0.4/3.+0.8; effs[lP][lFW][lPs] = -0.4/3.+0.9; effs[lP][lFW][lSh] = -0.4/3.+1.3;
+      bonus_list[lP][lDF]=-0.2;bonus_list[lP][lDM]=0.6;bonus_list[lP][lMF]=0.6;bonus_list[lP][lAM]=0.6; bonus_list[lP][lFW]=-0.4;
       /////////////// Tactica E //////////////
-      effs[lE][lGK][lSt] = 1; effs[lE][lGK][lTk] = 0; effs[lE][lGK][lPs] = 0; effs[lE][lGK][lSh] = 0;
-      effs[lE][lDF][lSt] = 0; effs[lE][lDF][lTk] = -0.3/3.+1.3; effs[lE][lDF][lPs] = -0.3/3.+0.9; effs[lE][lDF][lSh] = -0.3/3.+0.8;
-      effs[lE][lDM][lSt] = 0; effs[lE][lDM][lTk] = 0.2/3.+0.9; effs[lE][lDM][lPs] = 0.2/3.+1.2; effs[lE][lDM][lSh] = 0.2/3.+0.9;
-      effs[lE][lMF][lSt] = 0; effs[lE][lMF][lTk] = 0.2/3.+0.9; effs[lE][lMF][lPs] = 0.2/3.+1.2; effs[lE][lMF][lSh] = 0.2/3.+0.9;
-      effs[lE][lAM][lSt] = 0; effs[lE][lAM][lTk] = 0.2/3.+0.9; effs[lE][lAM][lPs] = 0.2/3.+1.2; effs[lE][lAM][lSh] = 0.2/3.+0.9;
-      effs[lE][lFW][lSt] = 0; effs[lE][lFW][lTk] = 0.1/3.+0.8; effs[lE][lFW][lPs] = 0.1/3.+0.9; effs[lE][lFW][lSh] = 0.1/3.+1.3;      
+      bonus_list[lE][lDF]=-0.3;bonus_list[lE][lDM]=0.2;bonus_list[lE][lMF]=0.2;bonus_list[lE][lAM]=0.2; bonus_list[lE][lFW]=0.1;
+      //Loop over tactics
+      for(int i=0;i<Simu::NTactics;i++)
+      {
+        //Loop over positions
+        for(int j=0;j<Simu::NPositions;j++)
+        {
+          switch(j)
+          {
+            case lGK:
+              effs[i][j][lSt] = 1; effs[i][j][lTk] = 0; effs[i][j][lPs] = 0; effs[i][j][lSh] = 0;
+              break;
+            case lDF:
+              effs[i][j][lSt] = 0; effs[i][j][lTk] = bonus_list[i][j]/3.+1.3; effs[i][j][lPs] = bonus_list[i][j]/3.+0.9; effs[i][j][lSh] = bonus_list[i][j]/3.+0.8;
+              break;
+            case lDM:
+              effs[i][j][lSt] = 0; effs[i][j][lTk] = bonus_list[i][j]/3.+0.9; effs[i][j][lPs] = bonus_list[i][j]/3.+1.2; effs[i][j][lSh] = bonus_list[i][j]/3.+0.9;
+              break;
+            case lMF:
+              effs[i][j][lSt] = 0; effs[i][j][lTk] = bonus_list[i][j]/3.+0.9; effs[i][j][lPs] = bonus_list[i][j]/3.+1.2; effs[i][j][lSh] = bonus_list[i][j]/3.+0.9;
+              break;
+            case lAM:
+              effs[i][j][lSt] = 0; effs[i][j][lTk] = bonus_list[i][j]/3.+0.9; effs[i][j][lPs] = bonus_list[i][j]/3.+1.2; effs[i][j][lSh] = bonus_list[i][j]/3.+0.9;
+              break;
+            case lFW:
+              effs[i][j][lSt] = 0; effs[i][j][lTk] = bonus_list[i][j]/3.+0.8; effs[i][j][lPs] = bonus_list[i][j]/3.+0.9; effs[i][j][lSh] = bonus_list[i][j]/3.+1.3;
+              break;
+          }
+        }
+      }  
     }
   this->isFilled = true;
 }
