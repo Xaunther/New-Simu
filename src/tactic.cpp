@@ -60,19 +60,19 @@ void tactic::Fill()
               effs[i][j][lSt] = 1; effs[i][j][lTk] = 0; effs[i][j][lPs] = 0; effs[i][j][lSh] = 0;
               break;
             case lDF:
-              effs[i][j][lSt] = 0; effs[i][j][lTk] = bonus_list[i][j]/3.+1.3; effs[i][j][lPs] = bonus_list[i][j]/3.+0.9; effs[i][j][lSh] = bonus_list[i][j]/3.+0.8;
+              effs[i][j][lSt] = 0; effs[i][j][lTk] = bonus_list[i][j]/3.+1.6; effs[i][j][lPs] = bonus_list[i][j]/3.+0.8; effs[i][j][lSh] = bonus_list[i][j]/3.+0.6;
               break;
             case lDM:
-              effs[i][j][lSt] = 0; effs[i][j][lTk] = bonus_list[i][j]/3.+0.9; effs[i][j][lPs] = bonus_list[i][j]/3.+1.2; effs[i][j][lSh] = bonus_list[i][j]/3.+0.9;
+              effs[i][j][lSt] = 0; effs[i][j][lTk] = bonus_list[i][j]/3.+1.0; effs[i][j][lPs] = bonus_list[i][j]/3.+1.3; effs[i][j][lSh] = bonus_list[i][j]/3.+0.7;
               break;
             case lMF:
-              effs[i][j][lSt] = 0; effs[i][j][lTk] = bonus_list[i][j]/3.+0.9; effs[i][j][lPs] = bonus_list[i][j]/3.+1.2; effs[i][j][lSh] = bonus_list[i][j]/3.+0.9;
+              effs[i][j][lSt] = 0; effs[i][j][lTk] = bonus_list[i][j]/3.+0.8; effs[i][j][lPs] = bonus_list[i][j]/3.+1.4; effs[i][j][lSh] = bonus_list[i][j]/3.+0.8;
               break;
             case lAM:
-              effs[i][j][lSt] = 0; effs[i][j][lTk] = bonus_list[i][j]/3.+0.9; effs[i][j][lPs] = bonus_list[i][j]/3.+1.2; effs[i][j][lSh] = bonus_list[i][j]/3.+0.9;
+              effs[i][j][lSt] = 0; effs[i][j][lTk] = bonus_list[i][j]/3.+0.7; effs[i][j][lPs] = bonus_list[i][j]/3.+1.3; effs[i][j][lSh] = bonus_list[i][j]/3.+1.0;
               break;
             case lFW:
-              effs[i][j][lSt] = 0; effs[i][j][lTk] = bonus_list[i][j]/3.+0.8; effs[i][j][lPs] = bonus_list[i][j]/3.+0.9; effs[i][j][lSh] = bonus_list[i][j]/3.+1.3;
+              effs[i][j][lSt] = 0; effs[i][j][lTk] = bonus_list[i][j]/3.+0.6; effs[i][j][lPs] = bonus_list[i][j]/3.+0.8; effs[i][j][lSh] = bonus_list[i][j]/3.+1.6;
               break;
           }
         }
