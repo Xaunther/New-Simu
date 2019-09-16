@@ -59,8 +59,13 @@ class partido
   bool Is_Doable(bool, int, int);
   void AddMin();
   void ReduceFit();
+  void AddPossesion();
   //Eventos random
   void Make_Injury();
+  bool FlipPossesion();
+  bool FlipOcasion();
+  int DetermineOcasion();
+  void ExecuteOcasion(int);
   //Funciones de escritura
   void Write_Init();
   void Write_Sub(alineacion*, string, string, string);

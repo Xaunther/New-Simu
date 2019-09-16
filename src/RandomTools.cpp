@@ -16,3 +16,24 @@ bool RandT::Bingo(double p)
     return false;
   }
 }
+
+//Devuelve qué opción sale elegida, de entre un array que dice qué probabilidad hay asignada a cada una
+int RandT::BingoArray(const double* p, int N)
+{
+  //Primero, sumar el array para normalizar
+  double sumTot = 0;
+  for(int i=0;i<N;i++)
+  {
+    sumTot += p[i];
+  }
+  //Sacar numero al azar y normalizarlo al total
+  double randf = double(rand())/double(RAND_MAX)*sumTot;
+  //Buscar cuál ha salido
+  int i = 0;
+  while(randf>p[i])
+  {
+    randf -= p[i];
+    i++;
+  }
+  return i;
+}

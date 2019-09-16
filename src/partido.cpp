@@ -204,9 +204,24 @@ void partido::Simulate(int tiempo)
     this->ReduceFit();
     //Actualizar stats
     this->Update_pts();
-    //Eventos (Sin implementar)
-    //Primero, determinar qué ocurre con la posesión
-    
+    /////////////////////Eventos (Sin implementar) ////////////////////////////////
+    //Primero, determinar qué ocurre con la posesión. Para ello se enfrentan el pase del equipo atacante y la defensa del equipo defensor.
+    if(this->FlipPossesion())//Si se mantiene la posesión
+    {
+      //Sumar a la estadística correspondiente
+      this->AddPossesion();
+      if(this->FlipOcasion())//Si ocurre ocasión
+      {
+        //Determinar qué ocurre (outcome) de la ocasión
+        ExecuteOcasion(this->DetermineOcasion());
+      }
+    }
+    else //Si se pierde, cambio de posesión y... contraataque?
+    {
+      this->posesion = !this->posesion;
+      this->AddPossesion();
+    }
+    /////////////////////Eventos (Sin implementar) ////////////////////////////////
     //Lesiones
     if(RandT::Bingo(GetVarFrom("Injury", Simu::Injuries))){this->Make_Injury();}
     //Re-checkear en caso de cambios en el resultado, lesiones...
@@ -543,6 +558,19 @@ void partido::ReduceFit()
   }
 }
 
+//Añadir minuto a la estadística de posesión
+void partido::AddPossesion()
+{
+  if(!this->posesion)
+      {
+        this->posesion_local++;
+      }
+      else
+      {
+        this->posesion_visitante++;
+      }
+}
+
 //Eventos random
 void partido::Make_Injury()
 {
@@ -572,6 +600,57 @@ void partido::Make_Injury()
     this->Write_Injury(ali, ali->titulares[rN]->Name);
   }
   return;
+}
+
+//Función que devuelve true si se mantiene la posesión o false si se pierde
+bool partido::FlipPossesion()
+{
+  //Variables que contendrán la habilidad del atacante y defensor
+  double atk_ab, def_ab;
+  if(!this->posesion)//Posesión del local
+  {
+    atk_ab = med_local;
+    def_ab = def_visitante;
+  }
+  else //Posesión del visitante
+  {
+    atk_ab = med_visitante;
+    def_ab = def_local;
+  }
+  //Usar la probabilidad asociada :)
+  return RandT::Bingo(atk_ab/(atk_ab+def_ab));
+}
+
+//Función que devuelve true si hay ocasión y false si no
+bool partido::FlipOcasion()
+{
+  //Variables que contendrán la habilidad del atacante y defensor
+  double atk_ab, def_ab;
+  if(!this->posesion)//Posesión del local
+  {
+    atk_ab = atk_local;
+    def_ab = def_visitante;
+  }
+  else //Posesión del visitante
+  {
+    atk_ab = atk_visitante;
+    def_ab = def_local;
+  }
+  //Usar la probabilidad asociada :)
+  return RandT::Bingo(atk_ab/(atk_ab+(1-2.*Simu::ProbOcasion)/2.*Simu::ProbOcasion*def_ab));
+}
+
+//Función que devuelve el tipo de ocasión que ocurrirá. Cada una de ellas lleva asociada una probabilidad
+int partido::DetermineOcasion()
+{
+  //El tipo de ocasión no depende de las habilidades de nadie, es un array ya dado
+  return RandT::BingoArray(Simu::ArrOcasion, Simu::NOcasion);
+}
+
+//Función que REALIZA el tipo de ocasión que se le de
+void partido::ExecuteOcasion(int oc_index)
+{
+  //TO DO
 }
 
 //Printear stats (al final del partido)
