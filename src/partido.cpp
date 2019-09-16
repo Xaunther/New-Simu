@@ -79,19 +79,19 @@ void partido::Update_pts()
 		//Equipo local
 		ali_local->pos_titulares[i].SetEff(ali_local->tactica.tac);
 		double* eff = ali_local->pos_titulares[i].ability_eff;
-    //Factor de fit: 0 de fit equivale a jugar con
-		gk_local+=eff[0]*ali_local->titulares[i]->St*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado);
-		def_local+=eff[1]*ali_local->titulares[i]->Tk*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado);
-		med_local+=eff[2]*ali_local->titulares[i]->Ps*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado);
-		atk_local+=eff[3]*ali_local->titulares[i]->Sh*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado);
+    //Factor de fit: 0 de fit equivale a jugar con habilidad 0
+		gk_local+=eff[0]*ali_local->titulares[i]->St*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado)*double(ali_local->titulares[i]->Trd/100.);
+		def_local+=eff[1]*ali_local->titulares[i]->Tk*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado)*double(ali_local->titulares[i]->Trd/100.);
+		med_local+=eff[2]*ali_local->titulares[i]->Ps*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado)*double(ali_local->titulares[i]->Trd/100.);
+		atk_local+=eff[3]*ali_local->titulares[i]->Sh*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado)*double(ali_local->titulares[i]->Trd/100.);
 
 		//Equipo visitante
 		ali_visitante->pos_titulares[i].SetEff(ali_visitante->tactica.tac);
 		eff = ali_visitante->pos_titulares[i].ability_eff;
-		gk_visitante+=eff[0]*ali_visitante->titulares[i]->St*(!this->stats_visitante[i].rojas)*(!this->stats_visitante[i].lesionado);
-		def_visitante+=eff[1]*ali_visitante->titulares[i]->Tk*(!this->stats_visitante[i].rojas)*(!this->stats_visitante[i].lesionado);
-		med_visitante+=eff[2]*ali_visitante->titulares[i]->Ps*(!this->stats_visitante[i].rojas)*(!this->stats_visitante[i].lesionado);
-		atk_visitante+=eff[3]*ali_visitante->titulares[i]->Sh*(!this->stats_visitante[i].rojas)*(!this->stats_visitante[i].lesionado);
+		gk_visitante+=eff[0]*ali_visitante->titulares[i]->St*(!this->stats_visitante[i].rojas)*(!this->stats_visitante[i].lesionado)*double(ali_visitante->titulares[i]->Trd/100.);
+		def_visitante+=eff[1]*ali_visitante->titulares[i]->Tk*(!this->stats_visitante[i].rojas)*(!this->stats_visitante[i].lesionado)*double(ali_visitante->titulares[i]->Trd/100.);
+		med_visitante+=eff[2]*ali_visitante->titulares[i]->Ps*(!this->stats_visitante[i].rojas)*(!this->stats_visitante[i].lesionado)*double(ali_visitante->titulares[i]->Trd/100.);
+		atk_visitante+=eff[3]*ali_visitante->titulares[i]->Sh*(!this->stats_visitante[i].rojas)*(!this->stats_visitante[i].lesionado)*double(ali_visitante->titulares[i]->Trd/100.);
 	}
 }
 
@@ -205,6 +205,7 @@ void partido::Simulate(int tiempo)
     //Actualizar stats
     this->Update_pts();
     //Eventos (Sin implementar)
+    //Primero, determinar qué ocurre con la posesión
     
     //Lesiones
     if(RandT::Bingo(GetVarFrom("Injury", Simu::Injuries))){this->Make_Injury();}
