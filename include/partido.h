@@ -30,8 +30,8 @@ class partido
   bool posesion; //false=local, true=visit
   int posesion_local; int posesion_visitante;
   int goles_local; int goles_visitante;
+  int ocasiones_local; int ocasiones_visitante;
   int chuts_local; int chuts_visitante;
-  int chuts_puerta_local; int chuts_puerta_visitante;
   int pases_local; int pases_visitante;
   int tackles_local; int tackles_visitante;
   int corners_local; int corners_visitante;
@@ -66,6 +66,12 @@ class partido
   bool FlipOcasion();
   int DetermineOcasion();
   void ExecuteOcasion(int);
+  int ChoosePlayer(bool, Simu::Lability);
+  void Oc_vsGK(int, int);
+  void Oc_vsDF(int, int, int);
+  void Oc_Corner(int, int, int);
+  void Oc_ChutCercano(int, int);
+  void Oc_ChutLejano(int);
   //Funciones de escritura
   void Write_Init();
   void Write_Sub(alineacion*, string, string, string);

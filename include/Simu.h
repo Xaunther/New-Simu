@@ -27,6 +27,8 @@ namespace Simu
   static const double ArrOcasion[NOcasion] = {1., 1.425, 3.46, 3.31, 3.49};
   static const double ProbOcasion = (ArrOcasion[0]+ArrOcasion[1]+ArrOcasion[2]+ArrOcasion[3]+ArrOcasion[4])/90.;
   static const double ArrGol[NOcasion] = {0.4, 0.26, 0.205, 0.4, 0.145};
+  static const int NOutcome = 3;
+  static const double ArrOutcome[NOutcome] = {0.25, 0.25, 0.5};
   
   //Longitud maxima del nombre
   static const int w_name = 17;
