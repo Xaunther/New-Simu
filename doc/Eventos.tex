@@ -126,7 +126,7 @@ Cada vez que el equipo atacante retenga el balón (ya sea sólo manteniéndolo o
 
 
 \section{Probabilidad de ocasión}\label{sec:ProbOcasion}
-\def \Pocasion {\ensuremath{\frac{12.675}{90}}}
+\def \Pocasion {\ensuremath{\frac{12.685}{90}}}
 \def \PvsGK {\ensuremath{\frac{1}{90}}}
 \def \PvsDF {\ensuremath{\frac{1.425}{90}}}
 \def \Pcorner {\ensuremath{\frac{3.46}{90}}}
@@ -152,7 +152,7 @@ Si tomamos como referencia las estadísticas de la Premier League 2018-19 \cite{
 
 
 \section{Probabilidad de gol}\label{sec:ProbGol}
-\def \Pgol {\ensuremath{\frac{1}{90}}}
+\def \Pgol {\ensuremath{\frac{1.41}{90}}}
 \def \PGvsGK {\ensuremath{\frac{0.4}{90}}}
 \def \PGvsDF {\ensuremath{\frac{0.26}{90}}}
 \def \PGcorner {\ensuremath{\frac{0.205}{90}}}
@@ -215,7 +215,7 @@ Es el momento de asignar la función para determinar que ocurra un evento en fav
 \end{enumerate}
 La función más simple que cumple todas estás propiedades es:
 \begin{equation}
-	P_A(x_A, y_D) = \frac{x_A}{x_A+y_D}
+	P_A(x_A, y_D) = \frac{x_A}{x_A+\frac{1-P_{media}}{P_{media}}y_D}
 \end{equation}
 Recordando siempre que los valores de pase y tackle son los efectivos, es decir, tienen en cuenta modificadores de táctica y alineación.
 
