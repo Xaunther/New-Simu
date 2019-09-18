@@ -14,6 +14,7 @@ public:
     int encajados;
     int asistencias;
     int chuts;
+    int chuts_puerta;
     int pases;
     int tackles;
     int paradas;

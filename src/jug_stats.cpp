@@ -10,6 +10,7 @@ jug_stats::jug_stats():
   encajados(0), 
   asistencias(0),
   chuts(0),
+  chuts_puerta(0),
   pases(0),
   tackles(0),
   paradas(0),

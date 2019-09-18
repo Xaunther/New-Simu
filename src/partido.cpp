@@ -871,6 +871,7 @@ void partido::Oc_vsGK(int fw_index, int mf_index)
       //FW stats
       this->stats_local[fw_index].goles++;
       this->stats_local[fw_index].chuts++;
+      this->stats_local[fw_index].chuts_puerta++;
       //MF stats
       this->stats_local[mf_index].asistencias++;
       this->stats_local[mf_index].pases++;
@@ -887,6 +888,7 @@ void partido::Oc_vsGK(int fw_index, int mf_index)
       //FW stats
       this->stats_visitante[fw_index].goles++;
       this->stats_visitante[fw_index].chuts++;
+      this->stats_visitante[fw_index].chuts_puerta++;
       //MF stats
       this->stats_visitante[mf_index].asistencias++;
       this->stats_visitante[mf_index].pases++;
@@ -907,6 +909,7 @@ void partido::Oc_vsGK(int fw_index, int mf_index)
       this->chuts_puerta_local++;
       //FW stats
       this->stats_local[fw_index].chuts++;
+      this->stats_local[fw_index].chuts_puerta++;
       //MF stats
       this->stats_local[mf_index].pases++;
       //GK stats
@@ -920,6 +923,7 @@ void partido::Oc_vsGK(int fw_index, int mf_index)
       this->chuts_puerta_visitante++;
       //FW stats
       this->stats_visitante[fw_index].chuts++;
+      this->stats_visitante[fw_index].chuts_puerta++;
       //MF stats
       this->stats_visitante[mf_index].pases++;
       //GK stats
@@ -973,6 +977,7 @@ void partido::Oc_vsDF(int fw_index, int mf_index, int df_index)
       //FW stats
       this->stats_local[fw_index].goles++;
       this->stats_local[fw_index].chuts++;
+      this->stats_local[fw_index].chuts_puerta++;
       //MF stats
       this->stats_local[mf_index].asistencias++;
       this->stats_local[mf_index].pases++;
@@ -991,6 +996,7 @@ void partido::Oc_vsDF(int fw_index, int mf_index, int df_index)
       //FW stats
       this->stats_visitante[fw_index].goles++;
       this->stats_visitante[fw_index].chuts++;
+      this->stats_visitante[fw_index].chuts_puerta++;
       //MF stats
       this->stats_visitante[mf_index].asistencias++;
       this->stats_visitante[mf_index].pases++;
@@ -1033,6 +1039,7 @@ void partido::Oc_vsDF(int fw_index, int mf_index, int df_index)
       this->chuts_puerta_local++;
       //FW stats
       this->stats_local[fw_index].chuts++;
+      this->stats_local[fw_index].chuts_puerta++;
       //MF stats
       this->stats_local[mf_index].pases++;
       //GK stats
@@ -1048,6 +1055,7 @@ void partido::Oc_vsDF(int fw_index, int mf_index, int df_index)
       this->chuts_puerta_visitante++;
       //FW stats
       this->stats_visitante[fw_index].chuts++;
+      this->stats_visitante[fw_index].chuts_puerta++;
       //MF stats
       this->stats_visitante[mf_index].pases++;
       //GK stats
@@ -1106,6 +1114,7 @@ void partido::Oc_Corner(int fw_index, int mf_index, int df_index)
       //FW stats
       this->stats_local[fw_index].goles++;
       this->stats_local[fw_index].chuts++;
+      this->stats_local[fw_index].chuts_puerta++;
       //MF stats
       this->stats_local[mf_index].asistencias++;
       this->stats_local[mf_index].pases++;
@@ -1123,6 +1132,7 @@ void partido::Oc_Corner(int fw_index, int mf_index, int df_index)
       //FW stats
       this->stats_visitante[fw_index].goles++;
       this->stats_visitante[fw_index].chuts++;
+      this->stats_visitante[fw_index].chuts_puerta++;
       //MF stats
       this->stats_visitante[mf_index].asistencias++;
       this->stats_visitante[mf_index].pases++;
@@ -1164,6 +1174,7 @@ void partido::Oc_Corner(int fw_index, int mf_index, int df_index)
       this->chuts_puerta_local++;
       //FW stats
       this->stats_local[fw_index].chuts++;
+      this->stats_local[fw_index].chuts_puerta++;
       //MF stats
       this->stats_local[mf_index].pases++;
       //GK stats
@@ -1179,6 +1190,7 @@ void partido::Oc_Corner(int fw_index, int mf_index, int df_index)
       this->chuts_puerta_visitante++;
       //FW stats
       this->stats_visitante[fw_index].chuts++;
+      this->stats_visitante[fw_index].chuts_puerta++;
       //MF stats
       this->stats_visitante[mf_index].pases++;
       //GK stats
@@ -1233,6 +1245,7 @@ void partido::Oc_ChutCercano(int fw_index, int df_index)
       //FW stats
       this->stats_local[fw_index].goles++;
       this->stats_local[fw_index].chuts++;
+      this->stats_local[fw_index].chuts_puerta++;
       //GK stats
       this->stats_visitante[0].encajados++;
       Commentary::Write_PassChutCercano(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[df_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
@@ -1248,6 +1261,7 @@ void partido::Oc_ChutCercano(int fw_index, int df_index)
       //FW stats
       this->stats_visitante[fw_index].goles++;
       this->stats_visitante[fw_index].chuts++;
+      this->stats_visitante[fw_index].chuts_puerta++;
       //GK stats
       this->stats_local[0].encajados++;
       Commentary::Write_PassChutCercano(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[df_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
@@ -1283,6 +1297,7 @@ void partido::Oc_ChutCercano(int fw_index, int df_index)
       this->chuts_puerta_local++;
       //FW stats
       this->stats_local[fw_index].chuts++;
+      this->stats_local[fw_index].chuts_puerta++;
       //GK stats
       this->stats_visitante[0].paradas++;
       Commentary::Write_PassChutCercano(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[df_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
@@ -1296,6 +1311,7 @@ void partido::Oc_ChutCercano(int fw_index, int df_index)
       this->chuts_puerta_visitante++;
       //FW stats
       this->stats_visitante[fw_index].chuts++;
+      this->stats_visitante[fw_index].chuts_puerta++;
       //GK stats
       this->stats_local[0].paradas++;
       Commentary::Write_PassChutCercano(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[df_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
@@ -1345,6 +1361,7 @@ void partido::Oc_ChutLejano(int fw_index)
       //FW stats
       this->stats_local[fw_index].goles++;
       this->stats_local[fw_index].chuts++;
+      this->stats_local[fw_index].chuts_puerta++;
       //GK stats
       this->stats_visitante[0].encajados++;
       Commentary::Write_Goal(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
@@ -1358,6 +1375,7 @@ void partido::Oc_ChutLejano(int fw_index)
       //FW stats
       this->stats_visitante[fw_index].goles++;
       this->stats_visitante[fw_index].chuts++;
+      this->stats_visitante[fw_index].chuts_puerta++;
       //GK stats
       this->stats_local[0].encajados++;
       Commentary::Write_Goal(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
@@ -1375,6 +1393,7 @@ void partido::Oc_ChutLejano(int fw_index)
       this->chuts_puerta_local++;
       //FW stats
       this->stats_local[fw_index].chuts++;
+      this->stats_local[fw_index].chuts_puerta++;
       //GK stats
       this->stats_visitante[0].paradas++;
       Commentary::Write_Save(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
@@ -1386,6 +1405,7 @@ void partido::Oc_ChutLejano(int fw_index)
       this->chuts_puerta_visitante++;
       //FW stats
       this->stats_visitante[fw_index].chuts++;
+      this->stats_visitante[fw_index].chuts_puerta++;
       //GK stats
       this->stats_local[0].paradas++;
       Commentary::Write_Save(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
