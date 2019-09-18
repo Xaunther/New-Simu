@@ -32,6 +32,7 @@ class partido
   int goles_local; int goles_visitante;
   int ocasiones_local; int ocasiones_visitante;
   int chuts_local; int chuts_visitante;
+  int chuts_puerta_local; int chuts_puerta_visitante;
   int pases_local; int pases_visitante;
   int tackles_local; int tackles_visitante;
   int corners_local; int corners_visitante;
@@ -74,11 +75,6 @@ class partido
   void Oc_ChutLejano(int);
   //Funciones de escritura
   void Write_Init();
-  void Write_Sub(alineacion*, string, string, string);
-  void Write_ChangePos(alineacion*, string, string);
-  void Write_Tactic(alineacion*, string);
-  void Write_Injury(alineacion*, string);
-  void Write_Event(alineacion*, string, bool = false);
   void Write_HT();
   void Write_FT();
   void Write_End();

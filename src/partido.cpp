@@ -3,6 +3,7 @@
 #include "textmisc.h"
 #include "jug_stats.h"
 #include "RandomTools.h"
+#include "Commentary.h"
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -30,6 +31,7 @@ partido::partido(alineacion* _local, alineacion* _visitante):
   posesion_local(0), posesion_visitante(0),
   goles_local(0), goles_visitante(0),
   chuts_local(0), chuts_visitante(0),
+  chuts_puerta_local(0), chuts_puerta_visitante(0),
   ocasiones_local(0), ocasiones_visitante(0),
   pases_local(0), pases_visitante(0),
   tackles_local(0), tackles_visitante(0),
@@ -93,6 +95,21 @@ void partido::Update_pts()
 		med_visitante+=eff[2]*ali_visitante->titulares[i]->Ps*(!this->stats_visitante[i].rojas)*(!this->stats_visitante[i].lesionado)*double(ali_visitante->titulares[i]->Trd/100.);
 		atk_visitante+=eff[3]*ali_visitante->titulares[i]->Sh*(!this->stats_visitante[i].rojas)*(!this->stats_visitante[i].lesionado)*double(ali_visitante->titulares[i]->Trd/100.);
 	}
+  //Recuperar bonus para cada equipo
+  if(ali_local->tactica.Beats(ali_visitante->tactica.tac))
+  {
+    gk_local *= Simu::tac_bonus;
+    def_local *= Simu::tac_bonus;
+    med_local *= Simu::tac_bonus;
+    atk_local *= Simu::tac_bonus;
+  }
+  if(ali_visitante->tactica.Beats(ali_local->tactica.tac))
+  {
+    gk_visitante *= Simu::tac_bonus;
+    def_visitante *= Simu::tac_bonus;
+    med_visitante *= Simu::tac_bonus;
+    atk_visitante *= Simu::tac_bonus;
+  }
 }
 
 void partido::Update_exp()
@@ -298,6 +315,143 @@ void partido::Write_Init()
   return;
 }
 
+//Escribir descanso
+void partido::Write_HT()
+{
+  outf << endl;
+  outf << "*************  :primeraparte:  ****************" << endl;
+  outf << "Resultado al descanso: " << GetStringVarFrom(ali_local->abrev, Simu::Teams) << " " << goles_local << "-" << goles_visitante << " " << GetStringVarFrom(ali_visitante->abrev, Simu::Teams) << endl;
+  outf << endl;
+}
+
+//Escribir segunda parte
+void partido::Write_FT()
+{
+  outf << endl;
+  outf << "*************  :segundaparte:  ****************" << endl;
+  outf << endl;
+}
+
+//Printear stats (al final del partido)
+void partido::Write_End()
+{
+  string loc_name = GetStringVarFrom(ali_local->abrev, Simu::Teams);
+  string visit_name = GetStringVarFrom(ali_visitante->abrev, Simu::Teams);
+  //Separo
+  outf << endl << endl;
+  //Estadio
+  outf << "Detalles del partido" << endl;
+  outf << Simu::stat_headline << endl;
+  outf << "Campo               " << ": " << GetStringVarFrom(this->ali_local->abrev, Simu::Estadios) << endl;
+  outf << Simu::stat_headline << endl;
+  //Info local
+  outf << "Informacion " << loc_name << " (" << this->ali_local->abrev << ")" << endl;
+  outf << Simu::stat_headline << endl;
+  //Sin implementar
+  outf << "Mejor jugador       : " << "-" << endl;
+  outf << "Goleadores          : " << "-" << endl;
+  outf << "Expulsados          : " << "-" << endl;
+  outf << "Amonestados         : " << "-" << endl;
+  outf << "Lesionados          : " << "-" << endl;
+  outf << Simu::stat_headline << endl;
+  //Info visitante
+  outf << "Informacion " << visit_name << " (" << this->ali_visitante->abrev << ")" << endl;
+  outf << Simu::stat_headline << endl;
+  //Sin implementar
+  outf << "Mejor jugador       : " << "-" << endl;
+  outf << "Goleadores          : " << "-" << endl;
+  outf << "Expulsados          : " << "-" << endl;
+  outf << "Amonestados         : " << "-" << endl;
+  outf << "Lesionados          : " << "-" << endl;
+  outf << Simu::stat_headline << endl;
+  //Stats
+  outf << "Estadisticas del partido" << endl;
+  outf << Simu::stat_headline << endl;
+  outf << "                     " <<  loc_name << "  |  " << visit_name << endl;
+  outf << "Ocasiones de gol    :"  << setw(loc_name.length()-3) << this->ocasiones_local << "     |     " << this->ocasiones_visitante << endl;
+  outf << "Disparos a puerta   :"  << setw(loc_name.length()-3) << this->chuts_local << "     |     " << this->chuts_visitante << endl;
+  outf << "Posesion            :"  << setw(loc_name.length()-3) << this->posesion_local << "     |     " << this->posesion_visitante << endl;
+  outf << "Corners             :"  << setw(loc_name.length()-3) << this->corners_local << "     |     " << this->corners_visitante << endl;
+  outf << "Amarillas           :"  << setw(loc_name.length()-3) << this->amarillas_local << "     |     " << this->amarillas_visitante << endl;
+  outf << "Rojas               :"  << setw(loc_name.length()-3) << this->rojas_local << "     |     " << this->rojas_visitante << endl;
+  outf << "Cambios             :"  << setw(loc_name.length()-3) << this->cambios_local << "     |     " << this->cambios_visitante << endl;
+  outf << "Faltas              :"  << setw(loc_name.length()-3) << this->faltas_local << "     |     " << this->faltas_visitante << endl;
+  outf << "Entradas            :"  << setw(loc_name.length()-3) << this->tackles_local << "     |     " << this->tackles_visitante << endl;
+  outf << Simu::stat_headline << endl;
+  outf << "Resultado final: " << loc_name << " " << goles_local << "-" << goles_visitante << " " << visit_name << endl;
+  outf << Simu::stat_headline << endl;
+  outf << endl << endl;
+  //Hay que calcular primero la exp ganada
+  this->Update_exp(this->stats_local);
+  this->Update_exp(this->stats_visitante);
+  //Stats individuales local
+  WriteStats(this->ali_local, this->stats_local);
+  outf << endl;
+  //Stats individuales visitante
+  WriteStats(this->ali_visitante, this->stats_visitante);
+}
+
+void partido::WriteStats(alineacion* ali, jug_stats* stats)
+{
+  outf << "Estadisticas individuales - " << GetStringVarFrom(ali->abrev, Simu::Teams) << " (" << ali->abrev << ")" << endl;
+  outf << Simu::stat_header << endl;
+  outf << Simu::stat_headline << endl;
+  for(int i=0;i<N_titulares;i++)
+  {
+    //Habilidades
+    outf << ali->titulares[i]->Name << setw(1 + Simu::w_name - ali->titulares[i]->Name.length()) << " "; //Nombre
+    outf << setw(3) << ali->pos_titulares[i].symbol() << " "; //Posicion
+    outf << setw(3) << ali->titulares[i]->St << " "; //St
+    outf << setw(3) << ali->titulares[i]->Tk << " "; //Tk
+    outf << setw(3) << ali->titulares[i]->Ps << " "; //Ps
+    outf << setw(3) << ali->titulares[i]->Sh << " "; //Sh
+    outf << "| ";
+    //Llegan los stats
+    outf << setw(3) << stats[i].minutos << " "; //Minutos
+    outf << setw(3) << stats[i].paradas << " "; //Paradas
+    outf << setw(3) << stats[i].tackles << " "; //Tackles
+    outf << setw(3) << stats[i].pases << " "; //Pases
+    outf << setw(3) << stats[i].asistencias << " "; //Asistencias
+    outf << setw(3) << stats[i].chuts << " "; //Disparos
+    outf << setw(3) << stats[i].goles << " "; //Goles
+    outf << setw(3) << stats[i].amarillas << " "; //Amarillas
+    outf << setw(3) << stats[i].rojas << " "; //Rojas
+    //Hay que implementar
+    outf << setw(3) << stats[i].St << " "; //GK Hab
+    outf << setw(3) << stats[i].Tk << " "; //DF Hab
+    outf << setw(3) << stats[i].Ps << " "; //MF Hab
+    outf << setw(3) << stats[i].Sh << " "; //FW Hab
+    outf << endl;
+  }
+  for(int i=0;i<N_suplentes;i++)
+  {
+    //Habilidades
+    outf << ali->suplentes[i]->Name << setw(1 + Simu::w_name - ali->suplentes[i]->Name.length()) << " "; //Nombre
+    outf << setw(3) << ali->pos_suplentes[i].symbol() << " "; //Posicion
+    outf << setw(3) << ali->suplentes[i]->St << " "; //St
+    outf << setw(3) << ali->suplentes[i]->Tk << " "; //Tk
+    outf << setw(3) << ali->suplentes[i]->Ps << " "; //Ps
+    outf << setw(3) << ali->suplentes[i]->Sh << " "; //Sh
+    outf << "| ";
+    //Llegan los stats
+    outf << setw(3) << stats[N_titulares+i].minutos << " "; //Minutos
+    outf << setw(3) << stats[N_titulares+i].paradas << " "; //Paradas
+    outf << setw(3) << stats[N_titulares+i].tackles << " "; //Tackles
+    outf << setw(3) << stats[N_titulares+i].pases << " "; //Pases
+    outf << setw(3) << stats[N_titulares+i].asistencias << " "; //Asistencias
+    outf << setw(3) << stats[N_titulares+i].chuts << " "; //Disparos
+    outf << setw(3) << stats[N_titulares+i].goles << " "; //Goles
+    outf << setw(3) << stats[N_titulares+i].amarillas << " "; //Amarillas
+    outf << setw(3) << stats[N_titulares+i].rojas << " "; //Rojas
+    //Hay que implementar
+    outf << setw(3) << stats[N_titulares+i].St << " "; //GK Hab
+    outf << setw(3) << stats[N_titulares+i].Tk << " "; //DF Hab
+    outf << setw(3) << stats[N_titulares+i].Ps << " "; //MF Hab
+    outf << setw(3) << stats[N_titulares+i].Sh << " "; //FW Hab
+    outf << endl;
+  }
+}
+
 //Ejecuta tanto la local como la visitante
 void partido::Do_Inst()
 {
@@ -351,7 +505,7 @@ void partido::Do_Inst(bool side, int k)
       if(ali->tactica.tac != ali->condicion[k].tactic)
       {
         ali->tactica.tac = ali->condicion[k].tactic;
-        this->Write_Tactic(ali, ali->tactica.symbol());
+        Commentary::Write_Tactic(ali, ali->tactica.symbol(), this->minuto, this->outf);
       }
       return;
     case Simu::lSUB:
@@ -411,7 +565,7 @@ void partido::Do_Inst(bool side, int k)
       //Escribe evento
       if(cumple)
       {
-        this->Write_Sub(ali, ali->titulares[ali->condicion[k].arg1-1]->Name, ali->suplentes[ali->condicion[k].arg2-N_titulares-1]->Name, ali->pos_titulares[ali->condicion[k].arg1-1].symbol());
+        Commentary::Write_Sub(ali, ali->titulares[ali->condicion[k].arg1-1]->Name, ali->suplentes[ali->condicion[k].arg2-N_titulares-1]->Name, ali->pos_titulares[ali->condicion[k].arg1-1].symbol(), this->minuto, this->outf);
       }
       return;
     case Simu::lCHANGEPOS:
@@ -426,7 +580,7 @@ void partido::Do_Inst(bool side, int k)
         //Si no, no se hace el cambio!
         if(ali->In_Range())
         {
-          this->Write_ChangePos(ali, ali->titulares[ali->condicion[k].arg1-1]->Name, ali->pos_titulares[ali->condicion[k].arg1-1].symbol());
+          Commentary::Write_ChangePos(ali, ali->titulares[ali->condicion[k].arg1-1]->Name, ali->pos_titulares[ali->condicion[k].arg1-1].symbol(), this->minuto, this->outf);
         }
         else
         {
@@ -479,84 +633,6 @@ bool partido::Is_Doable(bool side, int k, int j)
     default:
       return(false);
   }
-}
-
-//Escribir un cambio //SIN IMPLEMENTAR
-void partido::Write_Sub(alineacion* ali, string entra, string sale, string pos)
-{
-  string format_string = GetRandomText(Simu::Cambios_lang);
-  //Hay 3 cosas que sustituir: {entra} {sale} {pos}
-  Substitute(format_string, "{entra}", entra);
-  Substitute(format_string, "{sale}", sale);
-  Substitute(format_string, "{pos}", pos);
-  Substitute(format_string, "\\n", "\n          ...  ");
-  Write_Event(ali, format_string);
-  return;
-}
-
-void partido::Write_Tactic(alineacion* ali, string tactica)
-{
-  string format_string = GetRandomText(Simu::Tacticas_lang);
-  //Hay 2 cosas que sustituir: {tactica} y {equipo}
-  Substitute(format_string, "{tactica}", tactica);
-  Substitute(format_string, "{equipo}", GetStringVarFrom(ali->abrev, Simu::Teams));
-  Substitute(format_string, "\\n", "\n          ...  ");
-  Write_Event(ali, format_string);
-  return;
-}
-
-void partido::Write_ChangePos(alineacion* ali, string jug, string pos)
-{
-  string format_string = GetRandomText(Simu::Chpos_lang);
-  //Hay 2 cosas que sustituir: {jugador} y {pos}
-  Substitute(format_string, "{jugador}", jug);
-  Substitute(format_string, "{pos}", pos);
-  Substitute(format_string, "\\n", "\n          ...  ");
-  Write_Event(ali, format_string);
-  return;
-}
-void partido::Write_Injury(alineacion* ali, string jug)
-{
-  string format_string = GetRandomText(Simu::Injury_lang);
-  //Hay 1 cosa que sustituir: {jugador}
-  Substitute(format_string, "{jugador}", jug);
-  Substitute(format_string, "\\n", "\n          ...  ");
-  Write_Event(ali, format_string);
-  return;
-}
-
-//Escribir un evento en cierto minuto
-void partido::Write_Event(alineacion* ali, string cosa, bool cont)
-{
-  //Minuto
-  if(!cont)
-  {
-    outf << "Min. " << minuto << setw(4-int(log10(minuto))) << ":(" << ali->abrev << ") ";
-  }
-  //O si se continua el evento
-  else
-  {
-    outf << "          ...  ";
-  }
-  //Cosa
-  outf << cosa.c_str() << endl;
-}
-
-//Escribir descanso
-void partido::Write_HT()
-{
-  outf << endl;
-  outf << "*************  :primeraparte:  ****************" << endl;
-  outf << "Resultado al descanso: " << GetStringVarFrom(ali_local->abrev, Simu::Teams) << " " << goles_local << "-" << goles_visitante << " " << GetStringVarFrom(ali_visitante->abrev, Simu::Teams) << endl;
-  outf << endl;
-}
-
-//Escribir segunda parte
-void partido::Write_FT()
-{
-  outf << endl;
-  outf << "*************  :segundaparte:  ****************" << endl;
-  outf << endl;
 }
 
 //Añadir minuto a los jugadores que estan sobre el campo
@@ -630,7 +706,7 @@ void partido::Make_Injury()
   {
     stats[rN].lesionado = true;
     //Escribir el comentario
-    this->Write_Injury(ali, ali->titulares[rN]->Name);
+    Commentary::Write_Injury(ali, ali->titulares[rN]->Name, this->minuto, this->outf);
   }
   return;
 }
@@ -773,12 +849,15 @@ void partido::Oc_vsGK(int fw_index, int mf_index)
   {
     atk_ab = ali_local->titulares[fw_index]->Sh*double(ali_local->titulares[fw_index]->Trd/100.); //Delantero
     def_ab = ali_visitante->titulares[0]->St; //Portero
+    Commentary::Write_OcvsGK(ali_local, ali_local->titulares[fw_index]->Name, ali_local->titulares[mf_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
   }
   else //Posesión del visitante
   {
     atk_ab = ali_visitante->titulares[fw_index]->Sh*double(ali_visitante->titulares[fw_index]->Trd/100.); //Delantero
     def_ab = ali_local->titulares[0]->St; //Portero
+    Commentary::Write_OcvsGK(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_visitante->titulares[mf_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
   }
+  
   //Usar la probabilidad asociada :)
   double Prob = Simu::ArrGol[0]/Simu::ArrOcasion[0];
   if(RandT::Bingo(atk_ab/(atk_ab+(1-Prob)/Prob*def_ab)))//Ha sido gol!
@@ -787,6 +866,7 @@ void partido::Oc_vsGK(int fw_index, int mf_index)
     {
       //Global stats
       this->chuts_local++;
+      this->chuts_puerta_local++;
       this->goles_local++;
       //FW stats
       this->stats_local[fw_index].goles++;
@@ -796,11 +876,13 @@ void partido::Oc_vsGK(int fw_index, int mf_index)
       this->stats_local[mf_index].pases++;
       //GK stats
       this->stats_visitante[0].encajados++;
+      Commentary::Write_Goal(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
     }
     else //Gol visitante
     {
       //Global stats
       this->chuts_visitante++;
+      this->chuts_puerta_visitante++;
       this->goles_visitante++;
       //FW stats
       this->stats_visitante[fw_index].goles++;
@@ -810,7 +892,9 @@ void partido::Oc_vsGK(int fw_index, int mf_index)
       this->stats_visitante[mf_index].pases++;
       //GK stats
       this->stats_local[0].encajados++;
+      Commentary::Write_Goal(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
     }
+    Commentary::Write_ResChange(this->ali_local, this->ali_visitante, this->goles_local, this->goles_visitante, this->posesion, this->minuto, this->outf);
     //Cambia la posesión al otro equipo
     this->posesion = !this->posesion;
   }
@@ -820,29 +904,33 @@ void partido::Oc_vsGK(int fw_index, int mf_index)
     {
       //Global stats
       this->chuts_local++;
+      this->chuts_puerta_local++;
       //FW stats
       this->stats_local[fw_index].chuts++;
       //MF stats
       this->stats_local[mf_index].pases++;
       //GK stats
       this->stats_visitante[0].paradas++;
+      Commentary::Write_Save(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
     }
     else //Fallo visitante
     {
       //Global stats
       this->chuts_visitante++;
+      this->chuts_puerta_visitante++;
       //FW stats
       this->stats_visitante[fw_index].chuts++;
       //MF stats
       this->stats_visitante[mf_index].pases++;
       //GK stats
       this->stats_local[0].paradas++;
+      Commentary::Write_Save(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
     }
     //Ahora qué ocurre?
     switch(RandT::BingoArray(Simu::ArrOutcome, Simu::NOutcome))
     {
       case 0: //Córner
-        ExecuteOcasion(2);
+        //ExecuteOcasion(2); //TODO
         break;
       case 1: //Mantiene posesión
         break;
@@ -861,12 +949,14 @@ void partido::Oc_vsDF(int fw_index, int mf_index, int df_index)
     atk_ab = ali_local->titulares[fw_index]->Sh*double(ali_local->titulares[fw_index]->Trd/100.); //Delantero
     def_ab = ali_visitante->titulares[df_index]->Tk*double(ali_visitante->titulares[df_index]->Trd/100.); //Defensa
     gk_ab = ali_visitante->titulares[0]->St; //Portero
+    Commentary::Write_OcvsDF(ali_local, ali_local->titulares[fw_index]->Name, ali_local->titulares[mf_index]->Name, ali_visitante->titulares[df_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
   }
   else //Posesión del visitante
   {
     atk_ab = ali_visitante->titulares[fw_index]->Sh*double(ali_visitante->titulares[fw_index]->Trd/100.); //Delantero
     def_ab = ali_local->titulares[df_index]->Tk*double(ali_local->titulares[df_index]->Trd/100.); //Defensa
     gk_ab = ali_local->titulares[0]->St; //Portero
+    Commentary::Write_OcvsDF(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_visitante->titulares[mf_index]->Name, ali_local->titulares[df_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
   }
   //Usar la probabilidad asociada :)
   double Prob = sqrt(Simu::ArrGol[1]/Simu::ArrOcasion[1]);
@@ -878,6 +968,7 @@ void partido::Oc_vsDF(int fw_index, int mf_index, int df_index)
     {
       //Global stats
       this->chuts_local++;
+      this->chuts_puerta_local++;
       this->goles_local++;
       //FW stats
       this->stats_local[fw_index].goles++;
@@ -887,11 +978,15 @@ void partido::Oc_vsDF(int fw_index, int mf_index, int df_index)
       this->stats_local[mf_index].pases++;
       //GK stats
       this->stats_visitante[0].encajados++;
+      Commentary::Write_PassvsDF(ali_local, ali_local->titulares[fw_index]->Name, ali_local->titulares[mf_index]->Name, ali_visitante->titulares[df_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
+      Commentary::Write_OcChutLejano(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf, true);
+      Commentary::Write_Goal(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
     }
     else //Gol visitante
     {
       //Global stats
       this->chuts_visitante++;
+      this->chuts_puerta_visitante++;
       this->goles_visitante++;
       //FW stats
       this->stats_visitante[fw_index].goles++;
@@ -901,7 +996,11 @@ void partido::Oc_vsDF(int fw_index, int mf_index, int df_index)
       this->stats_visitante[mf_index].pases++;
       //GK stats
       this->stats_local[0].encajados++;
+      Commentary::Write_PassvsDF(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_visitante->titulares[mf_index]->Name, ali_local->titulares[df_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
+      Commentary::Write_OcChutLejano(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf, true);
+      Commentary::Write_Goal(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
     }
+    Commentary::Write_ResChange(this->ali_local, this->ali_visitante, this->goles_local, this->goles_visitante, this->posesion, this->minuto, this->outf);
     //Cambia la posesión al otro equipo
     this->posesion = !this->posesion;
     return;
@@ -914,6 +1013,7 @@ void partido::Oc_vsDF(int fw_index, int mf_index, int df_index)
       this->stats_local[mf_index].pases++;
       //DF stats
       this->stats_visitante[df_index].tackles++;
+      Commentary::Write_FailDFvsDF(ali_local, ali_local->titulares[fw_index]->Name, ali_local->titulares[mf_index]->Name, ali_visitante->titulares[df_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
     }
     else //Fallo visitante
     {
@@ -921,6 +1021,7 @@ void partido::Oc_vsDF(int fw_index, int mf_index, int df_index)
       this->stats_visitante[mf_index].pases++;
       //DF stats
       this->stats_local[df_index].tackles++;
+      Commentary::Write_FailDFvsDF(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_visitante->titulares[mf_index]->Name, ali_local->titulares[df_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
     }
   }
   else //Superó al defensa pero el portero ganó
@@ -929,30 +1030,39 @@ void partido::Oc_vsDF(int fw_index, int mf_index, int df_index)
     {
       //Global stats
       this->chuts_local++;
+      this->chuts_puerta_local++;
       //FW stats
       this->stats_local[fw_index].chuts++;
       //MF stats
       this->stats_local[mf_index].pases++;
       //GK stats
       this->stats_visitante[0].paradas++;
+      Commentary::Write_PassvsDF(ali_local, ali_local->titulares[fw_index]->Name, ali_local->titulares[mf_index]->Name, ali_visitante->titulares[df_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
+      Commentary::Write_OcChutLejano(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf, true);
+      Commentary::Write_Save(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
     }
     else //Fallo visitante
     {
       //Global stats
       this->chuts_visitante++;
+      this->chuts_puerta_visitante++;
       //FW stats
       this->stats_visitante[fw_index].chuts++;
       //MF stats
       this->stats_visitante[mf_index].pases++;
       //GK stats
       this->stats_local[0].paradas++;
+      Commentary::Write_PassvsDF(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_visitante->titulares[mf_index]->Name, ali_local->titulares[df_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
+      Commentary::Write_OcChutLejano(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf, true);
+      Commentary::Write_Save(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
+      
     }
   }
   //Ahora qué ocurre?
   switch(RandT::BingoArray(Simu::ArrOutcome, Simu::NOutcome))
   {
     case 0: //Córner
-      ExecuteOcasion(2);
+      //ExecuteOcasion(2); //To DO
       break;
     case 1: //Mantiene posesión
       break;
@@ -971,6 +1081,7 @@ void partido::Oc_Corner(int fw_index, int mf_index, int df_index)
     def_ab = ali_visitante->titulares[df_index]->Tk*double(ali_visitante->titulares[df_index]->Trd/100.); //Defensa
     gk_ab = ali_visitante->titulares[0]->St; //Portero
     this->corners_local++;
+    Commentary::Write_OcCorner(ali_local, ali_local->titulares[fw_index]->Name, ali_local->titulares[mf_index]->Name, ali_visitante->titulares[df_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
   }
   else //Posesión del visitante
   {
@@ -978,6 +1089,7 @@ void partido::Oc_Corner(int fw_index, int mf_index, int df_index)
     def_ab = ali_local->titulares[df_index]->Tk*double(ali_local->titulares[df_index]->Trd/100.); //Defensa
     gk_ab = ali_local->titulares[0]->St; //Portero
     this->corners_visitante++;
+    Commentary::Write_OcCorner(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_visitante->titulares[mf_index]->Name, ali_local->titulares[df_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
   }
   //Usar la probabilidad asociada :)
   double Prob = sqrt(Simu::ArrGol[2]/Simu::ArrOcasion[2]);
@@ -989,6 +1101,7 @@ void partido::Oc_Corner(int fw_index, int mf_index, int df_index)
     {
       //Global stats
       this->chuts_local++;
+      this->chuts_puerta_local++;
       this->goles_local++;
       //FW stats
       this->stats_local[fw_index].goles++;
@@ -998,11 +1111,14 @@ void partido::Oc_Corner(int fw_index, int mf_index, int df_index)
       this->stats_local[mf_index].pases++;
       //GK stats
       this->stats_visitante[0].encajados++;
+      Commentary::Write_PassCorner(ali_local, ali_local->titulares[fw_index]->Name, ali_local->titulares[mf_index]->Name, ali_visitante->titulares[df_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
+      Commentary::Write_Goal(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
     }
     else //Gol visitante
     {
       //Global stats
       this->chuts_visitante++;
+      this->chuts_puerta_visitante++;
       this->goles_visitante++;
       //FW stats
       this->stats_visitante[fw_index].goles++;
@@ -1012,7 +1128,10 @@ void partido::Oc_Corner(int fw_index, int mf_index, int df_index)
       this->stats_visitante[mf_index].pases++;
       //GK stats
       this->stats_local[0].encajados++;
+      Commentary::Write_PassCorner(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_visitante->titulares[mf_index]->Name, ali_local->titulares[df_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
+      Commentary::Write_Goal(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
     }
+    Commentary::Write_ResChange(this->ali_local, this->ali_visitante, this->goles_local, this->goles_visitante, this->posesion, this->minuto, this->outf);
     //Cambia la posesión al otro equipo
     this->posesion = !this->posesion;
     return;
@@ -1025,6 +1144,7 @@ void partido::Oc_Corner(int fw_index, int mf_index, int df_index)
       this->stats_local[mf_index].pases++;
       //DF stats
       this->stats_visitante[df_index].tackles++;
+      Commentary::Write_FailDFCorner(ali_local, ali_local->titulares[fw_index]->Name, ali_local->titulares[mf_index]->Name, ali_visitante->titulares[df_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
     }
     else //Fallo visitante
     {
@@ -1032,6 +1152,7 @@ void partido::Oc_Corner(int fw_index, int mf_index, int df_index)
       this->stats_visitante[mf_index].pases++;
       //DF stats
       this->stats_local[df_index].tackles++;
+      Commentary::Write_FailDFCorner(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_visitante->titulares[mf_index]->Name, ali_local->titulares[df_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
     }
   }
   else //Superó al defensa pero el portero ganó
@@ -1040,30 +1161,37 @@ void partido::Oc_Corner(int fw_index, int mf_index, int df_index)
     {
       //Global stats
       this->chuts_local++;
+      this->chuts_puerta_local++;
       //FW stats
       this->stats_local[fw_index].chuts++;
       //MF stats
       this->stats_local[mf_index].pases++;
       //GK stats
       this->stats_visitante[0].paradas++;
+      Commentary::Write_PassCorner(ali_local, ali_local->titulares[fw_index]->Name, ali_local->titulares[mf_index]->Name, ali_visitante->titulares[df_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
+      Commentary::Write_Save(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
+
     }
     else //Fallo visitante
     {
       //Global stats
       this->chuts_visitante++;
+      this->chuts_puerta_visitante++;
       //FW stats
       this->stats_visitante[fw_index].chuts++;
       //MF stats
       this->stats_visitante[mf_index].pases++;
       //GK stats
       this->stats_local[0].paradas++;
+      Commentary::Write_PassCorner(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_visitante->titulares[mf_index]->Name, ali_local->titulares[df_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
+      Commentary::Write_Save(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
     }
   }
   //Ahora qué ocurre?
   switch(RandT::BingoArray(Simu::ArrOutcome, Simu::NOutcome))
   {
     case 0: //Córner
-      ExecuteOcasion(2);
+      //ExecuteOcasion(2); //TODO
       break;
     case 1: //Mantiene posesión
       break;
@@ -1081,12 +1209,14 @@ void partido::Oc_ChutCercano(int fw_index, int df_index)
     atk_ab = ali_local->titulares[fw_index]->Sh*double(ali_local->titulares[fw_index]->Trd/100.); //Delantero
     def_ab = ali_visitante->titulares[df_index]->Tk*double(ali_visitante->titulares[df_index]->Trd/100.); //Defensa
     gk_ab = ali_visitante->titulares[0]->St; //Portero
+    Commentary::Write_OcChutCercano(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[df_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
   }
   else //Posesión del visitante
   {
     atk_ab = ali_visitante->titulares[fw_index]->Sh*double(ali_visitante->titulares[fw_index]->Trd/100.); //Delantero
     def_ab = ali_local->titulares[df_index]->Tk*double(ali_local->titulares[df_index]->Trd/100.); //Defensa
     gk_ab = ali_local->titulares[0]->St; //Portero
+    Commentary::Write_OcChutCercano(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[df_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
   }
   //Usar la probabilidad asociada :)
   double Prob = sqrt(Simu::ArrGol[3]/Simu::ArrOcasion[3]);
@@ -1098,24 +1228,33 @@ void partido::Oc_ChutCercano(int fw_index, int df_index)
     {
       //Global stats
       this->chuts_local++;
+      this->chuts_puerta_local++;
       this->goles_local++;
       //FW stats
       this->stats_local[fw_index].goles++;
       this->stats_local[fw_index].chuts++;
       //GK stats
       this->stats_visitante[0].encajados++;
+      Commentary::Write_PassChutCercano(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[df_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
+      Commentary::Write_OcChutLejano(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf, true);
+      Commentary::Write_Goal(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
     }
     else //Gol visitante
     {
       //Global stats
       this->chuts_visitante++;
+      this->chuts_puerta_visitante++;
       this->goles_visitante++;
       //FW stats
       this->stats_visitante[fw_index].goles++;
       this->stats_visitante[fw_index].chuts++;
       //GK stats
       this->stats_local[0].encajados++;
+      Commentary::Write_PassChutCercano(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[df_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
+      Commentary::Write_OcChutLejano(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf, true);
+      Commentary::Write_Goal(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
     }
+    Commentary::Write_ResChange(this->ali_local, this->ali_visitante, this->goles_local, this->goles_visitante, this->posesion, this->minuto, this->outf);
     //Cambia la posesión al otro equipo
     this->posesion = !this->posesion;
     return;
@@ -1126,11 +1265,13 @@ void partido::Oc_ChutCercano(int fw_index, int df_index)
     {
       //DF stats
       this->stats_visitante[df_index].tackles++;
+      Commentary::Write_FailDFChutCercano(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[df_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
     }
     else //Fallo visitante
     {
       //DF stats
       this->stats_local[df_index].tackles++;
+      Commentary::Write_FailDFChutCercano(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[df_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
     }
   }
   else //Superó al defensa pero el portero ganó
@@ -1139,26 +1280,34 @@ void partido::Oc_ChutCercano(int fw_index, int df_index)
     {
       //Global stats
       this->chuts_local++;
+      this->chuts_puerta_local++;
       //FW stats
       this->stats_local[fw_index].chuts++;
       //GK stats
       this->stats_visitante[0].paradas++;
+      Commentary::Write_PassChutCercano(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[df_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
+      Commentary::Write_OcChutLejano(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf, true);
+      Commentary::Write_Save(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
     }
     else //Fallo visitante
     {
       //Global stats
       this->chuts_visitante++;
+      this->chuts_puerta_visitante++;
       //FW stats
       this->stats_visitante[fw_index].chuts++;
       //GK stats
       this->stats_local[0].paradas++;
+      Commentary::Write_PassChutCercano(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[df_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
+      Commentary::Write_OcChutLejano(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf, true);
+      Commentary::Write_Save(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
     }
   }
   //Ahora qué ocurre?
   switch(RandT::BingoArray(Simu::ArrOutcome, Simu::NOutcome))
   {
     case 0: //Córner
-      ExecuteOcasion(2);
+      //ExecuteOcasion(2); //TODO
       break;
     case 1: //Mantiene posesión
       break;
@@ -1175,11 +1324,13 @@ void partido::Oc_ChutLejano(int fw_index)
   {
     atk_ab = ali_local->titulares[fw_index]->Sh*double(ali_local->titulares[fw_index]->Trd/100.); //Delantero
     def_ab = ali_visitante->titulares[0]->St; //Portero
+    Commentary::Write_OcChutLejano(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
   }
   else //Posesión del visitante
   {
     atk_ab = ali_visitante->titulares[fw_index]->Sh*double(ali_visitante->titulares[fw_index]->Trd/100.); //Delantero
     def_ab = ali_local->titulares[0]->St; //Portero
+    Commentary::Write_OcChutLejano(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
   }
   //Usar la probabilidad asociada :)
   double Prob = Simu::ArrGol[4]/Simu::ArrOcasion[4];
@@ -1189,24 +1340,29 @@ void partido::Oc_ChutLejano(int fw_index)
     {
       //Global stats
       this->chuts_local++;
+      this->chuts_puerta_local++;
       this->goles_local++;
       //FW stats
       this->stats_local[fw_index].goles++;
       this->stats_local[fw_index].chuts++;
       //GK stats
       this->stats_visitante[0].encajados++;
+      Commentary::Write_Goal(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
     }
     else //Gol visitante
     {
       //Global stats
       this->chuts_visitante++;
+      this->chuts_puerta_visitante++;
       this->goles_visitante++;
       //FW stats
       this->stats_visitante[fw_index].goles++;
       this->stats_visitante[fw_index].chuts++;
       //GK stats
       this->stats_local[0].encajados++;
+      Commentary::Write_Goal(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
     }
+    Commentary::Write_ResChange(this->ali_local, this->ali_visitante, this->goles_local, this->goles_visitante, this->posesion, this->minuto, this->outf);
     //Cambia la posesión al otro equipo
     this->posesion = !this->posesion;
   }
@@ -1216,25 +1372,29 @@ void partido::Oc_ChutLejano(int fw_index)
     {
       //Global stats
       this->chuts_local++;
+      this->chuts_puerta_local++;
       //FW stats
       this->stats_local[fw_index].chuts++;
       //GK stats
       this->stats_visitante[0].paradas++;
+      Commentary::Write_Save(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
     }
     else //Fallo visitante
     {
       //Global stats
       this->chuts_visitante++;
+      this->chuts_puerta_visitante++;
       //FW stats
       this->stats_visitante[fw_index].chuts++;
       //GK stats
       this->stats_local[0].paradas++;
+      Commentary::Write_Save(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
     }
     //Ahora qué ocurre?
     switch(RandT::BingoArray(Simu::ArrOutcome, Simu::NOutcome))
     {
       case 0: //Córner
-        ExecuteOcasion(2);
+        //ExecuteOcasion(2); //TODO
         break;
       case 1: //Mantiene posesión
         break;
@@ -1242,126 +1402,6 @@ void partido::Oc_ChutLejano(int fw_index)
         this->posesion = !this->posesion;
         break;
     }
-  }
-}
-
-//Printear stats (al final del partido)
-void partido::Write_End()
-{
-  string loc_name = GetStringVarFrom(ali_local->abrev, Simu::Teams);
-  string visit_name = GetStringVarFrom(ali_visitante->abrev, Simu::Teams);
-  //Separo
-  outf << endl << endl;
-  //Estadio
-  outf << "Detalles del partido" << endl;
-  outf << Simu::stat_headline << endl;
-  outf << "Campo               " << ": " << GetStringVarFrom(this->ali_local->abrev, Simu::Estadios) << endl;
-  outf << Simu::stat_headline << endl;
-  //Info local
-  outf << "Informacion " << loc_name << " (" << this->ali_local->abrev << ")" << endl;
-  outf << Simu::stat_headline << endl;
-  //Sin implementar
-  outf << "Mejor jugador       : " << "-" << endl;
-  outf << "Goleadores          : " << "-" << endl;
-  outf << "Expulsados          : " << "-" << endl;
-  outf << "Amonestados         : " << "-" << endl;
-  outf << "Lesionados          : " << "-" << endl;
-  outf << Simu::stat_headline << endl;
-  //Info visitante
-  outf << "Informacion " << visit_name << " (" << this->ali_visitante->abrev << ")" << endl;
-  outf << Simu::stat_headline << endl;
-  //Sin implementar
-  outf << "Mejor jugador       : " << "-" << endl;
-  outf << "Goleadores          : " << "-" << endl;
-  outf << "Expulsados          : " << "-" << endl;
-  outf << "Amonestados         : " << "-" << endl;
-  outf << "Lesionados          : " << "-" << endl;
-  outf << Simu::stat_headline << endl;
-  //Stats
-  outf << "Estadisticas del partido" << endl;
-  outf << Simu::stat_headline << endl;
-  outf << "                     " <<  loc_name << "  |  " << visit_name << endl;
-  outf << "Ocasiones de gol    :"  << setw(loc_name.length()-3) << this->ocasiones_local << "     |     " << this->ocasiones_visitante << endl;
-  outf << "Disparos a puerta   :"  << setw(loc_name.length()-3) << this->chuts_local << "     |     " << this->chuts_visitante << endl;
-  outf << "Posesion            :"  << setw(loc_name.length()-3) << this->posesion_local << "     |     " << this->posesion_visitante << endl;
-  outf << "Corners             :"  << setw(loc_name.length()-3) << this->corners_local << "     |     " << this->corners_visitante << endl;
-  outf << "Amarillas           :"  << setw(loc_name.length()-3) << this->amarillas_local << "     |     " << this->amarillas_visitante << endl;
-  outf << "Rojas               :"  << setw(loc_name.length()-3) << this->rojas_local << "     |     " << this->rojas_visitante << endl;
-  outf << "Cambios             :"  << setw(loc_name.length()-3) << this->cambios_local << "     |     " << this->cambios_visitante << endl;
-  outf << "Faltas              :"  << setw(loc_name.length()-3) << this->faltas_local << "     |     " << this->faltas_visitante << endl;
-  outf << "Entradas            :"  << setw(loc_name.length()-3) << this->tackles_local << "     |     " << this->tackles_visitante << endl;
-  outf << Simu::stat_headline << endl;
-  outf << "Resultado final: " << loc_name << " " << goles_local << "-" << goles_visitante << " " << visit_name << endl;
-  outf << Simu::stat_headline << endl;
-  outf << endl << endl;
-  //Hay que calcular primero la exp ganada
-  this->Update_exp(this->stats_local);
-  this->Update_exp(this->stats_visitante);
-  //Stats individuales local
-  WriteStats(this->ali_local, this->stats_local);
-  outf << endl;
-  //Stats individuales visitante
-  WriteStats(this->ali_visitante, this->stats_visitante);
-}
-
-void partido::WriteStats(alineacion* ali, jug_stats* stats)
-{
-  outf << "Estadisticas individuales - " << GetStringVarFrom(ali->abrev, Simu::Teams) << " (" << ali->abrev << ")" << endl;
-  outf << Simu::stat_header << endl;
-  outf << Simu::stat_headline << endl;
-  for(int i=0;i<N_titulares;i++)
-  {
-    //Habilidades
-    outf << ali->titulares[i]->Name << setw(1 + Simu::w_name - ali->titulares[i]->Name.length()) << " "; //Nombre
-    outf << setw(3) << ali->pos_titulares[i].symbol() << " "; //Posicion
-    outf << setw(3) << ali->titulares[i]->St << " "; //St
-    outf << setw(3) << ali->titulares[i]->Tk << " "; //Tk
-    outf << setw(3) << ali->titulares[i]->Ps << " "; //Ps
-    outf << setw(3) << ali->titulares[i]->Sh << " "; //Sh
-    outf << "| ";
-    //Llegan los stats
-    outf << setw(3) << stats[i].minutos << " "; //Minutos
-    outf << setw(3) << stats[i].paradas << " "; //Paradas
-    outf << setw(3) << stats[i].tackles << " "; //Tackles
-    outf << setw(3) << stats[i].pases << " "; //Pases
-    outf << setw(3) << stats[i].asistencias << " "; //Asistencias
-    outf << setw(3) << stats[i].chuts << " "; //Disparos
-    outf << setw(3) << stats[i].goles << " "; //Goles
-    outf << setw(3) << stats[i].amarillas << " "; //Amarillas
-    outf << setw(3) << stats[i].rojas << " "; //Rojas
-    //Hay que implementar
-    outf << setw(3) << stats[i].St << " "; //GK Hab
-    outf << setw(3) << stats[i].Tk << " "; //DF Hab
-    outf << setw(3) << stats[i].Ps << " "; //MF Hab
-    outf << setw(3) << stats[i].Sh << " "; //FW Hab
-    outf << endl;
-  }
-  for(int i=0;i<N_suplentes;i++)
-  {
-    //Habilidades
-    outf << ali->suplentes[i]->Name << setw(1 + Simu::w_name - ali->suplentes[i]->Name.length()) << " "; //Nombre
-    outf << setw(3) << ali->pos_suplentes[i].symbol() << " "; //Posicion
-    outf << setw(3) << ali->suplentes[i]->St << " "; //St
-    outf << setw(3) << ali->suplentes[i]->Tk << " "; //Tk
-    outf << setw(3) << ali->suplentes[i]->Ps << " "; //Ps
-    outf << setw(3) << ali->suplentes[i]->Sh << " "; //Sh
-    outf << "| ";
-    //Llegan los stats
-    outf << setw(3) << stats[N_titulares+i].minutos << " "; //Minutos
-    outf << setw(3) << stats[N_titulares+i].paradas << " "; //Paradas
-    outf << setw(3) << stats[N_titulares+i].tackles << " "; //Tackles
-    outf << setw(3) << stats[N_titulares+i].pases << " "; //Pases
-    outf << setw(3) << stats[N_titulares+i].asistencias << " "; //Asistencias
-    outf << setw(3) << stats[N_titulares+i].chuts << " "; //Disparos
-    outf << setw(3) << stats[N_titulares+i].goles << " "; //Goles
-    outf << setw(3) << stats[N_titulares+i].amarillas << " "; //Amarillas
-    outf << setw(3) << stats[N_titulares+i].rojas << " "; //Rojas
-    //Hay que implementar
-    outf << setw(3) << stats[N_titulares+i].St << " "; //GK Hab
-    outf << setw(3) << stats[N_titulares+i].Tk << " "; //DF Hab
-    outf << setw(3) << stats[N_titulares+i].Ps << " "; //MF Hab
-    outf << setw(3) << stats[N_titulares+i].Sh << " "; //FW Hab
-    outf << endl;
   }
 }
 

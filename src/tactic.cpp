@@ -154,12 +154,64 @@ string tactic::symbol()
       return "P";
     case lE:
       return "E";
+    case lD:
+      return "D";
     default:
       return "";
     
   }
 }
 
+//Para decir si gana a otra táctica o no
+bool tactic::Beats(Simu::Ltactic vs_tac)
+{
+  switch(this->tac)
+  {
+    case lA:
+      if(vs_tac == lD || vs_tac == lE)
+      {
+        return true;
+      }
+      break;
+    case lD:
+      if(vs_tac == lL || vs_tac == lP)
+      {
+        return true;
+      }
+      break;
+    case lN:
+      if(vs_tac == lA || vs_tac == lE)
+      {
+        return true;
+      }
+      break;
+    case lL:
+      if(vs_tac == lC || vs_tac == lN)
+      {
+        return true;
+      }
+      break;
+    case lC:
+      if(vs_tac == lA || vs_tac == lP)
+      {
+        return true;
+      }
+      break;
+    case lP:
+      if(vs_tac == lL || vs_tac == lN)
+      {
+        return true;
+      }
+      break;
+    case lE:
+      if(vs_tac == lD || vs_tac == lC)
+      {
+        return true;
+      }
+      break;
+  }
+  return false;
+}
 void tactic::dump()
 {
   cout << "-------------------------------------" << endl;
