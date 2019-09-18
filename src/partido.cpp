@@ -82,10 +82,10 @@ void partido::Update_pts()
 		ali_local->pos_titulares[i].SetEff(ali_local->tactica.tac);
 		double* eff = ali_local->pos_titulares[i].ability_eff;
     //Factor de fit: 0 de fit equivale a jugar con habilidad 0
-		gk_local+=eff[0]*ali_local->titulares[i]->St*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado);
-		def_local+=eff[1]*ali_local->titulares[i]->Tk*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado)*double(ali_local->titulares[i]->Trd/100.);
-		med_local+=eff[2]*ali_local->titulares[i]->Ps*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado)*double(ali_local->titulares[i]->Trd/100.);
-		atk_local+=eff[3]*ali_local->titulares[i]->Sh*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado)*double(ali_local->titulares[i]->Trd/100.);
+		gk_local+=eff[0]*ali_local->titulares[i]->St*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado)*this->local_boost;
+		def_local+=eff[1]*ali_local->titulares[i]->Tk*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado)*double(ali_local->titulares[i]->Trd/100.)*this->local_boost;
+		med_local+=eff[2]*ali_local->titulares[i]->Ps*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado)*double(ali_local->titulares[i]->Trd/100.)*this->local_boost;
+		atk_local+=eff[3]*ali_local->titulares[i]->Sh*(!this->stats_local[i].rojas)*(!this->stats_local[i].lesionado)*double(ali_local->titulares[i]->Trd/100.)*this->local_boost;
 
 		//Equipo visitante
 		ali_visitante->pos_titulares[i].SetEff(ali_visitante->tactica.tac);
@@ -182,7 +182,7 @@ void partido::Stats_Init()
 //Funcion para obtener el boost local a partir del archivo de parametros
 void partido::SetLocalBoost()
 {
-  local_boost = GetLeagueDat("Home_Bonus");
+  local_boost = double(GetLeagueDat("Home_Bonus"))/100.;
 }
 
 //Funcion para simular el partido. El tiempo sera siermpre dividido en primera y segunda parte. Y detectara si es tiempo reglamentario (=90) o prorroga (=30)
@@ -847,14 +847,14 @@ void partido::Oc_vsGK(int fw_index, int mf_index)
   double atk_ab, def_ab;
   if(!this->posesion)//Posesión del local
   {
-    atk_ab = ali_local->titulares[fw_index]->Sh*double(ali_local->titulares[fw_index]->Trd/100.); //Delantero
+    atk_ab = ali_local->titulares[fw_index]->Sh*double(ali_local->titulares[fw_index]->Trd/100.)*this->local_boost; //Delantero
     def_ab = ali_visitante->titulares[0]->St; //Portero
     Commentary::Write_OcvsGK(ali_local, ali_local->titulares[fw_index]->Name, ali_local->titulares[mf_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
   }
   else //Posesión del visitante
   {
     atk_ab = ali_visitante->titulares[fw_index]->Sh*double(ali_visitante->titulares[fw_index]->Trd/100.); //Delantero
-    def_ab = ali_local->titulares[0]->St; //Portero
+    def_ab = ali_local->titulares[0]->St*this->local_boost; //Portero
     Commentary::Write_OcvsGK(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_visitante->titulares[mf_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
   }
   
@@ -950,7 +950,7 @@ void partido::Oc_vsDF(int fw_index, int mf_index, int df_index)
   double atk_ab, gk_ab, def_ab;
   if(!this->posesion)//Posesión del local
   {
-    atk_ab = ali_local->titulares[fw_index]->Sh*double(ali_local->titulares[fw_index]->Trd/100.); //Delantero
+    atk_ab = ali_local->titulares[fw_index]->Sh*double(ali_local->titulares[fw_index]->Trd/100.)*this->local_boost; //Delantero
     def_ab = ali_visitante->titulares[df_index]->Tk*double(ali_visitante->titulares[df_index]->Trd/100.); //Defensa
     gk_ab = ali_visitante->titulares[0]->St; //Portero
     Commentary::Write_OcvsDF(ali_local, ali_local->titulares[fw_index]->Name, ali_local->titulares[mf_index]->Name, ali_visitante->titulares[df_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
@@ -958,8 +958,8 @@ void partido::Oc_vsDF(int fw_index, int mf_index, int df_index)
   else //Posesión del visitante
   {
     atk_ab = ali_visitante->titulares[fw_index]->Sh*double(ali_visitante->titulares[fw_index]->Trd/100.); //Delantero
-    def_ab = ali_local->titulares[df_index]->Tk*double(ali_local->titulares[df_index]->Trd/100.); //Defensa
-    gk_ab = ali_local->titulares[0]->St; //Portero
+    def_ab = ali_local->titulares[df_index]->Tk*double(ali_local->titulares[df_index]->Trd/100.)*this->local_boost; //Defensa
+    gk_ab = ali_local->titulares[0]->St*this->local_boost; //Portero
     Commentary::Write_OcvsDF(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_visitante->titulares[mf_index]->Name, ali_local->titulares[df_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
   }
   //Usar la probabilidad asociada :)
@@ -1085,7 +1085,7 @@ void partido::Oc_Corner(int fw_index, int mf_index, int df_index)
   double atk_ab, gk_ab, def_ab;
   if(!this->posesion)//Posesión del local
   {
-    atk_ab = ali_local->titulares[fw_index]->Sh*double(ali_local->titulares[fw_index]->Trd/100.); //Delantero
+    atk_ab = ali_local->titulares[fw_index]->Sh*double(ali_local->titulares[fw_index]->Trd/100.)*this->local_boost; //Delantero
     def_ab = ali_visitante->titulares[df_index]->Tk*double(ali_visitante->titulares[df_index]->Trd/100.); //Defensa
     gk_ab = ali_visitante->titulares[0]->St; //Portero
     this->corners_local++;
@@ -1094,8 +1094,8 @@ void partido::Oc_Corner(int fw_index, int mf_index, int df_index)
   else //Posesión del visitante
   {
     atk_ab = ali_visitante->titulares[fw_index]->Sh*double(ali_visitante->titulares[fw_index]->Trd/100.); //Delantero
-    def_ab = ali_local->titulares[df_index]->Tk*double(ali_local->titulares[df_index]->Trd/100.); //Defensa
-    gk_ab = ali_local->titulares[0]->St; //Portero
+    def_ab = ali_local->titulares[df_index]->Tk*double(ali_local->titulares[df_index]->Trd/100.)*this->local_boost; //Defensa
+    gk_ab = ali_local->titulares[0]->St*this->local_boost; //Portero
     this->corners_visitante++;
     Commentary::Write_OcCorner(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_visitante->titulares[mf_index]->Name, ali_local->titulares[df_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
   }
@@ -1218,7 +1218,7 @@ void partido::Oc_ChutCercano(int fw_index, int df_index)
   double atk_ab, gk_ab, def_ab;
   if(!this->posesion)//Posesión del local
   {
-    atk_ab = ali_local->titulares[fw_index]->Sh*double(ali_local->titulares[fw_index]->Trd/100.); //Delantero
+    atk_ab = ali_local->titulares[fw_index]->Sh*double(ali_local->titulares[fw_index]->Trd/100.)*this->local_boost; //Delantero
     def_ab = ali_visitante->titulares[df_index]->Tk*double(ali_visitante->titulares[df_index]->Trd/100.); //Defensa
     gk_ab = ali_visitante->titulares[0]->St; //Portero
     Commentary::Write_OcChutCercano(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[df_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
@@ -1226,8 +1226,8 @@ void partido::Oc_ChutCercano(int fw_index, int df_index)
   else //Posesión del visitante
   {
     atk_ab = ali_visitante->titulares[fw_index]->Sh*double(ali_visitante->titulares[fw_index]->Trd/100.); //Delantero
-    def_ab = ali_local->titulares[df_index]->Tk*double(ali_local->titulares[df_index]->Trd/100.); //Defensa
-    gk_ab = ali_local->titulares[0]->St; //Portero
+    def_ab = ali_local->titulares[df_index]->Tk*double(ali_local->titulares[df_index]->Trd/100.)*this->local_boost; //Defensa
+    gk_ab = ali_local->titulares[0]->St*this->local_boost; //Portero
     Commentary::Write_OcChutCercano(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[df_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
   }
   //Usar la probabilidad asociada :)
@@ -1338,14 +1338,14 @@ void partido::Oc_ChutLejano(int fw_index)
   double atk_ab, def_ab;
   if(!this->posesion)//Posesión del local
   {
-    atk_ab = ali_local->titulares[fw_index]->Sh*double(ali_local->titulares[fw_index]->Trd/100.); //Delantero
+    atk_ab = ali_local->titulares[fw_index]->Sh*double(ali_local->titulares[fw_index]->Trd/100.)*this->local_boost; //Delantero
     def_ab = ali_visitante->titulares[0]->St; //Portero
     Commentary::Write_OcChutLejano(ali_local, ali_local->titulares[fw_index]->Name, ali_visitante->titulares[0]->Name, this->minuto, this->outf);
   }
   else //Posesión del visitante
   {
     atk_ab = ali_visitante->titulares[fw_index]->Sh*double(ali_visitante->titulares[fw_index]->Trd/100.); //Delantero
-    def_ab = ali_local->titulares[0]->St; //Portero
+    def_ab = ali_local->titulares[0]->St*this->local_boost; //Portero
     Commentary::Write_OcChutLejano(ali_visitante, ali_visitante->titulares[fw_index]->Name, ali_local->titulares[0]->Name, this->minuto, this->outf);
   }
   //Usar la probabilidad asociada :)

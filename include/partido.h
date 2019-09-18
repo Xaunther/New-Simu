@@ -19,7 +19,7 @@ class partido
   double def_local; double def_visitante;
   double med_local; double med_visitante;
   double atk_local; double atk_visitante;
-  int local_boost;
+  double local_boost;
   int N_suplentes;
   ofstream outf;
   //Estadios?! estadio est; int attendance;

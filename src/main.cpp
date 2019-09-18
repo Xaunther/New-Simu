@@ -15,7 +15,12 @@ using namespace std;
 int main(void)
 {
   //Inicializa random seed
-  srand (int(time(NULL)));
+  struct timespec ts;
+  clock_gettime(CLOCK_MONOTONIC, &ts);
+
+  /* using nano-seconds instead of seconds */
+  srand((time_t)ts.tv_nsec);
+  
   string nombre, nombre2;
   string op;
   cout << "Equipo local: ";
