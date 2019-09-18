@@ -1,0 +1,24 @@
+# Lenguaje del simulador para las ocasiones individuales de un jugador, que ocurren en el área o en el borde. No hay limite en cuantas frases poner, pero cada una de ellas debe ir SOLO en una linea
+# Los saltos de linea deben ir indicados por el simbolo \n (puedes seguir los ejemplos)
+# El nombre del jugador que ataca es {delantero}
+# El nombre del jugador que defiende es {defensa}
+# El nombre del porter que encaja es {portero}
+# Tambien se pueden añadir lineas comentadas como estas en cualquier sitio, si el primer caracter es una #
+
+{delantero} salta con {defensa} en el área!
+{delantero} intenta irse de {defensa}, mete el pie!
+{delantero} con la red entre ceja y ceja!\n{defensa} sale a su encuentro!
+{delantero} se escapa! Cuidado {defensa}!
+{delantero} pelea con {defensa} en busca de sitio para disparar
+{delantero} intenta recortar a {defensa}
+{delantero} mete la cabeza segundos antes que {defensa} !
+{delantero} intenta anticiparse a {defensa} !
+{delantero} busca una posición de remate ! \n{defensa} lleva todo el partido encima de él!
+{delantero} salta con potencia frente a {defensa}
+{delantero} hace una diagonal\n{defensa} le conoce y sale al corte!
+{delantero} corre con {defensa} en busca de ese centro
+{delantero} intenta anticiparse a {defensa} en el primer palo
+{delantero} intenta romper el bloqueo de {defensa}!
+{delantero} busca el disparo en el área\nEs un mar de piernas!
+{delantero} intenta romperle la cintura a {defensa}
+{delantero} en busca de un balón dividido

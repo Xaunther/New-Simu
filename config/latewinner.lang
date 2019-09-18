@@ -1,0 +1,13 @@
+# Lenguaje del simulador para cuando se pone por delante al final. No hay limite en cuantas frases poner, pero cada una de ellas debe ir SOLO en una linea
+# Los saltos de linea deben ir indicados por el simbolo \n (puedes seguir los ejemplos)
+# El equipo que marca se sustituye por {equipo1}
+# El equipo que encaja se sustituye por {equipo2}
+# Tambien se pueden añadir lineas comentadas como estas en cualquier sitio, si el primer caracter es una #
+
+Habrá el {equipo1} robado la victoria con este tardío gol?
+Este gol va a decidir el choque!
+Podrá el {equipo2} de semejante golpe cerca del final?
+Ha roto el partido!
+Este tanto prácticamente asegura la victoria para {equipo1} !!
+Qué momento para marcar!!\nHa dejado al {equipo2} sin márgen de reacción!
+Qué oportuno!!\nHa dejado el partido visto para sentencia!

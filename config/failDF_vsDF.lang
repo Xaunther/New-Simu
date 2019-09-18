@@ -1,0 +1,76 @@
+# Lenguaje del simulador para cuando el defensa gana al delantero en jugada. No hay limite en cuantas frases poner, pero cada una de ellas debe ir SOLO en una linea
+# Los saltos de linea deben ir indicados por el simbolo \n (puedes seguir los ejemplos)
+# El nombre del jugador que ataca es {delantero}
+# El nombre del jugador que defiende es {defensa}
+# El nombre del portero que para es {portero}
+# Tambien se pueden añadir lineas comentadas como estas en cualquier sitio, si el primer caracter es una #
+
+{delantero}Le intenta hacer el lio!\nPero los pies se le hacen un nudo y se cae!\n{defensa} se está descojonando en su cara!
+{defensa} intercepta el balón con una entrada limpia!
+{defensa} ve venir el pase y corta el balón!
+{defensa} con una entrada agresiva por detrás, {delantero} cae!\nSerá sancionado? No! El árbitro no vio ni falta!
+{defensa} agarra a su rival en el área\n{delantero} pide penalti desesperdamente!\nPero el árbitro hace que 'no' con la cabeza!!!
+{defensa} corta con claridad\nMidió a la perfección! Su entrenador le aplaude
+{defensa} corta la jugada con un cabezazo en plancha
+{defensa} despeja el balón hacia la grada\nEi! Un aficionado se lleva el balón! Al ladrón
+{defensa} chuta el cuero con fuerza hacia la grada donde están sentados los aficionados rivales!!\nUi! Los ha cabreado! Le tiran de todo!
+{defensa} se interpone entre el delantero y el balón. Ha ganado la posición!
+{defensa} envía a {delantero} al césped\nLos aficionados rivales reclaman penalti!\nPero el arbitro pasa de todo!
+{defensa} entra con dureza y corta el balón. Está metido en el partido. El entrenador le aplaude!
+{defensa} va en carrera y mete el codo\n{delantero} va al suelo\nHa sido sutil, el árbitro no lo ha visto!
+{defensa} se anticipa la acción\nVaya pedazo de defensa!\nLos aficionados corean su nombre!
+{defensa} se anticipa a la jugada. Su entrenador le aplaude!\nPuede salir con el balón jugado!
+{defensa} se anticipa a la jugada y se apodera del balón
+{defensa} mete la puntera de la bota y aleja el cuero
+{defensa} va en carrera y agarra a {delantero} por la camiseta!!\nFalta!!\nEl árbitro no lo ha visto!\nEl defensa sonríe! El delantero pone cara de incredulidad
+{defensa} sega el césped con una entrada terrorífica!\n{delantero} evita a su rival, pero pierde el cuero!
+{defensa} sega el césped con una entrada terrorífica!\nJe je je, {delantero} saltó!
+{defensa} sega el césped con una entrada terrorífica!
+{defensa} le roba el cuero a {delantero}
+{defensa} corta con mucha tranquilidad!
+{defensa} empuja a {delantero}! Los aficionados rivales gritan: "Eso es falta"!\nQué listo, engañó al árbitro
+{defensa} arriesga con una entrada a ras de suelo! Ay! Le ha dado!\nEl árbitro no lo ha visto así!!
+{defensa} arriesga con una entrada a ras de suelo\nOOOHHHH!!\nEl balón le queda rebotado al delantero\nPero mete el pie de nuevo!
+{defensa} se lleva por delante a su rival!\nPENALT!!!\nNo! El árbitro da saque de puerta!\nSe buscan gafas para el árbitro! Urgente!
+{defensa} zancadillea a su oponente!!\nEl árbitro se da la vuelta!! Hace como quien no vio nada!!
+{defensa} se lleva el balón con la mano!!\nEl árbitro no lo ha visto! Que suerte! Podría haber recibido amarilla!
+{defensa} se lanza hacia su oponente\nY toca el balón! Que clase!
+{defensa} pone el pie en el momento oportuno y despeja el balón
+{defensa} sale al corte! \nSe lleva a {delantero} por delante!\nEl árbitro dice que... sigan!
+{defensa} sale al corte... lo logra!! Su afición le aplaude!
+{defensa} va al choque\nY desplaza al delantero! Pero el árbitro dice que sigan!
+{defensa} va al choque\nY se lleva el cuero. {delantero} no sabe si ha sido un contrario o un tren de mercancías!
+{defensa} entra con todo... y se lleva el balón limpiamente!
+Interceptada por {defensa} ! Su entrenador le aplaude!
+Impresionante entrada de {defensa} !!\nEste tío está dando una lección de cómo se defiende!
+{defensa} lo aparta del balón con el codo. {delantero} se queja, el defensa, sonríe!
+{defensa} cabecea el balón hacia {portero}
+{defensa} se hace con el balón\nGran anticipación!
+{defensa} ve venir el pase y lo corta con facilidad
+{defensa} mete el cuerpo\nY aparta del balón a {delantero}, que reclama un codazo\nEl árbitro dice que sigan!
+{defensa} va al suelo con los dos pies por delante\nEl árbitro estaba encima, pero no ha visto falta!
+{defensa} aparece de la nada. {delantero} aún está buscando el balón!
+{defensa} está muy metido en el partido y le roba la cartera!
+{defensa} se anticipa a la jugada. Qué sobriedad! Su entrenador le aplaude!
+{defensa} roba el cuero con facilidad
+{delantero} pierde el control del balón\n{defensa} despeja sin miramientos!
+{delantero} pierde el control del balón\n{defensa} mete el pie y lo envía a la grada!
+{delantero} falla en el control\nY {defensa} no desaprovecha el regalo!
+{delantero} hace un mal control!!\n{defensa} está muy encima en su marcaje y le arrebata el cuero! El entrenador le aplaude por su labor!
+{delantero} se ha resbalado\n{defensa} recoge el balón. Menudo marcaje le está haciendo!
+{delantero} pisa un charco y cae al suelo!\n{defensa} se encuentra con el balón 'regalado' y arma el contraataque!
+Corte finísimo y preciso de {defensa}\nHa medido muy bien
+Corte finísimo y preciso de {defensa}\nPodría haber cometido la falta perfectamente si no hubiera estado tan fino
+Corte finísimo y preciso de {defensa}
+Corte finísimo de {defensa}\nY evita el córner! Está en un momento dulce!
+{defensa} se juega el físico con una entrada durísima. Era su única opción
+{defensa} se juega el físico con una entrada durísima
+{defensa} corta. {delantero} se durmió!
+{defensa} reacciona rápidamente y corta el balón! Su entrenador le aplaude!!
+{defensa} reacciona a tiempo y roba el cuero! Parecía que estaba batido!
+{defensa} recupera la compostura y se apodera del balón
+{defensa} reacciona a tiempo y gana el esférico
+{defensa} entra con dureza y se lleva el cuero
+{defensa} evita que el ataque prospere
+{defensa} se anticipa perfectamente a la acción
+{defensa} reacciona rápidamente y corta el balón

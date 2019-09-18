@@ -19,4 +19,4 @@ Creo que {equipo} quieren jugar {tactica} ahora
 El mánager del {equipo} hace señas a su portero para que pasen a jugar {tactica}
 El entrenador del {equipo} ordena a sus jugadores que pasen a jugar {tactica} 
 El segundo entrenador se dirige al capitán desde la línea de banda\nParece que {equipo} va a cambiar a {tactica}
-El técnico grita vehementemente a sus jugadores\nCreo que va a cambiar de formación\n{equipo} jugará ahora %s
+El técnico grita vehementemente a sus jugadores\nCreo que va a cambiar de formación\n{equipo} jugará ahora {tactica}

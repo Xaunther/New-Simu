@@ -1,0 +1,29 @@
+# Lenguaje del simulador para las ocasiones de córner que superan al defensor. No hay limite en cuantas frases poner, pero cada una de ellas debe ir SOLO en una linea
+# Los saltos de linea deben ir indicados por el simbolo \n (puedes seguir los ejemplos)
+# El nombre del jugador que ataca es {delantero}
+# El nombre del jugador que lo bota es {pasador}
+# El nombre del jugador que defiende es {defensa}
+# El nombre del portero que defiende es {portero}
+# Tambien se pueden añadir lineas comentadas como estas en cualquier sitio, si el primer caracter es una #
+
+{delantero} controla con el pecho y hace una volea
+{delantero} entra con todo a rematar!\nHa superado en velocidad a {defensa}
+{delantero} supera con el salto a {defensa} y remata!
+{delantero} remata de cabeza!
+{delantero} entra desde atrás!\nHan bloqueado a {defensa}!
+{delantero} llega al centro antes que {defensa}!
+{delantero} se levanta sobre {defensa}!
+{delantero} mete la pierna!
+{delantero} trata de colocar su disparo!
+{delantero} se anticipa en el segundo palo a {defensa}. Remata!
+{delantero} se anticipa en el primer palo a {defensa}\nPeina el balón hacia atrás!
+{delantero} controla con el pecho dentro del área pequeña!\nPrepara la volea!
+{delantero} Mete el pie antes que {defensa}!
+{delantero} se las tiene con {defensa}, pero salta más y remata!
+{delantero} Remata como puede
+{delantero} se deshace de {defensa}... y mete la cabeza!
+{delantero} recibe el centro de córner!
+{delantero} para con el pecho el balón centrado!
+{delantero} controla!... Y dispara!
+{delantero} se abre un hueco entre la defensa!\nArma la pierna con velocidad y dispara!
+{delantero} se permite controlar dentro del área pequeña!\nVa a chutar!

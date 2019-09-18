@@ -1,0 +1,16 @@
+# Lenguaje del simulador para cuando un equipo recorta para ponerse a un gol. No hay limite en cuantas frases poner, pero cada una de ellas debe ir SOLO en una linea
+# Los saltos de linea deben ir indicados por el simbolo \n (puedes seguir los ejemplos)
+# El equipo que marca se sustituye por {equipo1}
+# El equipo que encaja se sustituye por {equipo2}
+# Tambien se pueden añadir lineas comentadas como estas en cualquier sitio, si el primer caracter es una #
+
+El {equipo1} estrecha el marcador. Esto todavía no está decidido!
+{equipo1} recortan la diferencia a un solo gol. Hay partido!
+El {equipo1} no ha dicho la última palabra todavía!
+{equipo1} aún tiene opciones!
+{equipo1} cree en la remontada!
+{equipo1} cree en la remontada!\nTienen mas moral que el Alcoyano!
+Rayo de esperanza para el {equipo1}! Logrará el milagro?!
+Bocanada de aire fresco para el {equipo1}! Logrará remontar?
+{equipo1} se mete de nuevo en el partido!
+Este gol va a dar esperanza al {equipo1}. Le entrará el canguelo al {equipo2}?
