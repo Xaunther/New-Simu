@@ -277,6 +277,7 @@ void partido::Simulate(int tiempo)
     //Re-checkear en caso de cambios en el resultado, lesiones...
     this->Do_Inst();
     //Cambios forzados (Sin implementar)
+    this->ForceSub();
   }
   //Final
   this->Write_FT();
@@ -588,6 +589,47 @@ void partido::Do_Inst(bool side, int k)
         }
       }
       return;
+  }
+}
+
+//Ejecuta tanto la local como la visitante
+void partido::ForceSub()
+{
+  this->ForceSub(true);
+  this->ForceSub(false);
+  return;
+}
+
+void partido::ForceSub(bool side)
+{
+  //Los casos en que debe forzarse una sustitución son:
+  //Jugador lesionado. Debe buscarse el jugador suplente asignado mejor y hacer el cambio, o bien encontrar el mejor jugador que pueda entrar en ese puesto
+  //                   Si no quedan sustituciones disponibles, no se hace nada, salvo en el caso del portero.
+  //En caso de portero lesionado y sin cambios se cambiará por un jugador de campo que esté jugando, dando prioridad a FW>AM>MF>DM>DF, siempre buscando dejar una alinación permitida
+  //Jugador expulsado. No se hace NADA
+  //Portero expulsado. Se buscará cambio por un jugador de campo y si no hay colocará a un jugador de campo que esté jugando, dando prioridad a FW>AM>MF>DM>DF
+  alineacion* ali;
+  jug_stats* stats;
+  int* cambios;
+  if(!side)
+  {
+    ali = this->ali_local;
+    stats = this->stats_local;
+    cambios = &this->cambios_local;
+  }
+  else
+  {
+    ali = ali_visitante;
+    stats = this->stats_visitante;
+    cambios = &this->cambios_visitante;
+  }
+  
+  //Empezamos con lo fácil, portero expulsado
+  if(stats[0].rojas)
+  {
+    if(this->cambios_local < GetLeagueDat("Cambios")) //Si quedan cambios disponibles
+    {
+    }
   }
 }
 

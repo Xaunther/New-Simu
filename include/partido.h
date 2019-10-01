@@ -57,6 +57,8 @@ class partido
   void Do_Inst();
   void Do_Inst(bool);
   void Do_Inst(bool, int);
+  void ForceSub();
+  void ForceSub(bool);
   bool Is_Doable(bool, int, int);
   void AddMin();
   void ReduceFit();
