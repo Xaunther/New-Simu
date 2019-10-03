@@ -5,5 +5,5 @@ if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
   #Compile
   cd build && cmake .. && make
   #Test
-  cp New-simu ../test/ && mv ../test && ./New-simu
+  cd ../test && cp ../build/New-simu . && ./New-simu
 fi
