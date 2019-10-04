@@ -63,6 +63,8 @@ class partido
   void AddMin();
   void ReduceFit();
   void AddPossesion();
+  void Substitute(bool, int, int);
+  void Exchange(bool, int, int);
   //Eventos random
   void Make_Injury();
   bool FlipPossesion();

@@ -284,3 +284,37 @@ void alineacion::GK_First()
   }
   return;
 }
+
+//Función para buscar un jugador en titulares o suplentes, por posición
+int alineacion::FindPlayer(Simu::Lposition searchpos, bool intitulares, int start)
+{
+  if(intitulares) //Buscar en titulares
+  {
+    for(int i=start;i<N_titulares;i++)
+    {
+      if(this->pos_titulares[i].pos == searchpos)
+      {
+        return i;
+      }
+    }
+  }
+  else //Buscar en suplentes
+  {
+    for(int i=start;i<N_suplentes;i++)
+    {
+      if(this->pos_suplentes[i].pos == searchpos)
+      {
+        return i;
+      }
+    }
+  }
+  return -1; //If not found, return -1
+}
+int alineacion::FindPlayer_Titular(Simu::Lposition searchpos, int start)
+{
+  return this->FindPlayer(searchpos, true, start);
+}
+int alineacion::FindPlayer_Suplente(Simu::Lposition searchpos, int start)
+{
+  return this->FindPlayer(searchpos, false, start);
+}

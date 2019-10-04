@@ -515,20 +515,7 @@ void partido::Do_Inst(bool side, int k)
         if(this->cambios_local < GetLeagueDat("Cambios") && !this->stats_local[ali->condicion[k].arg2-1].hajugado && !this->stats_local[ali->condicion[k].arg1-1].rojas)
         {
           cumple = true;
-          //Intercambio jugadores
-          jugador* temp;
-          temp = ali->titulares[ali->condicion[k].arg1-1];
-          ali->titulares[ali->condicion[k].arg1-1] = ali->suplentes[ali->condicion[k].arg2-N_titulares-1];
-          ali->suplentes[ali->condicion[k].arg2-N_titulares-1] = temp;
-          //Intercambio stats
-          jug_stats temp2;
-          temp2 = this->stats_local[ali->condicion[k].arg1-1];
-          this->stats_local[ali->condicion[k].arg1-1] = this->stats_local[ali->condicion[k].arg2-1];
-          this->stats_local[ali->condicion[k].arg2-1] = temp2;
-          //+1 cambio hecho
-          this->cambios_local++;
-          //jugador que entra ha jugado :)
-          this->stats_local[ali->condicion[k].arg1-1].hajugado = true;
+          this->Substitute(side, ali->condicion[k].arg1-1, ali->condicion[k].arg2-N_titulares-1);
         }
       }
       else
@@ -536,20 +523,7 @@ void partido::Do_Inst(bool side, int k)
         if(this->cambios_visitante < GetLeagueDat("Cambios") && !this->stats_visitante[ali->condicion[k].arg2-1].hajugado && !this->stats_local[ali->condicion[k].arg1-1].rojas)
         {
           cumple = true;
-          //Intercambio jugadores
-          jugador* temp;
-          temp = ali->titulares[ali->condicion[k].arg1-1];
-          ali->titulares[ali->condicion[k].arg1-1] = ali->suplentes[ali->condicion[k].arg2-N_titulares-1];
-          ali->suplentes[ali->condicion[k].arg2-N_titulares-1] = temp;
-          //Intercambio stats
-          jug_stats temp2;
-          temp2 = this->stats_visitante[ali->condicion[k].arg1-1];
-          this->stats_visitante[ali->condicion[k].arg1-1] = this->stats_visitante[ali->condicion[k].arg2-1];
-          this->stats_visitante[ali->condicion[k].arg2-1] = temp2;
-          //+1 cambio hecho
-          this->cambios_visitante++;
-          //jugador que entra ha jugado :)
-          this->stats_visitante[ali->condicion[k].arg1-1].hajugado = true;
+          this->Substitute(side, ali->condicion[k].arg1-1, ali->condicion[k].arg2-N_titulares-1);
         }
       }
       //Posicion del jugador que entra
@@ -611,6 +585,7 @@ void partido::ForceSub(bool side)
   alineacion* ali;
   jug_stats* stats;
   int* cambios;
+  //Escoger local o visitante
   if(!side)
   {
     ali = this->ali_local;
@@ -623,12 +598,50 @@ void partido::ForceSub(bool side)
     stats = this->stats_visitante;
     cambios = &this->cambios_visitante;
   }
+  /////////////
   
-  //Empezamos con lo fácil, portero expulsado
+  //Portero expulsado. Primero se busca a una víctima y luego miramos si se intercambiará con el GK titular o el suplente
   if(stats[0].rojas)
   {
+    
+    bool cumple = false;
+    //Miramos la victima
+    int subjug_index = -1;
+    int _lpos = (int)Simu::lFW;
+    while(subjug_index < 0)
+    {
+      subjug_index = ali->FindPlayer_Titular((Simu::Lposition)_lpos);
+      if(subjug_index>=0)
+      {
+        if(!stats[subjug_index].Is_Playable())
+        {
+          subjug_index = -1; //No sirve si está sancionado!
+        }
+      }
+      _lpos--; //Ni pongo algo para evitar infinite loop, algun jugador tiene que haber!
+    }
+    //Ya tenemos victima, ahora vemos si el cambio se puede hacer
     if(this->cambios_local < GetLeagueDat("Cambios")) //Si quedan cambios disponibles
     {
+      //Si hay un portero suplente y puede jugar, se hace el cambio
+      int supGK_index = ali->FindPlayer_Suplente(Simu::lGK);
+      if(supGK_index>=0)
+      {
+        //El portero suplente ha de estar en condiciones y tiene que no haber jugado
+        if(stats[N_titulares+supGK_index].Is_Playable() && !stats[N_titulares+supGK_index].hajugado)
+        {
+          //Perfecto! Hacemos la sustitucion
+          this->Substitute(side, subjug_index, supGK_index);
+          ali->pos_titulares[0].pos = Simu::lGK;
+          cumple = true;
+        }
+      }
+    }
+    //Hacemos un intercambio y ya
+    if(!cumple)
+    {
+      this->Exchange(side, subjug_index, 0);
+      ali->pos_titulares[0].pos = Simu::lGK;
     }
   }
 }
@@ -720,6 +733,72 @@ void partido::AddPossesion()
       {
         this->posesion_visitante++;
       }
+}
+
+//Hacer una sustitución
+void partido::Substitute(bool side, int tit_index, int sub_index)
+{
+  alineacion* ali;
+  jug_stats* stats;
+  int* cambios;
+  //Coger local o visitante
+  if(!side)
+  {
+    ali = this->ali_local;
+    stats = this->stats_local;
+    cambios = &this->cambios_local;
+  }
+  else
+  {
+    ali = ali_visitante;
+    stats = this->stats_visitante;
+    cambios = &this->cambios_visitante;
+  }
+  //Intercambio jugadores
+  jugador* temp;
+  temp = ali->titulares[tit_index];
+  ali->titulares[tit_index] = ali->suplentes[sub_index];
+  ali->suplentes[sub_index] = temp;
+  //Intercambio stats
+  jug_stats temp2;
+  temp2 = stats[tit_index];
+  stats[tit_index] = stats[sub_index+N_titulares];
+  stats[sub_index+N_titulares] = temp2;
+  //+1 cambio hecho
+  *cambios++;
+  //jugador que entra ha jugado :)
+  stats[tit_index].hajugado = true;
+}
+
+//Hacer un intercambio (entre 2 titulares)
+void partido::Exchange(bool side, int tit_index, int sub_index)
+{
+  alineacion* ali;
+  jug_stats* stats;
+  int* cambios;
+  //Coger local o visitante
+  if(!side)
+  {
+    ali = this->ali_local;
+    stats = this->stats_local;
+    cambios = &this->cambios_local;
+  }
+  else
+  {
+    ali = ali_visitante;
+    stats = this->stats_visitante;
+    cambios = &this->cambios_visitante;
+  }
+  //Intercambio jugadores
+  jugador* temp;
+  temp = ali->titulares[tit_index];
+  ali->titulares[tit_index] = ali->titulares[sub_index];
+  ali->titulares[sub_index] = temp;
+  //Intercambio stats
+  jug_stats temp2;
+  temp2 = stats[tit_index];
+  stats[tit_index] = stats[sub_index];
+  stats[sub_index] = temp2;
 }
 
 //Eventos random
