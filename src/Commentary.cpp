@@ -193,9 +193,9 @@ void Commentary::Write_ResChange(alineacion* ali_local, alineacion* ali_visitant
 {
   string format_string;
   //Información extra (si se ha empatado, gol de consolación, etc.)
-  if(goles_local == goles_visitante) //Alguien ha empatado el partido
+  if (goles_local == goles_visitante) //Alguien ha empatado el partido
   {
-    if(minuto < 80)
+    if (minuto < 80)
     {
       format_string = GetRandomText(Simu::Equalizer_lang);
     }
@@ -203,7 +203,7 @@ void Commentary::Write_ResChange(alineacion* ali_local, alineacion* ali_visitant
     {
       format_string = GetRandomText(Simu::LateEqualizer_lang);
     }
-    if(!who_scored)//Empató el local
+    if (!who_scored) //Empató el local
     {
       Substitute(format_string, "{equipo1}", GetStringVarFrom(ali_local->abrev, Simu::Teams));
       Substitute(format_string, "{equipo2}", GetStringVarFrom(ali_visitante->abrev, Simu::Teams));
@@ -217,9 +217,9 @@ void Commentary::Write_ResChange(alineacion* ali_local, alineacion* ali_visitant
     Commentary::Write_Event(ali_local, format_string, minuto, outf, true);
   }
   //Alguien se ha adelantado en el marcador
-  if((goles_local == goles_visitante+1 && !who_scored) || (goles_local == goles_visitante-1 && who_scored))
+  if ((goles_local == goles_visitante + 1 && !who_scored) || (goles_local == goles_visitante - 1 && who_scored))
   {
-    if(minuto < 80)
+    if (minuto < 80)
     {
       format_string = GetRandomText(Simu::Winner_lang);
     }
@@ -227,7 +227,7 @@ void Commentary::Write_ResChange(alineacion* ali_local, alineacion* ali_visitant
     {
       format_string = GetRandomText(Simu::LateWinner_lang);
     }
-    if(!who_scored)//Empató el local
+    if (!who_scored) //Empató el local
     {
       Substitute(format_string, "{equipo1}", GetStringVarFrom(ali_local->abrev, Simu::Teams));
       Substitute(format_string, "{equipo2}", GetStringVarFrom(ali_visitante->abrev, Simu::Teams));
@@ -241,10 +241,10 @@ void Commentary::Write_ResChange(alineacion* ali_local, alineacion* ali_visitant
     Commentary::Write_Event(ali_local, format_string, minuto, outf, true);
   }
   //Si se ponen a un gol de distancia
-  if((goles_local == goles_visitante-1 && !who_scored) || (goles_local == goles_visitante+1 && who_scored))
+  if ((goles_local == goles_visitante - 1 && !who_scored) || (goles_local == goles_visitante + 1 && who_scored))
   {
     format_string = GetRandomText(Simu::Hope_lang);
-    if(!who_scored)//Empató el local
+    if (!who_scored) //Empató el local
     {
       Substitute(format_string, "{equipo1}", GetStringVarFrom(ali_local->abrev, Simu::Teams));
       Substitute(format_string, "{equipo2}", GetStringVarFrom(ali_visitante->abrev, Simu::Teams));
@@ -258,10 +258,10 @@ void Commentary::Write_ResChange(alineacion* ali_local, alineacion* ali_visitant
     Commentary::Write_Event(ali_local, format_string, minuto, outf, true);
   }
   //Si marcan pero quedan a 3 o más goles
-  if((goles_local <= goles_visitante-3 && !who_scored) || (goles_local >= goles_visitante+3 && who_scored))
+  if ((goles_local <= goles_visitante - 3 && !who_scored) || (goles_local >= goles_visitante + 3 && who_scored))
   {
     format_string = GetRandomText(Simu::Consolation_lang);
-    if(!who_scored)//Empató el local
+    if (!who_scored) //Empató el local
     {
       Substitute(format_string, "{equipo1}", GetStringVarFrom(ali_local->abrev, Simu::Teams));
       Substitute(format_string, "{equipo2}", GetStringVarFrom(ali_visitante->abrev, Simu::Teams));
@@ -274,8 +274,8 @@ void Commentary::Write_ResChange(alineacion* ali_local, alineacion* ali_visitant
     Substitute(format_string, "\\n", "\n          ...  ");
     Commentary::Write_Event(ali_local, format_string, minuto, outf, true);
   }
-    
-  
+
+
   //Información del resultado
   format_string = "({abrev_local}) {local} {goles_local} - {goles_visitante} {visitante} ({abrev_visitante})";
   //Convertir el número de goles a strings
@@ -295,9 +295,9 @@ void Commentary::Write_ResChange(alineacion* ali_local, alineacion* ali_visitant
 void Commentary::Write_Event(alineacion* ali, string cosa, int minuto, ofstream& outf, bool cont)
 {
   //Minuto
-  if(!cont)
+  if (!cont)
   {
-    outf << "Min. " << minuto << setw(4-int(log10(minuto))) << ":(" << ali->abrev << ") ";
+    outf << "Min. " << minuto << setw(4 - int(log10(minuto))) << ":(" << ali->abrev << ") ";
   }
   //O si se continua el evento
   else

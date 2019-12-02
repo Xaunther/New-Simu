@@ -8,24 +8,24 @@ using namespace std;
 template <class T>
 bool TieneRepetidos(T* array, int size)
 {
-  for(int i=0;i<size-1;i++)
-    {
-      for(int j=i+1;j<size;j++)
+	for (int i = 0; i < size - 1; i++)
 	{
-	  if(array[i]==array[j])
-	    {
-	      return true;
-	    }
+		for (int j = i + 1; j < size; j++)
+		{
+			if (array[i] == array[j])
+			{
+				return true;
+			}
+		}
 	}
-    }
-  return false;
+	return false;
 }
 
 template <class T>
 T SumArray(T* array, int size)
 {
 	T sum = 0;
-	for(int i=0;i<size;i++)
+	for (int i = 0; i < size; i++)
 	{
 		sum += array[i];
 	}

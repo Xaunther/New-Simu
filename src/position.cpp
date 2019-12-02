@@ -28,35 +28,35 @@ position::position(Simu::Lposition _pos)
 //Traducir string a posicion
 void position::SetPos(string posname)
 {
-  if(posname=="GK")
-    {
-       this->pos = Simu::lGK;
-    }
-  else if(posname=="DF")
-    {
-       this->pos = Simu::lDF;      
-    }
-  else if(posname=="DM")
-    {
-       this->pos = Simu::lDM;
-    }
-  else if(posname=="MF")
-    {
-       this->pos = Simu::lMF;
-    }
-  else if(posname=="AM")
-    {
-       this->pos = Simu::lAM;
-    }
-  else if(posname=="FW")
-    {
-       this->pos = Simu::lFW;
-    }
+  if (posname == "GK")
+  {
+    this->pos = Simu::lGK;
+  }
+  else if (posname == "DF")
+  {
+    this->pos = Simu::lDF;
+  }
+  else if (posname == "DM")
+  {
+    this->pos = Simu::lDM;
+  }
+  else if (posname == "MF")
+  {
+    this->pos = Simu::lMF;
+  }
+  else if (posname == "AM")
+  {
+    this->pos = Simu::lAM;
+  }
+  else if (posname == "FW")
+  {
+    this->pos = Simu::lFW;
+  }
   else
-    {
-      cout << "Posicion invalida en alineacion" << endl;
-      exit(1);
-    }
+  {
+    cout << "Posicion invalida en alineacion" << endl;
+    exit(1);
+  }
 }
 
 void position::SetEff(Simu::Lposition _pos, Simu::Ltactic _tac)
@@ -73,22 +73,22 @@ void position::SetEff(Simu::Ltactic _tac)
 
 string position::symbol()
 {
-  switch(this->pos)
+  switch (this->pos)
   {
-    case Simu::lGK:
-      return "GK";
-    case Simu::lDF:
-      return "DF";
-    case Simu::lDM:
-      return "DM";
-    case Simu::lMF:
-      return "MF";
-    case Simu::lAM:
-      return "AM";
-    case Simu::lFW:
-      return "FW";
-    default:
-      return "";
+  case Simu::lGK:
+    return "GK";
+  case Simu::lDF:
+    return "DF";
+  case Simu::lDM:
+    return "DM";
+  case Simu::lMF:
+    return "MF";
+  case Simu::lAM:
+    return "AM";
+  case Simu::lFW:
+    return "FW";
+  default:
+    return "";
   }
 }
 

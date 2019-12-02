@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   RandomTools.h
  * Author: Xaunther
  *
@@ -16,8 +16,8 @@ using namespace std;
 //Se presupone que las seeds están ya inicializadas...
 namespace RandT
 {
-    bool Bingo(double p);
-    int BingoArray(const double* p, int N);
+bool Bingo(double p);
+int BingoArray(const double* p, int N);
 };
 #endif /* RANDOMTOOLS_H */
 

@@ -12,7 +12,7 @@ using namespace std;
 class partido
 {
   //Variables
- public:
+public:
   alineacion* ali_local;
   alineacion* ali_visitante;
   double gk_local;  double gk_visitante;
@@ -24,7 +24,7 @@ class partido
   ofstream outf;
   //Estadios?! estadio est; int attendance;
   //Arbitro?! arbitro arb;
-  
+
   //Estadisticas del partido globales
   int minuto;
   bool posesion; //false=local, true=visit
@@ -41,10 +41,10 @@ class partido
   int cambios_local; int cambios_visitante;
   int faltas_local; int faltas_visitante;
   int agg_local; int agg_visitante;
-    //Estadisticas del partido por jugador
+  //Estadisticas del partido por jugador
   jug_stats* stats_local; jug_stats* stats_visitante;
-  
-  
+
+
   //Funciones
   partido(alineacion*, alineacion*);
   ~partido();

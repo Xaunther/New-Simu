@@ -10,6 +10,10 @@
 #Netbeans project
 nbproject/*
 
+#Sublime project
+*.sublime-project
+*.sublime-workspace
+
 #VisualStudio project
 .vscode/*
 

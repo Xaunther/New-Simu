@@ -12,7 +12,7 @@ public:
   //Variables
   double* ability_eff;
   Simu::Lposition pos;
-  
+
   //Funciones
   position();
   position(Simu::Lposition);
