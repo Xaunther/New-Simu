@@ -1,0 +1,27 @@
+# Lenguaje del simulador para las ocasiones de córner. No hay limite en cuantas frases poner, pero cada una de ellas debe ir SOLO en una linea
+# Los saltos de linea deben ir indicados por el simbolo \n (puedes seguir los ejemplos)
+# El nombre del jugador que ataca es {delantero}
+# El nombre del jugador que lo bota es {pasador}
+# El nombre del jugador que defiende es {defensa}
+# El nombre del portero que defiende es {portero}
+# Tambien se pueden añadir lineas comentadas como estas en cualquier sitio, si el primer caracter es una #
+
+CÓRNER! :corner:\n{pasador} centra con fuerza al área pequeña!
+CÓRNER! :corner:\n{pasador} con un cerrado lanzamiento al primer palo!
+CÓRNER! :corner:\n{pasador} con un peligroso lanzamiento al segundo palo!
+CÓRNER! :corner:\n{pasador} le de mucho efecto a su lanzamiento!
+CÓRNER! :corner:\n{pasador} acaricia el cuero!
+CÓRNER! :corner:\n{pasador} coloca el balón con mucha suavidad!
+CÓRNER! :corner:\n{pasador} impacta el cuero con el interior del pie!
+CÓRNER! :corner:\n{pasador} centra hacia el área!
+CÓRNER! :corner:\n{pasador} cuelga el centro al segundo palo!
+CÓRNER! :corner:\n{pasador} saca el balón a la frontal!
+CÓRNER! :corner:\n{pasador} saca a la zona de peligro!
+CÓRNER! :corner:\n{pasador} saca al primer palo!
+CÓRNER! :corner:\n{pasador} cuelga el balón!
+CÓRNER! :corner:\nEl lanzamiento va a cargo de {pasador}!
+CÓRNER! :corner:\nJuega en corto!\n{pasador} controla\nMete el centro al área
+CÓRNER! :corner:\nBuscan sorprender a la defensa rival con un saque en corto\n{pasador} recibe sólo!\nCuelga al segundo palo!
+CÓRNER! :corner:\nPase en corto hacia {pasador}\nEn diagonal! Mira al área!\nY mete un balón peligroso al área
+CÓRNER! :corner:\nCórner en corto hacia {pasador}!\nSe revuelve y mete el centro!
+CÓRNER! :corner:\nCórner en corto hacia {pasador}!\nCuelga el balón

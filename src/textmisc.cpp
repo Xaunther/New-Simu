@@ -1,33 +1,17 @@
 //Implementacion de las funciones
 
+//Quitar warnings de las funciones antiguas de tiempo
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "textmisc.h"
 #include "Simu.h"
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <stdlib.h>
 #include <ctime>
 using namespace std;
-
-string GetInjuryType()
-{
-  //Obtener valor aleatorio entre 0 y 9
-  int index = (rand() % 10);
-  string types[10] = 
-    {
-      "diarrea extrema :truno:",
-      "bolas azules",
-      "una pierna amputada",
-      "un flechazo en la rodilla",
-      "un codo rasgunado",
-      "una fumada del 15 :weed:",
-      "cancer testicular",
-      "cirugia plastica",
-      "un leve resfriado",
-      "un tentaculo roto"
-    };
-  return types[index];
-}
 
 void AddSuspendTxt(string newline)
 {
@@ -37,18 +21,18 @@ void AddSuspendTxt(string newline)
   string basura;
   //Open file and load it into a string
   fin.open("suspend.txt");
-  if(fin)
+  if (fin)
+  {
+    while (!fin.eof())
     {
-      while(!fin.eof())
-	{
-	  getline(fin, basura);
-	  content+=basura + "\n";
-	}
+      getline(fin, basura);
+      content += basura + "\n";
     }
+  }
   //add newline
   fin.close();
   content += newline;
-  
+
   //Save it in file again
   fout.open("suspend.txt");
   fout << content;
@@ -62,27 +46,27 @@ void AddInjuryTxt(string newline)
   string basura;
   //Open file and load it into a string
   fin.open("injury.txt");
-  if(fin)
+  if (fin)
+  {
+    while (!fin.eof())
     {
-      while(!fin.eof())
-	{
-	  getline(fin, basura);
-	  content+=basura;
-	  if(!fin.eof())
-	    {
-	      content+="\n";
-	    }
-	}
+      getline(fin, basura);
+      content += basura;
+      if (!fin.eof())
+      {
+        content += "\n";
+      }
     }
+  }
   fin.close();
-  if(content=="")
-    {
-      content += newline;
-    }
+  if (content == "")
+  {
+    content += newline;
+  }
   else
-    {
-      content += "\n" + newline;
-    }
+  {
+    content += "\n" + newline;
+  }
   //Save it in file again
   fout.open("injury.txt");
   fout << content;
@@ -96,18 +80,18 @@ void AddSkillschTxt(string newline)
   string basura;
   //Open file and load it into a string
   fin.open("skillsch.txt");
-  if(fin)
+  if (fin)
+  {
+    while (!fin.eof())
     {
-      while(!fin.eof())
-	{
-	  getline(fin, basura);
-	  content+=basura + "\n";
-	}
+      getline(fin, basura);
+      content += basura + "\n";
     }
+  }
   //add newline
   fin.close();
   content += newline;
-  
+
   //Save it in file again
   fout.open("skillsch.txt");
   fout << content;
@@ -125,23 +109,25 @@ int GetVarFrom(string variable, string filename)
   string basura;
   ifstream f;
   f.open(filename.c_str());
-  if(!f)
+  if (!f)
   {
     cout << "No se ha encontrado el archivo " << filename << endl;
     exit(1);
   }
   f >> basura;
   do
+  {
+    if (basura == variable)
     {
-      if(basura==variable)
-      {
-        f >> basura; //Me como el igual
-        f >> value;
-        return value;
-      }
-      f >> basura;
-    }while (!f.eof());
+      f >> basura; //Me como el igual
+      f >> value;
+      return value;
+    }
+    f >> basura;
+  } while (!f.eof());
   f.close();
+  cout << "(WARNING): No se ha encontrado la palabra clave " << variable << endl << endl;
+  return 0;
 }
 
 //Legacy for more general function
@@ -155,24 +141,39 @@ string GetStringVarFrom(string variable, string filename)
   string basura;
   ifstream f;
   f.open(filename.c_str());
-  if(!f)
+  if (!f)
   {
     cout << "No se ha encontrado el archivo " << filename << endl;
     exit(1);
   }
   f >> basura;
   do
+  {
+    if (basura == variable)
     {
-      if(basura==variable)
-      {
-        f >> basura; //Me como el igual
-        f >> value;
-        value = Substitute(value, "_", " ");
-        return value;
-      }
-      f >> basura;
-    }while (!f.eof());
+      f >> basura; //Me como el igual
+      f >> value;
+      value = Substitute(value, "_", " ");
+      return value;
+    }
+    f >> basura;
+  } while (!f.eof());
   f.close();
+  cout << "(WARNING): No se ha encontrado la palabra clave " << variable << endl << endl;
+  return "";
+}
+
+//Función para obtener un array de un .dat
+int* GetArrayFrom(string prefix, string filename, int N)
+{
+  int* arr = new int[N];
+  for (int i = 0; i < N; i++)
+  {
+    stringstream ss;
+    ss << prefix << i;
+    arr[0] = GetVarFrom(ss.str(), filename);
+  }
+  return arr;
 }
 
 //Contar lineas de un fichero que NO esten vacias
@@ -181,21 +182,21 @@ int GetUsedLines(string filename)
   int Nlines = 0;
   string basura;
   ifstream f;
-  
+
   f.open(filename.c_str());
-  if(!f)
+  if (!f)
+  {
+    cout << "No se ha encontrado el archivo " << filename << endl;
+    exit(1);
+  }
+  while (!f.eof())
+  {
+    getline(f, basura);
+    if (basura != "")
     {
-      cout << "No se ha encontrado el archivo " << filename << endl;
-      exit(1); 
+      Nlines++;
     }
-  while(!f.eof())
-    {
-      getline(f, basura);
-      if(basura!="")
-	{
-	  Nlines++;
-	}
-    }
+  }
   f.close();
   return Nlines;
 }
@@ -209,7 +210,7 @@ char* GetTime()
   time ( &rawtime );
   timeinfo = localtime ( &rawtime );
   result = asctime (timeinfo);
-  result[24]='\0';
+  result[24] = '\0';
   return result;
 }
 
@@ -220,12 +221,12 @@ string Substitute(string &s, string s_search, string s_sub)
   do
   {
     pos = s.find(s_search);
-    if(pos != string::npos)
+    if (pos != string::npos)
     {
       s.replace(pos, s_search.length(), s_sub);
       pos += s_sub.length();
     }
-  }while(s.find(s_search) != string::npos);
+  } while (s.find(s_search) != string::npos);
 
   return s;
 }
@@ -239,16 +240,16 @@ int GetNTexts(string filename)
   int N = 0;
   string basura;
   //Comprobar que el fichero existe
-  if(!infile)
+  if (!infile)
   {
     cout << filename << " no encontrado" << endl;
     exit(1);
   }
   //Leer cuantas lineas hay que no esten vacias ni empiecen por #
-  while(!infile.eof())
+  while (!infile.eof())
   {
     getline(infile, basura);
-    if(basura.substr(0,1)!="#" && basura != "")
+    if (basura.substr(0, 1) != "#" && basura != "")
     {
       N++;
     }
@@ -267,16 +268,16 @@ string GetRandomText(string filename)
   int i = 0;
   string basura;
   //Comprobar que el fichero existe
-  if(!infile)
+  if (!infile)
   {
     cout << filename << " no encontrado" << endl;
     exit(1);
   }
   //Leer cuantas lineas hay que no esten vacias ni empiecen por #
-  while(i<k)
+  while (i < k)
   {
     getline(infile, basura);
-    if(basura.substr(0,1)!="#" && basura != "")
+    if (basura.substr(0, 1) != "#" && basura != "")
     {
       i++;
     }

@@ -1,0 +1,167 @@
+# Lenguaje del simulador para las ocasiones 1vs1 contra un defensa. No hay limite en cuantas frases poner, pero cada una de ellas debe ir SOLO en una linea
+# Los saltos de linea deben ir indicados por el simbolo \n (puedes seguir los ejemplos)
+# El nombre del jugador que ataca es {delantero}
+# El nombre del jugador que da el pase es {pasador}
+# El nombre del jugador que defiende es {defensa}
+# El nombre del porter que encaja es {portero}
+# Tambien se pueden añadir lineas comentadas como estas en cualquier sitio, si el primer caracter es una #
+
+{pasador} de tacón hacia {delantero}. Gran pase!
+{pasador} retrocede ante la presión\nGolpea el balón hacia arriba sin sentido\nY le cae a {delantero}! Ha sacado petróleo de esa jugada!
+{pasador} tiene que retroceder\nEstá presionado, se saca el balón de encima\n{delantero} pelea el balón con {defensor}
+{pasador} golpea el balón hacia {delantero}
+{pasador} mete el balón en la zona de peligro\n{delantero} se ofrece y recibe el cuero
+{pasador} se mete en el área. Va a chutar! No, pasa para {delantero}
+{pasador} se revuelve buscando espacio para el disparo\nDesliza un pase hacia {delantero}
+{pasador} cambia de dirección\nVe a un compañero desdoblándolo\nLe cede el cuero a {delantero}, que va lanzado en carrera
+{pasador} pica el balón por encima de {defensa} hacia {delantero}
+{pasador} controla el cuero con calidad\nMete un pase al centro!\n{delantero} es el destinatario!
+{pasador} controla el balón en una demostración de clase\nAbre el juego a la izquierda!\n{delantero} es el destinatario!
+{pasador} controla el balón en una demostración de clase\nAbre el juego a la derecha!\n{delantero} recibe el cuero!
+{pasador} centra desde la banda, encuentra a {delantero} en el área
+{pasador} mete un balón interior para {delantero}
+{pasador} cruza para {delantero}
+{pasador} se mete en diagonal a través de los defensas\nSe va del central que le sale al paso!\nEl extremo se cuela por la espalda del lateral\nEnvía el pase a {delantero}
+{pasador} hace la diagonal\nVe un desmarque por el rabillo del ojo\nSe la pasa a {delantero}
+{pasador} de tacón para {delantero}
+{pasador} cruza para {delantero}
+{pasador} pasa hacia {delantero}
+{pasador} conduce por la línea de medios\nPasa hacia {delantero}
+{pasador} en carrera con su marcador. Mete el hombro\nLo aparta del cuero!\nContinúa avanzando\nBalón para la entrada de {delantero}
+{pasador} con un balón a la espalda del lateral\n{delantero} corre hacia el cuero\nLlega antes que el defensa, qué gran esfuerzo!
+{pasador} asiste a {delantero} con espacio por delante
+{pasador} asiste a {delantero} dentro del área
+{pasador} combina con {delantero} con espacio por delante
+{pasador} combina con {delantero}. Le ha metido un buen balón picado
+{pasador} combina con {delantero}. Juegan de memoria!
+{pasador} conecta con {delantero}. Qué entendimiento hay entre ambos!
+{pasador} encuentra a {delantero}. Con que facilidad lo encontro!
+{pasador} cambia el juego hacia {delantero} 
+{pasador} cambia el juego\n{delantero} recibe con campo por delante!
+{pasador} golpea el balón al hueco. {delantero} aparece de la nada
+{pasador} se abre a la banda. Recibe el balón\nLevanta la cabeza, no hay salida\nPero encuentra a {delantero}. Qué visión de juego!
+{pasador} se abre a la banda y cambia el juego hacia {delantero}
+{pasador} se cuela hasta la línea de fondo\nAmaga el centro\nPasa raso atrás hacia {delantero}
+{pasador} dispara!\nPega en la espalda de un compañero\ny va a parar a {delantero}! Vaya suerte!
+{pasador} Con un pase demasiado fuerte. {delantero} va a llegar!
+{pasador} con un pase muy fuerte para {delantero}
+{pasador} dispara en carrera!\n{defensa} mete la pierna\nSale rebotada hacia {delantero}!
+{pasador} dispara en carrera!\nHay un rebote\nle cae a {delantero}!
+{pasador} aguanta el balón\nCambia súbitamente hacia {delantero}
+{pasador} llega primero al balón que ha quedado muerto\nVe a su compañero entrando desde atrás!\n{delantero} controla en carrera
+{pasador} lanza el contraataque\nHace una pausa esperando apoyos!\n{delantero} lo dobla recibe el pase
+{pasador} mete la pierna. Cortó el balón\nSe lo pone a {delantero} en el pie!
+{pasador} llega el primero al balón\nAbre a la banda sobre {delantero}, que recorta hacia dentro
+{pasador} cuelga arriba sobre {delantero}
+{pasador} está cerrado por tres contrarios\nAbre a la banda para romper la presión\n{delantero} recibe con campo por delante
+{pasador} está cerrado por tres contrarios\nSe saca el balón de encima\nle cae a {delantero}! Suerte o calidad?
+{pasador} llega primero al balón suelto\nY lo mete en profundidad hacia {delantero}
+{pasador} está cerrado por tres contrarios\nPisa el balón dos veces y los deja sentados!\nOH! Qué clase! Ahora mete el pase a {delantero}
+{pasador} está escorado en la banda izquierda\nCambia el juego a la derecha hacia {delantero}
+{pasador} está escorado en la banda derecha\nCambia el juego a la izquierda hacia {delantero}
+{pasador} se prepara para sacar de banda\nLimpia el balón en su camiseta\nY saca fuerte hacia {delantero}
+{pasador} se prepara para sacar de banda\nCoge carrerilla!\nY saca larco hacia {delantero}
+{pasador} se prepara para sacar de banda\nVe a un compañero sólo!\nEl balón vuela hacia {delantero}
+{pasador} lanza la falta\nVe el desmarque de su compañero\nEl balón va directo hacia el pie de {delantero}
+{pasador} se encargara de lanzar la falta\nObserva el desmarque de su compañero!\nY le manda un pase milimétrico!\n{delantero} se ha zafado de su marcador
+{pasador} lanza la falta\nOjo que la defensa está mal colocada!\nVuela directa hacia {delantero}
+{pasador} para el balón\nLevanta la vista y ve a un compañero completamente sólo!\nLe envía el pase con el exterior!\n{delantero} controla el milimétrico pase. Hasta yo lo hubiera hecho!
+{pasador} para el balón con la planta del pie\nQué calidad, tiene un guante en el pie!\nSe revuelve! Engaña a su marcador\ny cruza al balón sobre la llegada de {delantero}
+{pasador} para el balón con el pecho\nEstá copmpletamente sólo! Mala señal!\nTiene tiempo de mirar y meter un pase largo!\n{delantero} busca el cuero
+{pasador} para el balón con el pecho\nLo pisa, levanta la cabeza y pasa!\nMadre mía, eso es de manual!\n{delantero} recibe un pase medido\nOjo que tiene espacio!
+{pasador} hace una doble pared con {delantero}
+{pasador} salta con mucha potencia\nSe adelanta a su marcador\nCabecea hacia {delantero}
+{pasador} pica el balón por encima de los centrales\n{delantero} aparece de la nada. Los ha pillado despistados!
+{pasador} levanta la cabeza\nVe perfectamente a {delantero}! Que pase le ha dado!
+{pasador} corre metros\nLa defensa rival se ha despistado, hay hueco!!\nPone un peligroso balón sobre la entrada de {delantero}
+{pasador} tiene campo por delante\nSigue avanzando. Nadie le sale al paso!\nCon todo el tiempo del mundo pone el balón para {delantero}
+{pasador} tiene campo por delante\nPasa a {delantero}
+{pasador} avanza metros\nMira el extremo derecho!\nY le pone un pase de oro a {delantero} en el otro lado! Qué clase!
+{pasador} busca algún apoyo\nOjo! Casi pierde el balón en una zona peligrosa!\nPero consigue meter el pase para {delantero}
+{pasador} espera apoyos\n{delantero} sale de la cueva. Para él va el balón
+{pasador} busca opciones\nSu compañero se deshace del marcador!\n{delantero} recibe un pase medido
+{pasador} le pega al balón con el exterior\nEl efecto despista a la defensa, que no puede evitar que le llegue a {delantero}
+{pasador} le pega mal!\nPero le llega a {delantero}\nEso ha sido de leche!
+{pasador} avanza pegado a la línea de banda\nMete el balón al área, para {delantero}
+{pasador} avanza pegado a la línea de banda\nDespista al defensa con un gran regate\nY la pone en el área por bajo hacia {delantero}
+{pasador} avanza en diagonal\nEspléndido taconazo para {delantero}
+{pasador} suelta un cañonazo! Al larguero!\n{delantero} se hace el rebote
+{pasador} ve especio entre el central y el lateral\nQué pase en diagonal!\n{delantero} pisa área. Peligro!
+{pasador} ve especio entre el central y el lateral.\nPone un peligroso pase diagonal para {delantero}
+{pasador} pasa el balón a {delantero}
+{pasador} toca al primer toque para {delantero}
+{pasador} habilita a {delantero} con un preciso toque
+{pasador} con un pase entre los centrales\n{delantero} aparece con velocidad desde atrás!
+{pasador} tira la pared con su delantero\n{delantero} con un preciso pase de primeras!\nMenuda jugada!
+{pasador} toca de primeras al área para {delantero}
+{pasador} cede atrás para {delantero}
+{pasador} toca la pelota para {delantero}
+{pasador} se acerca al área\nVe a {delantero} desmarcarse \nLe tira un pase medido
+{pasador} ve perfectamente el desmarque de {delantero} ! Que pasé le ha mandado!
+{pasador} se gira, está tapado por dos rivales\nPisa el balón y mira arriba\npasa larga hacia la posición de {delantero}
+{pasador} está presionado, retrocede\nEstá en peligro, se saca el balón de encima\nOH! Le ha salida una maravillosa asistencia hacia {delantero}
+{pasador} pica el balón por encima de la defensa\n{delantero} ya había iniciado la diagonal\nHacia él va el balón
+{pasador} encara a su marcador\nLo sienta con una croqueta!\nEso lo hacía Michael Laudrup!\nY ahora suelta un pase impresionante hacia {delantero}
+{pasador} se cuela por el extremo derecho\nCentro medido para {delantero}
+{pasador} controla un balón aéreo\nLa pasa de primeras hacia {delantero}
+{pasador} inicia el ataque\nManda un pase picado para {delantero}
+{pasador} se interna por una banda\nTúnel al defensa! Oh! Lo han visto?\nQuiebra al lateral! Qué jugada!\n{delantero} tira el desmarque en el centro\nLe pone una pase medido!
+{pasador} avanza hacia el córner\nBusca el centro hacia {delantero}
+{pasador} evita una entrada a ras de suelo y manda el balón por bajo a {delantero}
+{pasador} se detiene y manda un pase milimétrico a {delantero}
+{pasador} ve a {delantero} completamente sólo! Que pase le ha dado!
+{pasador} acelera por la banda derecha\nPone el balón en el área. Directo hacia {delantero}
+{pasador} acelera por la banda izquierda\nJuega para {delantero}
+{pasador} se cuela por la banda\nCentra hacia {delantero}
+{pasador} acelera por la banda derecha\nHace la pared con el delantero!\nQuiebra al lateral!\n{delantero} se la pide dentro del área\nLe pone el balón en el pie! Qué pase!
+{pasador} en el centro del campo\nCruza hacia {delantero}
+{pasador} controla el balón suelto\nLo juega hacia {delantero}
+{pasador} encara al defensa\nLe tira una gambeta!\nSe coloca el cuerpo para disparar\nPero suelta el pase hacia {delantero}
+{pasador} llega al área, prepara \nPero engaña a todos con un pase hacia {delantero}. Qué calidad!
+{pasador} mete el cuero en profundidad para la llegada de {delantero}
+{pasador} corta el balón con dureza\nDesde el suelo mete la puntera\nY hace llegar el cuero a {delantero}
+{pasador} regatea a su marcador y pasa rápidamente a {delantero}
+{pasador} hace una pared con un compañero y mete de primeras para {delantero}
+{pasador} volea el cuero. Va directo hacia {delantero}
+{pasador} baja el balón con el pecho y asiste a {delantero}!
+{pasador} se hace con el balón\nY busca a {delantero} con un pase con el exterior
+{pasador} con un pase de 50 metros, encuentra a {delantero}
+{pasador} con un pase largo, encuentra a {delantero}
+{pasador} pone el balón al hueco\n{delantero} corre hacia el cuero!
+{pasador} sorprende a la defensa rival con un pase en diagonal hacia {delantero}
+{pasador} envía un pase desde su propio campo hacia {delantero}
+{pasador} con un glorioso pase largo hacia {delantero}
+{pasador} ve el desmarque de {delantero}
+{pasador} busca a {delantero} en profundidad
+{pasador} con un pase impresionante hacia {delantero}
+{pasador} se saca un pase al primer toque hacia {delantero} de la chistera
+{pasador} envía el esférico en profundidad. {delantero} lo controla
+{pasador} con un pase de tiralíneas, encuentra a {delantero}
+{pasador} mete un balón medido para {delantero}
+{pasador} con un preciso pase hacia {delantero}
+{pasador} pisa campo contrario. Mete un pase entre los centrales para {delantero}
+{pasador} hace una bicicleta y cambia el juego hacia {delantero}
+{pasador} hace una bicicleta y mete el pase sobre la llegada de {delantero}
+A ver qué inventa {pasador} ahora. Pase de interior hacia {delantero}
+{pasador} recibe de espalda. Se inventa un taconazo hacia {delantero}
+{pasador} pasa de rabona hacia {delantero}. Madre mía! Ha nacido en Brasil?
+{pasador} hace la pared con {delantero}
+{pasador} sale a la contra. Mete un pase medido a {delantero}
+{pasador} corta de manera impresionante\nArma el contraataque!\nEs un dos contra dos!\n{delantero} se desmarca y recibe el pase
+{pasador} se interna por la banda\nPone un medido centro sobre {delantero}
+{pasador} recupera el balón\nLevanta la cabeza!\nVe el desmarque de su compañero\n{delantero} recibe un pase increíble\nSe marcha!
+{pasador} recupera el balón y pasa largo hacia {delantero}. Ha pillado a la defensa desolocada!
+{pasador} sale del regate y mete un pase hacia {delantero}
+{pasador} cambia el juego hacia {delantero}
+{pasador} se saca un pase en diagonal para {delantero}
+{pasador} cuelga de primeras para {delantero}
+{pasador} juega al primer toque para {delantero}
+{pasador} mira a la derecha\nY cruza a la izquierda para {delantero}. Eso lo hacía Laudrup!
+{pasador} se va de uno, de dos, de tres!\nMira y pasa hacia {delantero} al otro lado! OH!
+{pasador} envía un taconazo hacia {delantero}. Qué lujo de jugador!
+{pasador} pasa largo con el interior hacia {delantero}
+{pasador} envía un pase en profundidad hacia {delantero}
+{pasador} mete el balón a la espalda de la defensa\nSu compañero ya había empezado la carrera\n{delantero} controla el balón
+{pasador} rompe la defensa con un preciso pase sobre {delantero}
+Peligroso centro de {pasador} a {delantero}
+{pasador} levanta la cabeza, pasa hacia {delantero}

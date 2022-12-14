@@ -7,8 +7,8 @@ using namespace std;
 //Clase jugador
 class jugador
 {
-	//Variables
- public:
+  //Variables
+public:
   string Name;
   int Age;
   string Nat;

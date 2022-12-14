@@ -21,6 +21,7 @@ public:
   double* GetEffs(Simu::Lposition);
   void SetTactic(string);
   string symbol(); //Devuelve string con la tactica
+  bool Beats(Simu::Ltactic); //Devuelve si le gana o no
   void dump();
 };
 

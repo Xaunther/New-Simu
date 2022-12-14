@@ -1,0 +1,56 @@
+# Lenguaje del simulador para cuando se supera a un defensa en jugada. No hay limite en cuantas frases poner, pero cada una de ellas debe ir SOLO en una linea
+# Los saltos de linea deben ir indicados por el simbolo \n (puedes seguir los ejemplos)
+# El nombre del jugador que ataca es {delantero}
+# El nombre del jugador que defiende es {defensa}
+# El nombre del portero que para es {portero}
+# Tambien se pueden añadir lineas comentadas como estas en cualquier sitio, si el primer caracter es una #
+
+{delantero} despista a {defensa} con un cambio de ritmo.\nNi Johann Cruyff! Las dos aficiones gritan "Olé"!! Están todos impresionados!
+{delantero} hace la croqueta ante {defensa}\n{defensa} mete la pierna, pero el rebote va a parar al delantero
+{delantero} busca el caño ante {defensa}\n{defensa} mete la pierna, pero el rebote favorece a su rival
+{delantero} pisa el balón ante {defensa}\nSe lo enseña, se lo esconde, otra vez... lo va a marear!\nSu afición corea "Olé"! La afición rival está pitando!
+{delantero} pisa el balón ante {defensa}\nLe hace un caño, pero le agarra de la camiseta!\nEl arbitro da la ley de la ventaja\nLa grada grita: "Decime que se siente al coger un caño, Olé"
+{delantero} se deshace de {defensa}\nLe amagó por un lado y salió por el otro\nMenudo cambio de dirección! Dios de mi vida!
+{delantero} se deshace de {defensa} con facilidad
+{delantero} se va de {defensa} por dentro\nLe ha dado demasiado espacio!
+{delantero} avanza en carrera y gira súbitamente\nEl cambio de dirección sorprendió a {defensa}\nQue responde con una entrada por detras! El árbitro da la ley de la ventaja
+{delantero} se para ante {defensa}... y le hace la 'cola de vaca'!\nOh! Increíble! Sólo se lo había visto hacer a Ronaldo y Romario!
+{delantero} quiebra a {defensa} con un suave toque hacia el exterior\nLe rompió la cintura! Que se lo digan a Boateng!
+{delantero} va en carrera junto a {defensa}\nEl atacante es más rápido!
+{delantero} encara portería, levanta la cabeza\nVe a {defensa} en su camino y le hace un sublime caño!\nJoder, este hombre es un maestro! Los aficionados gritan: "Olé, Olé y Olé"
+{delantero} sale lanzado por el carril\n{defensa} intenta cortar su avance con una entrada a ras de suelo!\n{delantero} salta por encima! Qué reflejos!
+{delantero} amaga el quiebro hacia un lado\nPero sale por el otro. {defensa} está sorprendido!\nTrata de zancallidearlo! Pero lo esquiva!
+{delantero} evita la entrada a ras de suelo de {defensa} con un giro\nPisa el balón y sigue adelante\nEstoy soñando? Han visto lo mismo que yo?
+{delantero} salta sobre la tremenda entrada de {defensa}
+{delantero} salta sobre la tremenda entrada de {defensa}\nSe lleva el balón y sigue con la pierna pegada al cuerpo
+{delantero} se tira el balón largo ante {defensa}\nSe lleva al defensa por velocidad!\nParecia Gareth Bale en aquella Final de la Copa del Rey!
+{delantero} envía el balón por el lado derecho de {defensa} y lo ecoge por el otro
+{delantero} controla el balón y encara a {defensa}. Qué regate!
+{delantero} hace un sombrero sobre {defensa}
+{delantero} deja a {defensa} en el camino\nCon un cambio de Ritmo! En el momento ideal!
+{delantero} gambetea ante {defensa}, lo está desquiciando!
+{delantero} deja a {defensa} sentado
+{delantero} encara a {defensa}\nNo le deja espacios! Pero se lo lleva con una finta!
+{delantero} encara a {defensa}\nEl defensa resbala! Los aficionados rivales gritan "tonto" y los suyos le pitan!
+{delantero} encara al defensa\nSe va de {defensa} en velocidad\nMenudo cambio de ritmo! Nunca se ha visto en la historia!
+{delantero} encara al defensa\n{defensa} mete la pierna, pero el rebote favorece al atacante!\nFue un golpe de suerte, pero continúa hacia adelante!
+{delantero} supera a {defensa}\nEl defensa está viviendo una pesadilla! Sus aficionados le pitan, tremenda pitada!
+{delantero} supera a {defensa}\nEs demasiado rápido para su marcador! Sus aficionados le pitan, tremenda pitada!
+{delantero} supera a {defensa}\nLos aficionados gritan: "Olé"\nLleva loco a su marcador!
+{delantero} supera a {defensa}\nEste defensa es un tronco! No tiene cintura! Se le ha ido facilmente!\nLa acción no es del gusto de los aficionados, menuda pitada!
+{delantero} supera a {defensa}\nQué facilidad de regate! La afición pita a {defensa}! Menuda pitada!
+{delantero} evita la entrada de {defensa}
+{delantero} hace una bicicleta y descoloca a {defensa}\nLa afición esta loca! Empiezan a corear su nombre!
+{delantero} pisa el balón\nSortea a {defensa} con un taconazo\nHan visto eso! Es una pieza de arte!
+{delantero} se aprovecha de un error de {defensa}\nSu entrenador está furioso por ese despiste
+{delantero} se aprovecha de un error de {defensa}\nLo aprovechara?
+{delantero} se aprovecha de un error de {defensa}\nCorre hacia el marco. Su entrenador pega una patada a una botella
+{delantero} se aprovecha de un error de {defensa}\nHa tenido suerte. Su entrenador está furioso!
+{delantero} se aprovecha de un error de {defensa}\nEse error puede costarle caro. Su entrenador está gritando!
+{delantero} se va de {defensa}\nLo ha dejado sentado! La afición grita: "Olé"
+{delantero} en carrera\nLe hace un túnel a {defensa}!! Ui, le ha soltado el pie! Pero no le ha tocado! Que clase!
+{delantero} cambia el ritmo\nSe va por velocidad de {defensa}!
+{delantero} controla en carrera\nLe hace un sombrero a {defensa}! La grada esta haciendo una ola! Si señor! Que clase!
+{delantero} cambia de dirección\n{defensa}, que lo estaba persiguiendo, resbala! Su afición está furiosa!
+{delantero} hace una croqueta\nEvita la dura entrada de {defensa}. Qué clase!\nUn aficionado entra al campo! Sigan jugando dice el árbitro
+{delantero} hace una bicicleta\n{defensa} cae al suelo! Lo ha ridiculizado! Es por cosas así que el fútbol es el mejor deporte!

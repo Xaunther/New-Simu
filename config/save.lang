@@ -1,0 +1,61 @@
+# Lenguaje del simulador para las paradas. No hay limite en cuantas frases poner, pero cada una de ellas debe ir SOLO en una linea
+# Los saltos de linea deben ir indicados por el simbolo \n (puedes seguir los ejemplos)
+# El nombre del jugador que chuta es {delantero}
+# El nombre del portero que para es {portero}
+# Tambien se pueden añadir lineas comentadas como estas en cualquier sitio, si el primer caracter es una #
+
+{portero} despeja el balón... con el pecho! Vaya manera de vacilar al contrario!\n{delantero} se le queda mirando!
+{portero} hinca la rodilla en el suelo y despeja\nEi! Eso es estilo argentino!
+{portero} bloquea el disparo con las piernas\nLa pelota sale rebotada hacia el centro del campo!
+{portero} alcanza el cuero
+{portero} lo para cómodamente\nEl disparo nunca llevó peligro real
+{portero} vuela cual Airbus y ataja el balon!!!
+{portero} coge el balon...\nNo! Se le escurre!!!\nPero reacciona rapidamente y lo atrapa!
+{portero} alcanza el cuero sin dificultad alguna
+{portero} recibe el balon como en voleibol... y lo atrapa!
+{portero} agranda su figura \nCierra todo el espacio ! \nY para el lanzamiento. La grada le aplaude
+{portero} agranda su figura y atrapa la pelota espectacularmente
+{portero} para el lanzamiento\nY aleja el cuero!
+{portero} se las apaña para meter los guantes
+{portero} cierra el ángulo y atrapa la pelota con facilidad
+{portero} despeja con problemas\nEl líbero mete la cabeza y aleja el cuero
+{portero} despeja con problemas
+{portero} deja el balón suelto!\nSu defensa cierra bien y envía el cuero a las gradas!
+{portero} para. Le vino directo a las manos
+{portero} se mueve menos que Oblak en una tanda de penaltis... Y LA ATRAPA!!!!
+{portero} se mueve menos que Oblak en una tanda de penaltis... Y LA ATRAPA!!!!\n{portero} lo sabia, sonrie descaradamente
+{portero} para\nColocación y reflejos, la clave en un portero
+{portero} para\nPuso el cuerpo atrás, como marcan los cánones
+{portero} vuela y atrapa el balon!
+{portero} vuela y atrapa el balon!\nAcaso Lev Yashin sigue en activo???
+{portero} ve venir el balón\nY lo atrapa con facilidad
+{portero} ve venir el balón\nQue hace????\nEL ESCORPIÓN!\n{portero} se lleva la ovacion del publico!!!
+{portero} tapa perfectamente el ángulo largo \nY detiene el balón con sobriedad
+{portero} está tapado. No verá el balón! \nQué reflejos! Lo ha atrapado!
+{portero} está tapado. No ve venir el balón \nPero lo despeja con los puños. Poco ortodoxo, pero efectivo
+{portero} está tapado. No ve venir el balón \nReacciona rápidamente! Y desvía el cuero!
+{portero} se saca una espectacular parada \nSu capitán lo felicita por esa intervención
+{portero} vuela sobre la línea de gol\nY realiza una espectacular parada! Está enchufado!
+{portero} vuela sobre la línea de gol\nY atrapa el cuero! Uau, fue digno de la Araña Negra
+{portero} mete la pierna\nHay que blocar el balón jefe!
+Pero {portero} bloca el cuero con mucha tranquilidad
+{portero} mete la mano y alcanza el balón con la punta de los dedos \nEl arbitro dice que no la ha tocado \nMenudo desastre !
+{portero} mete la mano y alcanza el balón con la punta de los dedos \nCórner, marca el árbitro\nPero el asistente lo corrige! Eso es asistir?
+{portero} mete la mano y alcanza el balón con la punta de los dedos
+Pero {portero} detiene con suma facilidad \nSiempre estuvo encima de la jugada
+Pero {portero} hace una gran parada\nUau! Estuvo cerca! \nTuvo que emplearse a fondo para evitar el gol!
+Pero {portero} hace una gran parada
+{portero} alcanza el cuero. Buena parada\nEl árbitro pita falta sobre {portero} , de todas maneras
+{portero} alcanza el cuero. Buena parada
+{portero} mete los puños y manda el cuero al centro del campo
+{portero} bloca el balón con sobriedad
+Qué agilidad!!! {portero} ha estado tremendo!
+{portero} hace una gran parada\nY se las arregla para controlar el balón!
+{portero} hace una gran parada\nPero no puede retener el balón!\nLo atrapa en el segundo intento!
+{portero} hace una gran parada\nPero no puede retener el balón!
+{portero} agranda su figura \nCierra todo el espacio ! \nY para el lanzamiento. La grada le aplaude
+{portero} agranda su figura y atrapa la pelota espectacularmente
+{portero} para el lanzamiento\nY aleja el cuero!
+{portero} se las apaña para meter los guantes
+{portero} cierra el ángulo y atrapa la pelota con facilidad
+{portero} flota sobre la línea de meta\nMete la mano\nCórner? No! Se equivocó!

@@ -9,3 +9,16 @@
 
 #Netbeans project
 nbproject/*
+
+#Sublime project
+*.sublime-project
+*.sublime-workspace
+
+#VisualStudio project
+.vscode/*
+
+#Mierda de latex
+*.log
+*.aux
+*.gz
+*.out

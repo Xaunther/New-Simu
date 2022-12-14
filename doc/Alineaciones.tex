@@ -1,0 +1,158 @@
+\documentclass[a4paper,9pt]{article}
+\usepackage[a4paper]{geometry}
+\geometry{top=0.5in, bottom=0.5in, left=0.5in, right=0.5in}
+\usepackage{amsmath,amssymb,lmodern} 
+\usepackage{cancel}
+\usepackage{mathrsfs}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[table]{xcolor}
+
+\title{Alineaciones y tácticas.}
+\author{Xaunther}
+
+\begin{document}
+
+\maketitle
+
+\section{Introducci\'on}
+En este documento se explica cómo funcionan las diferentes tácticas, así como qué formaciones son válidas y cuáles no, y como modificar estos límites.
+
+\section{Formaciones}\label{sec:Formaciones}
+Las formaciones permitidas se pueden configurar editando el archivo League.dat, que proporciona el número mínimo y máximo de jugadores de campo que puede haber en cada posición. Siempre ha de haber un portero. La alineación se considerará inválida si no se cumplen todas las condiciones, y en todo momento el simulador no permitirá salirse de los rangos definidos. De momento, se dejará a los usuarios explorar con las formaciones con bastante flexibilidad.
+
+\section{Tácticas}\label{sec:Tacticas}
+\subsection{Lista de tácticas y beneficios}\label{sec:ListaTacticas}
+A continuación se declaran todas las posibles tácticas, con sus pros y contras (multiplicadores a la defensa, pase y ataque). Recordemos que estos multiplicadores afectan al global del equipo, no jugador a jugador. Es decir, un jugador con media 20 de defensa contribuirá $20\cdot (1+bonus)$ a la defensa de su equipo, pero en el caso de actuar individualmente su habilidad de defensa sigue siendo 20 (multiplicado por el cansacio que pueda tener). Se va a intentar que los bonus estén equilibrados: para cada táctica, la suma de todos los bonus es cero, al igual que la suma de todos los bonus para cada habilidad. Lo único que varía entre una táctica y otra es el bono que se aplica a cada posición. Las condiciones que se cumplen, teniendo en cuenta las 3 posiciones principales (DF, MF y FW) son:
+\begin{align}
+	\sum_i\sum_j b_{ij}&=0\\
+	\sum_i b_{ij}&=0\\
+	\sum_j b_{ij}&\equiv b_i\rightarrow \sum_i b_i = 0\\
+	b_{ij}&=\frac{1}{3}b_i+a_{|i-j|},(i\neq j)\\
+	a_1 &= -0.2\\
+	a_2 &= -0.4
+\end{align}
+
+Por su parte, la posición de MF se subdivide en otras 2 posiciones (DM y AM), las cuales tienen modificadores de habilidad ($a_{|i-j|}$) diferentes:
+\begin{align}
+	a_1 &= 0\\
+	a_2 &= -0.3
+\end{align}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{c c c c}
+    	\multicolumn{4}{c}{Táctica N. (0,0,0)}\\
+      \hline
+      Posición & Tk bonus & Ps bonus & Sh bonus\\
+      \hline
+      DF & 0.6 & -0.2 & -0.4 \\
+      DM & 0 & 0.3 & -0.3 \\
+      MF & -0.2 & 0.4 & -0.2 \\
+      AM & -0.3 & 0.3 & 0 \\
+      FW & -0.4 & -0.2 & 0.6 \\
+      \hline\hline
+      \multicolumn{4}{c}{Táctica A. (-0.5,-0.2,0.7)}\\
+      \hline
+      Posición & Tk bonus & Ps bonus & Sh bonus\\
+      \hline
+      DF & 0.43 & -0.37 & -0.57 \\
+      DM & -0.07 & 0.23 & -0.37 \\
+      MF & -0.27 & 0.33 & -0.27 \\
+      AM & -0.37 & 0.23 & -0.07 \\
+      FW & -0.17 & 0.03 & 0.83 \\
+      \hline\hline
+      \multicolumn{4}{c}{Táctica D. (0.7,-0.2,-0.5)}\\
+      \hline
+      Posición & Tk bonus & Ps bonus & Sh bonus\\
+      \hline
+      DF & 0.83 & 0.03 & -0.17 \\
+      DM & -0.07 & 0.23 & -0.37 \\
+      MF & -0.27 & 0.33 & -0.27 \\
+      AM & -0.37 & 0.23 & -0.07 \\
+      FW & -0.57 & -0.37 & 0.43 \\
+      \hline\hline
+      \multicolumn{4}{c}{Táctica L. (0.3,-0.6,0.3)}\\
+      \hline
+      Posición & Tk bonus & Ps bonus & Sh bonus\\
+      \hline
+      DF & 0.7 & -0.1 & -0.3 \\
+      DM & -0.2 & 0.1 & -0.5 \\
+      MF & -0.4 & 0.2 & -0.4 \\
+      AM & -0.5 & 0.1 & -0.2 \\
+      FW & -0.3 & -0.1 & 0.7 \\
+      \hline\hline
+      \multicolumn{4}{c}{Táctica C. (0.5,-0.8,0.3)}\\
+      \hline
+      Posición & Tk bonus & Ps bonus & Sh bonus\\
+      \hline
+      DF & 0.77 & -0.03 & -0.23 \\
+      DM & -0.27 & 0.03 & -0.57 \\
+      MF & -0.47 & 0.13 & -0.47 \\
+      AM & -0.57 & 0.03 & -0.27 \\
+      FW & -0.3 & -0.1 & 0.7 \\
+      \hline\hline
+      \multicolumn{4}{c}{Táctica P. (-0.2,0.6,-0.4)}\\
+      \hline
+      Posición & Tk bonus & Ps bonus & Sh bonus\\
+      \hline
+      DF & 0.53 & -0.27 & -0.47 \\
+      DM & 0.2 & 0.5 & -0.1 \\
+      MF & 0 & 0.6 & 0 \\
+      AM & -0.1 & 0.5 & 0.2 \\
+      FW & -0.53 & -0.33 & 0.47 \\
+      \hline\hline
+      \multicolumn{4}{c}{Táctica E. (-0.3,0.2,0.1)}\\
+      \hline
+      Posición & Tk bonus & Ps bonus & Sh bonus\\
+      \hline
+      DF & 0.5 & -0.3 & -0.5 \\
+      DM & 0.07 & 0.37 & -0.23 \\
+      MF & -0.13 & 0.47 & -0.13 \\
+      AM & -0.23 & 0.37 & 0.07 \\
+      FW & -0.37 & -0.17 & 0.63 \\
+      \hline\hline
+    \end{tabular}
+  \end{center}
+  \caption{Resumen de las probabilidades de ocasión y de gol}
+  \label{table:tacticbonus}
+\end{table}
+
+\subsection{Cuadro de tácticas}\label{sec:CuadroTacticas}
+%Definición de colores
+\def \Cverde {\cellcolor{green}}
+\def \Crojo {\cellcolor{red}}
+\def \Cgris {\cellcolor[rgb]{0.8,0.8,0.8}}
+\def \Cblanco {\cellcolor{white}}
+Cada táctica tiene dos debilidades y dos fortalezas con respecto a otras dos tácticas, heredadas de ESMS, mientras se mantiene de manera neutral con el resto y consigo misma. Esto puede verse en la \autoref{table:tacticchart}. En el caso de que un equipo tenga en un momento determinado una táctica ventajosa respecto al otro equipo, recibirá un bonus ajustable en el League.dat correspondiente, que multiplicará el valor de Tk, Ps y Sh de todo el equipo. Su valor por defecto es \textbf{1.1}.
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+      \hline
+      Local \textbackslash Visitante & A & D & L & C & P & N & E\\
+      \hline
+      A & \Cgris & \Cverde & \Cblanco & \Crojo & \Cblanco & \Crojo & \Cverde \\\hline
+      D & \Crojo & \Cgris & \Cverde & \Cblanco & \Cverde & \Cblanco & \Crojo \\\hline
+      L & \Cblanco & \Crojo & \Cgris & \Cverde & \Crojo & \Cverde & \Cblanco \\\hline
+      C & \Cverde & \Cblanco & \Crojo & \Cgris & \Cverde & \Cblanco & \Crojo \\\hline
+      P & \Cblanco & \Crojo & \Cverde & \Crojo & \Cgris & \Cverde & \Cblanco \\\hline
+      N & \Cverde & \Cblanco & \Crojo & \Cblanco & \Crojo & \Cgris & \Cverde \\\hline
+      E & \Crojo & \Cverde & \Cblanco & \Cverde & \Cblanco & \Crojo & \Cgris \\\hline
+    \end{tabular}
+  \end{center}
+  \caption{Cuadro de tácticas. Verde indica ventaja para el equipo local y rojo para el equipo visitante. La diagonal está marcada en gris para diferenciar las dos partes del cuadro.}
+  \label{table:tacticchart}
+\end{table}
+
+\newpage
+\begin{thebibliography}{999}
+
+%\bibitem{PremierLeague}
+%  \href{https://www.whoscored.com/Regions/252/Tournaments/2/Seasons/7361/Stages/16368/TeamStatistics/England-Premier-League-2018-2019}{Premier League Stats.}
+\end{thebibliography}
+\end{document}

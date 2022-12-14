@@ -1,0 +1,36 @@
+# Lenguaje del simulador para las ocasiones 1vs1 contra el portero. No hay limite en cuantas frases poner, pero cada una de ellas debe ir SOLO en una linea
+# Los saltos de linea deben ir indicados por el simbolo \n (puedes seguir los ejemplos)
+# El nombre del jugador que ataca es {delantero}
+# El nombre del jugador que da el pase es {pasador}
+# El nombre del porter que encaja es {portero}
+# Tambien se pueden añadir lineas comentadas como estas en cualquier sitio, si el primer caracter es una #
+
+{delantero} se anticipa a su marcador\nRecibe el pase de {pasador}! Se va!\nSólo le queda {portero}!
+{delantero} rompe el intento de fuera de juego rival!\nRecibe de {pasador}\nSe va sólo\n{portero} sale desesperadamente
+{delantero} rompe el intento de fuera de juego rival!\nRecibe de {pasador}\nSe va sólo\nSólo tiene que superar a {portero}
+{delantero} rompe el intento de fuera de juego rival!\nRecibe de {pasador}\nCreo que estaba más adelante que el último defensa\n{portero} sale a la desesperada
+{delantero} rompe el intento de fuera de juego rival!\nCorre hacia {portero}
+Pase al espacio de {pasador}\n{delantero} ha roto el fuera de juego!\nSe va sólo!\n{portero} inicia la salida
+{delantero} aprovecha un despiste de la defensa.\nSe planta solo ante {portero}
+Pared entre {pasador} y {delantero}\n{delantero} se va solo hacia la portería!\nEl asistente levante la bandera\nPero el arbitro le desautoriza\nEncara a {portero}
+Pared entre {pasador} y {delantero}\n{delantero} se anticipa a su marcador!\nSólo {portero} puede detenerle
+Pared entre {pasador} y {delantero}\n{delantero} se anticipa a la defensa!\nMe pareció fuera de juego\n{portero} trata de salvar una situación desesperada
+Pared entre {pasador} y {delantero}\n{delantero} en claro fuera de juego!\nEl asistente no levanta la bandera!\n{portero} trata de cerrarle el ángulo
+{pasador} tira la pared con su delantero\n{delantero} se la queda!\nEncara a {portero}!
+{delantero} ha encontrado un hueco entre la defensa!\nSu marcador se ha despistado!\n{pasador} le da un pase milimétrico\nSe va sólo hacia {portero}
+Pase largo de {pasador} a {delantero}\nSe va, se va, se va!\nNo hay fuera de juego!\nSe va sólo hacia {portero}
+Balón bombeado de {pasador}\n{delantero} se anticipa al defensa de cabeza!\nSe va sólo hacia {portero}
+La defensa está completamente despistada\n{delantero} recibe completamente solo de {pasador}\n{portero} sale desesperadamente
+El defensa resbala en el momento de controlar el balón\n{delantero} es más rápido que nadie y controla el cuero\nEstá cara a cara con {portero}
+El defensa estaba despistado\n{delantero} aprovecha el error y se va sólo!\nSólo {portero} puede frenarlo
+{pasador} regatea a un rival\nA otro! Esté en racha!\nY mete un pase al hueco hacia {delantero}\nSólo le queda {portero}!
+{pasador} avanza con el balón controlado\nVe a un compañero completamente sólo!\nLe pasa el balón\n{delantero} controla el balón y se va directo hacia {portero}
+{pasador} avanza con el balón controlado\nVe el desmarque de un compañero!\nCruza el pase!\n{delantero} controla el balón, está solo!
+{pasador} centra desde la banda, encuentra a {delantero} en el área\nAlguien ha visto a la defensa? Está solo!
+{pasador} tiene espacio y tiempo\nA ver qué inventa!\nAmaga el disparo y mete un pase\n{delantero} controla con el pecho\nEncara puerta!
+{pasador} pone el balón a la espalda de los centrales\n{delantero} se cuela desde atrás!\nEncara a {portero}!
+{pasador} pone el balón a la espalda de los centrales\n{delantero} llega con comodidad!\nEncara a {portero}!
+{pasador} saca de banda\nEl defensa pide fuera de juego!\nTOOONTO!Si no hay!\n{delantero} se escapa!\nPodrá batir a {portero}?
+{pasador} inicia el contraataque\nSale rápidamente!\nY envía un gran pase con la defensa descolocada. {delantero} recibe sólo
+{pasador} espera a que alguien le acompañe en ataque\nLevanta los brazos, nadie se desmarca!\nBusca la individual! Prepara el disparo!\nRebota en un defensa y cae a los pies de {delantero}
+{pasador} regatea a su marcador\nVa a disparar!\nNo! Pasa hacia {delantero}! Ha engañado a todos\n{portero} sale a la desesperada!

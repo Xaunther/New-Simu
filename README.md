@@ -12,6 +12,8 @@
 
 **test**: Carpeta para testear.
 
+**scripts**: Carpeta con scripts para correr en travis y compilar/testear el programa
+
 
 ## Archivos especiales:
 

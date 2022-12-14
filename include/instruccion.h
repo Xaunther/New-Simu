@@ -11,7 +11,7 @@ using namespace std;
 
 class instruccion
 {
- public:
+public:
   //Variables
   Simu::Linstruct type; //Tipo de instruccion
   //Lista de posibles argumentos, dependiendo de la instruccion se usan unos u otros
@@ -24,7 +24,7 @@ class instruccion
   Simu::Lcondition cond[N_cond]; //Saber que tipo de condicion es (minutos, roja, resultado...)
   Simu::Lsymbol symbol[N_cond]; //Saber si es mayor que, menor...
   int cond_value[N_cond]; //Saber el valor que se ha dado
-  
+
   //Funciones
   instruccion(); //Constructor por defecto
   instruccion(string);

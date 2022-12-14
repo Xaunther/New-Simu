@@ -1,0 +1,66 @@
+# Lenguaje del simulador para los goles. No hay limite en cuantas frases poner, pero cada una de ellas debe ir SOLO en una linea
+# Los saltos de linea deben ir indicados por el simbolo \n (puedes seguir los ejemplos)
+# El nombre del jugador que marca es {goleador}
+# El nombre del porter que encaja es {portero}
+# Tambien se pueden añadir lineas comentadas como estas en cualquier sitio, si el primer caracter es una #
+
+{portero} no va a llegar!\nGOOOOOOOOL !! \nLe ha ganado la partida!!
+{portero} está mas quieto que Oblak en una tanda de penales!!\nGOOOOOOOOL !! \nEra obvio que no lo iba a parar!!
+{portero} la saca sobre la misma línea\nEl árbitro consulta con su asistente...\n:gol:
+{portero} resbala\nGOOOOOL  !!\n{portero} está avergonzado. No es para menos!
+{portero} está batido! \n:gol: \nNo ha podido hacer nada!!
+{portero} está batido! \n:gol: \nEstá desolado!!
+{portero} está batido! \nGolpea en el larguero!!\n:gol:\nEl portero sólo ha podido mirárselo!
+{portero} mira como el balón sale demasiado alto!\nHa medido mal!!\n:gol:\n{portero} mira el balón fijamente! Está desolado!
+{portero} está sorprendido!\nNo va a tener tiempo de llegar!\n:gol: \nSe tapa la cara con los guantes!
+{portero} para! Pero el balón le queda muerto a {goleador}!\n:gol:\nLa defensa ha ido a por uvas!
+{portero} para! Pero el balón le queda muerto a {goleador}!\n:gol:\nError en cadena de la defensa!
+{portero} no va a llegar! \n:gol: \nQué golazo!!
+{portero} no va a llegar! \n:gol: \nGran remate!!!
+{portero} no va a llegar! \nImpacta en la madera!\n:gol:\nImparable!!
+:gol: \n{portero} llegó a tocar el esférico, pero no pudo pararlo
+:gol: \n{portero} recoge el balón de la red con parsimonia
+:gol: \n{portero} se encara con el líbero
+:gol: \nEl entrenador invade el campo, esta pletorico!
+:gol: \n{portero} abronca estrepitosamente a sus defensas
+:gol: \n{portero} se derrumba, como ha podido encajar ese tiro?????
+:gol: \nGran final
+:gol: \nLlevaba rato buscándolo!\n{goleador} se tira al césped de cuatro patas\nY aparecen más compañeros! Están haciendo el trenecito!
+:gol: \nUna jugada así sólo podía acabar en gol
+:gol: \nVaya golazo! Como los que metia Del Piero en sus tiempos!
+:gol: \nLos seguidores lo celebran efusivamente!
+:gol: \nLos aficionados enloquecen!
+:gol: \nCorre a festejar el tanto con el técnico!!!
+:gol: \nEs una sonrisa eso que hay en la cara del entrenador?
+:gol: \nQué bien lo ha buscado!
+:gol:\n{portero} no pudo hacer nada!
+:gol:\n{portero} estaba a por uvas!
+:gol:\nRegateó a {portero} y la picó por arriba!
+:gol:\nTocó madera y para dentro. Imparable!
+:gol:\nMaría pon el vídeo a grabar!!!!!
+:gol:\nJamás vi un gol asi, ES PEC TA CU LAR!!!!!
+:gol:\nBang! Bang! Bang! Salió el pistolero!\nY sus fans enloquecen
+:gol:\nBang! Bang! Bang! Salió el pistolero!\nLos aficionados rivales le increpan!!!
+:gol:\nBang! Bang! Bang! Salió el pistolero!
+:gol:\nLimpió las telarañas de la escuadra!
+:gol:\nIncreible!!!! Si ha entrado por fuera de la red!
+Precisa vaselina sobre {portero} \nTrata de retroceder!\n:gol:\nQué calidad!
+UAU! Ha pegado en el larguero y ha botado sobre la misma línea\nEl árbitro consulta con el asistente. Difícil decisión\nGOL ???\nEsta ciego!!!!!! Para cuando la tecnologia???\nEl balón no ha cruzado la línea de meta! :gol:
+UAU! Ha pegado en el larguero y ha botado sobre la misma línea\nEl árbitro consulta con el asistente. Difícil decisión\n:gol:\nLos aficonados rugen
+UAU! Ha pegado en el larguero y ha botado sobre la misma línea\nEl árbitro consulta con el asistente. Difícil decisión\n:gol: Lo ha dado!
+UAU! Ha pegado en el larguero y ha botado sobre la misma línea\nEl árbitro consulta con el asistente. Difícil decisión\n:gol: Lo ha dado!\n no hacia falta consultar nada, estaba clarisimo que era gol
+UAU! Ha pegado en el larguero y ha botado sobre la misma línea\nEl árbitro consulta con el asistente. Difícil decisión\n:gol: Lo ha dado!\nÉl da el gol, y a él le dan maletines. Es CLARISIMO que no ha entrado!
+Impacta en la parte interior del palo!!! \n{portero} trata de evitar que entre!\nPero el balón acaba en la red!\n:gol:\nCreo que {portero} pudo hacer algo más!
+Pega en la madera\n:gol:
+Pega en la madera\nParece que va a entrar, {portero} se tira a la desesperada!\ngol:
+Se mueve la red!\n:gol:\nBesa su camiseta!!\nEso es amor por los colores!!\nLos aficionados corean su nombre!!
+Se mueve la red!\n:gol:\nBesa su camiseta!!\nEso es amor por los colores!!\nLos aficionados le gritan PESETERO!\nNunca antes un gol fue tan mal celebrado!
+Se mueve la red!\n:gol:\nHace una voltereta, dos, tres!!!\nParece un saltimbanqui!
+Se mueve la red!\n:gol:
+El disparo coge un efecto endiablado\n{portero} se lanza desesperadamente hacia el cuero!!\nNo lo va a lograr!\n:gol:\nEl efecto ha podido con {portero}! 
+El disparo rebota en un defensa y se desvía\n:gol:\nQué mala suerte para el portero!
+Se mueve la red!\n:gol:\nCorre enloquecido hacia las gradas!\nY se tira hacia el público! Qué loco!
+El balón se le escurre a {portero} de las manos!!\n:gol:\nMenudo error\nSu entrenador está desesperado!
+El balón se le escurre a {portero} de las manos!!\n:gol:\nMenudo error
+El balón se le escurre a {portero} de las manos!!\n:gol:\nNo comas tostadas con mantequilla mientras llevas los guantes puestos, pasan estas cosas
+El balón se le escurre a {portero} de las manos!!\n:gol:\nVaya un pecho frío!

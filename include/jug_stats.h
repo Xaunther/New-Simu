@@ -14,6 +14,7 @@ public:
     int encajados;
     int asistencias;
     int chuts;
+    int chuts_puerta;
     int pases;
     int tackles;
     int paradas;
@@ -30,6 +31,7 @@ public:
     int Sh;
     //Funciones
     jug_stats();
+    bool Is_Playable();
     //Calculador de stats OwO
     void Update(); //Ojo que añade a lo que ya hay
 };

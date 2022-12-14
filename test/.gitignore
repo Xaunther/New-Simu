@@ -1,3 +1,5 @@
 #Archivo para poder añadir la carpeta "vacía" a git
 *
 !.gitignore
+!ros.txt
+!rossht.txt

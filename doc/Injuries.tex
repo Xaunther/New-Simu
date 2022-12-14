@@ -1,0 +1,58 @@
+\documentclass[a4paper,9pt]{article}
+\usepackage[a4paper]{geometry}
+\geometry{top=0.5in, bottom=0.5in, left=0.5in, right=0.5in}
+\usepackage{amsmath,amssymb,lmodern} 
+\usepackage{cancel}
+\usepackage{mathrsfs}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+\usepackage{enumerate}
+\usepackage{graphicx}
+
+\title{Probabilidad lesiones.}
+\author{Xaunther}
+
+\begin{document}
+
+\maketitle
+
+\section{Introducci\'on}
+Aqu\'i se van a explicar las probabilidades de lesi\'on del simulador, matem\'aticamente. Los par\'ametros usados se encuentran en config/Injuries.dat y son los siguientes:
+\begin{itemize}
+\item Injury: Cada cu\'antos minutos (de media) se producir\'a una lesi\'on en un partido. Por definici\'on, $Injury=1/P_{lesion}$. Si el n\'umero es 180 quiere decir que se producir\'a una lesi\'on cada dos partidos.
+\item Injury\_i ($i=0,1,2,3,4,...,N$): Cuando se produce una lesi\'on, cu\'al es la probabilidad de que \'esta conlleve i d\\'ias de baja (en \%). Por tanto, $Injury\_i=P_i/100$ y asumiremos que $\sum_{i=0}^{N}{P_i}=1$
+\end{itemize}
+
+\section{Probabilidad de lesi\'on}
+La probabilidad de que ocurran k lesiones sigue una distribuci\'on de probabilidad binomial, con $p=P_{lesion}$, y n correspondiente al n\'umero de minutos jugados (m):
+\begin{equation}
+P(k;m,P_{lesion}) = \binom{m}{k}P_{lesion}^k\left(1-P_{lesion}\right)^{m-k}
+\end{equation}
+As\'i pues, la media de lesiones en X partidos de 90 minutos($\mu_{lesion}$) es:
+\begin{align}
+\mu_{lesion}&=mP_{lesion}=90XP_{lesion}=\frac{90X}{Injury}\\
+\frac{\mu_{lesion}}{X}&=\frac{90}{Injury}
+\end{align}
+Y la desviaci\'on est\'andar (que tomaremos como error) es:
+\begin{align}
+\sigma_{lesion}&=\sqrt{90XP_{lesion}(1-P_{lesion})}\\
+\frac{\sigma_{lesion}}{X}&=\sqrt{\frac{90}{X}P_{lesion}(1-P_{lesion})}\\
+\frac{\sigma_{lesion}}{X}&=\frac{\sqrt{\frac{90}{X}(Injury-1)}}{Injury}\\
+\frac{\sigma_{lesion}}{X}&\approx\sqrt{\frac{90}{X\cdot Injury}}
+\end{align}
+
+Donde la aproximaci\'on es v\'alida cuando $Injury >> 1$. Como es esperable, la desviaci\'on est\'andar disminuye con el n\'umero de partidos, y en el caso de $Injury=180$ el n\'umero de lesiones por partido es:
+\begin{align}
+X=1&\rightarrow 0.5\pm0.7\\
+X=2&\rightarrow 0.5\pm0.5\\
+X=5&\rightarrow 0.5\pm0.3\\
+X=10&\rightarrow 0.5\pm0.2
+\end{align}
+
+\section{Probabilidad de duraci\'on de lesi\'on}
+La probabilidad de duraci\'on es simplemente la probabilidad de que haya una lesi\'on por la probabilidad de dicha duraci\'on:
+\begin{align}
+\frac{\mu_{lesion_i}}{X}&=\frac{9}{10}\frac{Injury\_i}{Injury}\\
+\frac{\sigma_{lesion}}{X}&\approx\sqrt{\frac{9}{10}\frac{Injury\_i}{X\cdot Injury}}
+\end{align}
+\end{document}

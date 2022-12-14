@@ -1,0 +1,228 @@
+\documentclass[a4paper,9pt]{article}
+\usepackage[a4paper]{geometry}
+\geometry{top=0.5in, bottom=0.5in, left=0.5in, right=0.5in}
+\usepackage{amsmath,amssymb,lmodern} 
+\usepackage{cancel}
+\usepackage{mathrsfs}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+
+\title{Generaci\'on de eventos.}
+\author{Xaunther}
+
+\begin{document}
+
+\maketitle
+
+\section{Introducci\'on}
+En este documento se explica c\'omo funciona la parte central del simulador: el generador de eventos. Los eventos que ocurren durante el partido se generan de manera aleatoria, pero la probabilidad de que sucedan dependen de la habilidad de los equipos, su t\'actica, su formaci\'on, su condici\'on de local y su agresividad. En el futuro pueden añadirse otros factores como el estado del c\'esped, el \'arbitro, la cantidad de p\'ublico, el bonus del estadio...
+
+Aqu\'i aparecer\'an explicadas con el mayor rigor posible los efectos de los diferentes condicionantes, y c\'omo tunear algunos de los par\'ametros de configuraci\'on para que el resultado sea lo m\'as equilibrado posible, es decir, no haya t\'acticas ni formaciones "overpowered" (OP).
+
+\section{Esquema de funcionamiento}
+Cada minuto de partido, y tambi\'en al inicio, se realizan los siguientes pasos:
+\begin{enumerate}
+\item Comprobar y realizar cambios t\'acticos.
+\item Añadir minutos de juego a los jugadores.
+\item Reducir fit de los jugadores.
+\item Actualizar puntos de habilidad los equipos.
+\item Simular el minuto de partido.
+\item Lesiones aleatorias. Funcionamiento explicado en doc/Injuries.pdf
+\item Comprobar y realizar cambios t\'acticos. Si ocurre un gol, lesi\'on, etc. primero se intentan usar las t\'acticas del DT.
+\item Forzar cambios. En caso de lesiones o expulsi\'on del portero, el equipo debe reorganizarse autom\'aticamente para seguir jugando de manera realista, incluso si el DT no ha contemplado esta situaci\'on.
+\end{enumerate}
+
+\section{Valores de fuerza}
+Los dos equipos tienen 4 valores de fuerza, correspondientes a: porter\'ia, defensa, pase y ataque. Estos valores se calculan a partir de las habilidades de los jugadores, t\'acticas, posiciones y otros factores. A m\'as alto es el valor de fuerza, mejor es ese equipo en esa parte del juego.
+\section{Simulaci\'on}
+La simulaci\'on es el \'unico elemento aleatorio de la lista (adem\'as de las lesiones que ya est\'an explicadas). En cuanto a la iniciaci\'on del partido, se realiza un sorteo para el saque, el cual determina qu\'e equipo empieza la posesi\'on en cada parte. Para todos los minutos de partido el esquema es el siguiente, y en caso afirmativo se pasa al siguiente n\'umero de la lista:
+\begin{enumerate}
+\item Determinar si el bal\'on cambia de dueño o no. Se mide el valor de pase del equipo con la posesi\'on ($P_A$) frente al valor de defensa del equipo que se defiende ($D_D$). Si el equipo en defensa consigue hacerse con la pelota las siguientes situaciones pueden darse:
+\begin{itemize}
+\item Robo y ocasi\'on (contraataque).
+\item Robo
+\item Falta (lejana, indirecta, directa o penalty) sin tarjeta, con amarilla o roja. Si es lejana, el atacante mantiene la pelota; si no, hay una ocasi\'on de gol a pelota parada.
+\end{itemize}
+\item Determinar si hay ocasi\'on de gol. Se mide el valor de ataque del atacante ($A_A$) frente al valor de defensa del equipo defensor ($D_D$). Si no, se mantiene la posici\'on.
+\item Determinar el tipo de ocasi\'on (cu\'an buena es), y si es con o sin asistencia:
+\begin{itemize}
+\item Mano a mano vs portero.
+\item Mano a mano vs defensa.
+\item C\'orner
+\item Chut cercano.
+\item Chut lejano.
+\end{itemize}
+\item Determinar rematador, defensor y asistente. La probabilidad de a qui\'en le toca viene determinada por su posici\'on en el campo, habilidad y táctica, pero a grandes rasgos:
+\begin{itemize}
+\item Rematador: FW $>$ AM $>$ MF $>$ DM $>$ DF $>$ GK ($=0$).
+\item Asistente: AM $>$ MF $>$ FW $>$ DM $>$ DF $>$ GK ($=0$).
+ \item Defensor: DF $>$ DM $>$ MF $>$ AM $>$ FW $>$ GK ($=0$).
+\end{itemize}
+\item Determinar resultado de la acci\'on. Esto depende del valor de chut del rematador, pase del asistente, tackle del defensor y habilidad del portero.
+\begin{itemize}
+\item Gol.
+\item Fallo pero c\'orner.
+\item Fallo manteniendo posesi\'on.
+\item Fallo perdiendo posesi\'on.
+\end{itemize}
+\end{enumerate}
+
+\section{Esquema de probabilidad}
+Aún sin conocer cómo se determina exactamente la probabilidad para cada evento, el anterior esquema de funcionamiento conlleva las siguientes relaciones de probabilidad, por minuto de juego:
+\begin{align}\label{eq:probgol}
+P(gol)&=P(posesion)\sum_i{P(gol|ocasion_i)P(ocasion_i|posesion)}\\\label{eq:probocasion}
+P(ocasion)&=P(posesion)\sum_i{P(ocasion_i|posesion)}
+\end{align}
+
+En cuanto a la probabilidad de posesión, ésta se calcula de manera aproximada usando una cadena de Markov en la \autoref{sec:ProbPosesion}.
+\section{Probabilidad de posesi\'on}\label{sec:ProbPosesion}
+La probabilidad de posesión tras m minutos de juego puede expresarse como:
+\begin{equation}
+\vec{P}_m = T\vec{P}_{m-1} = T^m\vec{P}_{0}
+\end{equation}
+Donde $\vec{P}_m$ es el vector de probabilidades de que cada equipo tenga la posesión tras m minutos de juego y T es la matriz de transición (probabilidad de cada equipo de mantener la pelota y de perderla). En forma matricial se escribe como:
+\begin{equation}
+\begin{pmatrix}
+P_m(L) \\
+P_m(V)
+\end{pmatrix}
+=
+\begin{pmatrix}
+P(L) & 1-P(V) \\
+1-P(L) & P(V)
+\end{pmatrix}^m
+\begin{pmatrix}
+P_0(L) \\
+P_0(V)
+\end{pmatrix}
+=
+\begin{pmatrix}
+P(L) & 1-P(V) \\
+1-P(L) & P(V)
+\end{pmatrix}^m
+\frac{1}{2}\begin{pmatrix}
+1 \\
+1
+\end{pmatrix}
+\end{equation}
+Donde hemos usado que al inicio del partido se hace un sorteo a cara o cruz para ver qué equipo saca, por lo que es un 50\% de probabilidad para cada equipo. Esto no es más que una cadena de Markov, al aplicar muchas veces la matriz de transición llegamos a un estado estable que no varía. Este estado estable es el vector propio asociado al valor propio 1, al que se llega cuando han pasado una gran cantidad de minutos, y es:
+\begin{align}
+	P_\infty(L)&=\frac{1-P(V)}{2-P(V)-P(L)}\\
+	P_\infty(V)&=\frac{1-P(L)}{2-P(V)-P(L)}
+\end{align}
+Ahora toca hacer dos aproximaciones. Por un lado, la probabilidad de que un equipo mantenga lo posesión de manera exacta es tarea casi imposible, pero podemos ignorar los cambios de posesión que se producen cuando se marca un gol, comienza el segundo tiempo o se termina una ocasión de gol perdiendo la posesión. La parte importante es la parte de conservación de balón, la cual depende sólo de la habilidad de pase del equipo que ataca y la habilidad de defensa del equipo defensor. Por otro lado, para calcular la posesión esperada de cada equipo:
+\begin{align}
+	P(posesion)(L,V)=\frac{1}{90}\sum_{m=1}^{90}P_m(L,V)
+\end{align}
+Dado que al estado estable se llega con bastante rapidez ($<10$ minutos), podemos aproximar la suma usando sólamente los estados estables:
+\begin{align}
+	P(posesion)(L,V)\approx\frac{1}{90}\sum_{m=1}^{90}P_\infty(L,V)=P_\infty(L,V)=\frac{1-P(V,L)}{2-P(V)-P(L)}
+\end{align}
+Cada vez que el equipo atacante retenga el balón (ya sea sólo manteniéndolo o generando una ocasión de gol) se añadirá un pase realizado a la estadística de pases de un jugador del equipo, de manera aleatoria. La probabilidad asignada depende de su posición en el campo y habilidad de pase (WIP).
+
+
+\section{Probabilidad de ocasión}\label{sec:ProbOcasion}
+\def \Pocasion {\ensuremath{\frac{25.370}{90}}}
+\def \PvsGK {\ensuremath{\frac{2}{90}}}
+\def \PvsDF {\ensuremath{\frac{2.85}{90}}}
+\def \Pcorner {\ensuremath{\frac{6.92}{90}}}
+\def \Pclose {\ensuremath{\frac{6.62}{90}}}
+\def \Pfar {\ensuremath{\frac{6.98}{90}}}
+La probabilidad de que haya una ocasión de gol cuando un equipo tiene la pelota puede entonces extraerse del resultado anterior, aplicado a la ecuación \ref{eq:probocasion}:
+\begin{equation}\label{eq:probocasion2}
+	P(ocasion)=\frac{1-P(V,L)}{2-P(V)-P(L)}\sum_i{P(ocasion_i|posesion)}
+\end{equation}
+Las condiciones de posesión afectan a la probabilidad sumada, pero cuánto peso se da a cada ocasión queda indeterminado. Si tomamos condiciones de partido igualado, en el que $P(V)=P(L)$, entonces la probabilidad de posesión es del 50\% y nos queda:
+\begin{equation}
+	P(ocasion)=\frac{1}{2}\sum_i{P(ocasion_i|posesion)}
+\end{equation}
+Si tomamos como referencia las estadísticas de la Premier League 2018-19 \cite{PremierLeague}, podemos destripar el número de ocasiones (disparos) que hubo de cada tipo, de manera que de media podemos aproximar:
+\begin{align}
+	P(ocasion)&\approx\Pocasion\\
+	P(1vs1GK)&\approx\PvsGK\\
+	P(1vs1DF)&\approx\PvsDF\\
+	P(corner)&\approx\Pcorner\\
+	P(cercano)&\approx\Pclose\\
+	P(lejano)&\approx\Pfar
+\end{align}
+
+
+\section{Probabilidad de gol}\label{sec:ProbGol}
+\def \Pgol {\ensuremath{\frac{2.82}{90}}}
+\def \PGvsGK {\ensuremath{\frac{0.8}{90}}}
+\def \PGvsDF {\ensuremath{\frac{0.52}{90}}}
+\def \PGcorner {\ensuremath{\frac{0.41}{90}}}
+\def \PGclose {\ensuremath{\frac{0.48}{90}}}
+\def \PGfar {\ensuremath{\frac{0.29}{90}}}
+Si volvemos a tomar como referencia la Premier League 2018-19 \cite{PremierLeague}, podemos extraer la proporción de goles que se marcaron de cada tipo:
+\begin{align}
+	P(gol)&\approx\Pgol\\
+	P(1vs1GK)&\approx\PGvsGK\\
+	P(1vs1DF)&\approx\PGvsDF\\
+	P(corner)&\approx\PGcorner\\
+	P(cercano)&\approx\PGclose\\
+	P(lejano)&\approx\PGfar
+\end{align}
+
+Y aquí podemos aplicar una propiedad del simulador, y es que sólo se crea una ocasión (y por tanto un gol) si el equipo tiene la posesión del balón, es decir, $ocasion_i\subset posesion$. Además, estos valores son valores medios que deben por tanto asignarse a una posesión del 50\%:
+\begin{equation}\label{eq:proboccomp}
+	P(ocasion_i|posesion)=\frac{P(ocasion_i\cap posesion)}{P(posesion)}=\frac{P(ocasion_i)}{P(posesion)}=2P(ocasion_i)
+\end{equation}
+
+Y con esto podemos reescribir la probabilidad de marcar gol (\ref{eq:probgol}) como
+\begin{equation}\label{eq:probgol2}
+	P(gol)=2P(posesion)\sum_i{P(gol|ocasion_i)P(ocasion_i)}
+\end{equation}
+Despejando, podemos extraer la probabilidad de que cada ocasión acabe en gol, en promedio para una posesión del 50\%:
+\begin{equation}\label{eq:probgoli}
+	P(gol|ocasion_i)=\frac{P(gol_i)}{P(ocasion_i)}
+\end{equation}
+Estos valores numéricos son los valores medios, que deberían ocurrir cuando se enfrentan dos equipos de la misma fuerza. Las ecuaciones (\ref{eq:proboccomp}) y (\ref{eq:probgoli}), reflejan el valor de las probabilidades que tomará el simulador, y explican de dónde se obtienen a partir de datos reales. Para controlar y sintetizar las relaciones de estas variables tenemos la tabla (\ref{table:probjug}), ya que es más fácil de entender, por ejemplo, la probabilidad de que cierta ocasión acabe en gol.
+\begin{table}
+  \begin{center}
+    \begin{tabular}{c|c c c c}
+      \hline
+      Ocasión & $P(ocasion_i)$ & $P(gol_i)$ & $P(ocasion_i|posesion)$ & $P(gol|ocasion_i)$\\
+      \hline\\[-2ex]
+      1vs1GK & \PvsGK & \PGvsGK & 2\PvsGK & $0.4$\\[1ex]
+      1vs1DF & \PvsDF & \PGvsDF & 2\PvsDF & $0.182$\\[1ex]
+      Córner & \Pcorner & \PGcorner & 2\Pcorner & $0.059$\\[1ex]
+      Cercano & \Pclose & \PGclose & 2\Pclose & $0.12$\\[1ex]
+      Lejano & \Pfar & \PGfar & 2\Pfar &$0.042$\\[1ex]
+      \hline
+    \end{tabular}
+  \end{center}
+  \caption{Resumen de las probabilidades de ocasión y de gol}
+  \label{table:probjug}
+\end{table}
+
+\section{Función de probabilidad}\label{subsec:ProbFunction}
+Es el momento de asignar la función para determinar que ocurra un evento en favor de un equipo o de otro. Esta función la expresaremos como la probabilidad de que ocurra un evento favorable al equipo atacante, en función del valor de habilidad requerido del equipo atacante, $x_A$, y el valor de habilidad requerido por el equipo defensor, $y_D$. Esta función ha de usarse, con modificaciones, a cada evento que requiera una probabilidad, y ha de tener las siguientes propiedades
+\begin{enumerate}
+	\item $P_A = P_A(x_A, y_D)$: La función ha de depender exclusivamente de un cierto valor del equipo atacante y de un cierto valor del equipo defensor.
+	\item $P_A(\Lambda x_A, \Lambda y_D) = P_A(x_A, y_D)$: Escalabilidad, si todas las habilidades se multiplican por un factor $\Lambda$ la probabilidad se mantiene constante.
+	\item $P_A(x_A, y_D) = P_{media} \iff x_A = y_D$: Punto de referencia, si el valor del atacante es igual al del defensor, la probabilidad de que ocurra esa acción será la probabilidad media que aplique obtenida en los apartados anteriores.
+	\item $P_A(x_A, y_D) > P_{media} \iff x_A > y_D$: Si el atacante es mejor que el defensor, la probabilidad aumentará
+	\item $P_A(x_A, y_D) < P_{media} \iff x_A < y_D$: Si el defensor es mejor que el atacante, la probabilidad disminuirá.
+	\item $\frac{\partial P_A(x_A, y_D)}{\partial x_A} > 0 $: La probabilidad siempre crece con la habilidad del atacante.
+	\item $\frac{\partial P_A(x_A, y_D)}{\partial y_D} < 0 $: La probabilidad siempre decrece con la habilidad del defensor.
+	\item $\lim\limits_{x_A/y_D\to\infty} P_A(x_A, y_D) = 1$: La probabilidad cuando el atacante es infinitamente mejor es 1.
+	\item $\lim\limits_{x_A/y_D\to 0} P_A(x_A, y_D) = 0$: la probabilidad cuando el defensor es infinitamente mejor es 0.
+\end{enumerate}
+La función más simple que cumple todas estás propiedades es:
+\begin{equation}
+	P_A(x_A, y_D) = \frac{x_A}{x_A+\frac{1-P_{media}}{P_{media}}y_D}
+\end{equation}
+Recordando siempre que los valores de pase y tackle son los efectivos, es decir, tienen en cuenta modificadores de táctica y alineación.
+
+\newpage
+\begin{thebibliography}{999}
+
+\bibitem{PremierLeague}
+  \href{https://www.whoscored.com/Regions/252/Tournaments/2/Seasons/7361/Stages/16368/TeamStatistics/England-Premier-League-2018-2019}{Premier League Stats.}
+\end{thebibliography}
+\end{document}

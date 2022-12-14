@@ -1,0 +1,19 @@
+#Tiempo máximo de lesión
+Max_injury_length = 6
+
+#Probabilidad para cada tiempo de lesión.
+#No hace falta que la suma sea 100, se coge el % relativo
+#Sólo numeros enteros!
+Injury_0 = 20
+Injury_1 = 20
+Injury_2 = 14
+Injury_3 = 13
+Injury_4 = 12
+Injury_5 = 11
+Injury_6 = 10
+
+#Si el jugador acaba sin lesión, puede configurarse una pérdida de fit extra
+Fit_Penalty = 15
+
+#Cada cuantos minutos debe haber una lesión (de media)?
+Injury = 180

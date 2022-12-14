@@ -1,0 +1,49 @@
+# Lenguaje del simulador para los chuts lejanos o difíciles. No hay limite en cuantas frases poner, pero cada una de ellas debe ir SOLO en una linea
+# Los saltos de linea deben ir indicados por el simbolo \n (puedes seguir los ejemplos)
+# El nombre del jugador que ataca es {delantero}
+# El nombre del porter que encaja es {portero}
+# Tambien se pueden añadir lineas comentadas como estas en cualquier sitio, si el primer caracter es una #
+
+{delantero} le pega como puede... con la espinilla!
+{delantero} regatea a uno, dos, tres y... oh! Chuta!
+{delantero} busca la red desde 30 metros!
+{delantero} golpea con todas sus fuerzas!\nEstá muy lejos!
+{delantero} dispara de lejos!
+{delantero} sonrie\n{portero} está adelantado\nVa a chutar!!!
+{delantero} golpea el balón! Uau! Ha hecho la 'folha seca'! Mira cómo baja!
+{delantero} le pega 'mordida'!\nEl balón va haciendo extraños en el aire
+{delantero} impacta el cuero con fuerza !
+{delantero} empalma con la derecha !
+{delantero} empalma con la izquierda !
+{delantero} se saca una terrible volea!
+{delantero} prueba suerte con un disparo raso!
+{delantero} prueba suerte desde la lejanía !
+{delantero} desde fuera del área !
+{delantero} trata de ajustar el cuero al palo !
+{delantero} busca el gol!\nDesde ahí {portero} debe parecer una hormiguita!
+{delantero} otea la posición de {portero} !\nDispara!
+{delantero} suelta un cañonazo. Problemas para {portero} !
+{delantero} dispara un verdadero obús !
+{delantero} centra, la pelota se envenena hacia el marco!\n{portero} corre hacia atrás!
+{delantero} hace una diagonal\nY suelta un sorprendente disparo!
+{delantero} ve a {portero} adelantado ! Problemas !
+{delantero} busca el palo por bajo !
+{delantero} busca la vaselina !
+{delantero} busca la escuadra !
+{delantero} impacta el balón de primeras !
+{delantero} busca un disparo con efecto! Esto es fútbol!
+{delantero} se saca una tijera! Qué bello!
+{delantero} con un tremendo disparo !
+{delantero} con un verdadero obús !
+{delantero} busca la vaselina... desde MEDIO CAMPO!!
+{delantero} con un disparo a ras de suelo!
+Potente chut de {delantero} !
+Envenenado trallazo de {delantero} !
+{delantero} coloca un preciso disparo !
+{delantero} cruza la línea de medios, avanza, mira al portero y chuta!
+{delantero} busca la escuadra derecha !
+El lanzamiento rebota en el muslo de {defensa} y se encamina a puerta !
+{delantero} con un sutil toque de puntera!
+{delantero} busca la red!
+{delantero} golpea con todas sus fuerzas!
+{delantero} dispara!
